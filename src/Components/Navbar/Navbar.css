@@ -1,0 +1,56 @@
+.Navbar{
+    width: 100%;
+    /* padding: 10px; */
+    background-color:#b5b5b5;
+    display: flex;
+    justify-content: space-between;
+}
+.link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.link ul{
+    display: flex;
+   
+    gap: 20px;
+}
+
+.link ul li{
+    list-style: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: rgb(23, 37, 161);
+    text-decoration: none;
+}
+.link a {
+  text-decoration: none;
+      color: #ffffff;
+      background-color: gray;
+    padding: 10px;
+  /* or whatever color fits your design */
+}
+
+.link a :hover{
+ border-bottom: 1px solid yellow;
+}
+
+.active-link {
+  font-weight: bold;
+  
+}
+
+.Navbar .link ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+}
+
+.Navbar .link ul li {
+  display: inline;
+  text-decoration: none;
+}
+

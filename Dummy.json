@@ -1,0 +1,43 @@
+{
+  "recipe": {
+    "recipe_weighing": {
+      "recipe_id": "D11",
+      "recipe_name": "",
+      "MaxTempOfFeed": "",
+      "MaxTimeOvertempDischarge": "",
+      "MinTimeOvertempDischarge": "",
+      "TempOvertempDischarg": "",
+      "CBReclaim": "",
+      "TimeOfCBReclaim": "",
+      "ModifyTime": "",
+      "UsingStatus": "",
+      "Remark": "",
+      "UseThreeTMP": "",
+      "DischargeTMPMax": "",
+      "DischargeTMPMin": "",
+      "DischargeTIMPMax": "",
+      "DischargeTIMPmin": "",
+      "OverEnergy": "",
+      "TotalRubTolerance": "",
+      "RotorTMP": "",
+      "DischargeDoorTMP": "",
+      "MixRoomTMP": "",
+      "RotorTMPMinTol": "",
+      "RotorTMPMaxTol": "",
+      "DischargeDoorTMPMinTol": "",
+      "DischargeDoorTMPMaxTol": "",
+      "MixRoomTMPMinTol": "",
+      "MixRoomTMPMaxTol": "",
+      "IsActivate": ""
+    },
+    "recipe_mixing": [],
+    "recipe_weight_CB": [],
+    "recipe_weight_poly": [],
+    "recipe_weight_oil_a": [],
+    "recipe_weight_oil_b": [],
+    "recipe_weight_chemical_PD": [],
+    "recipe_weight_silica": [],
+    "recipe_weight_filler": [],
+    "recipe_id": "D11"
+  }
+}

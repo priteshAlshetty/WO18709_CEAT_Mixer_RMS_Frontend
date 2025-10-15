@@ -1,0 +1,118 @@
+{
+  "recipe": {
+    "recipe_weighing": {
+      "recipe_id": "",
+      "recipe_name": "",
+      "MaxTempOfFeed": "",
+      "MaxTimeOvertempDischarge": "",
+      "MinTimeOvertempDischarge": "",
+      "TempOvertempDischarg": "",
+      "CBReclaim": "",
+      "TimeOfCBReclaim": "",
+      "ModifyTime": "",
+      "UsingStatus": "",
+      "Remark": "",
+      "UseThreeTMP": "",
+      "DischargeTMPMax": "",
+      "DischargeTMPMin": "",
+      "DischargeTIMPMax": "",
+      "DischargeTIMPmin": "",
+      "OverEnergy": "",
+      "TotalRubTolerance": "",
+      "RotorTMP": "",
+      "DischargeDoorTMP": "",
+      "MixRoomTMP": "",
+      "RotorTMPMinTol": "",
+      "RotorTMPMaxTol": "",
+      "DischargeDoorTMPMinTol": "",
+      "DischargeDoorTMPMaxTol": "",
+      "MixRoomTMPMinTol": "",
+      "MixRoomTMPMaxTol": "",
+      "IsActivate": ""
+    },
+    "recipe_mixing": [
+      {
+        "mix_seq_no": "",
+        "mix_condition": "",
+        "mix_time": "",
+        "mix_temp": "",
+        "mix_power": "",
+        "mix_energy": "",
+        "mix_action": "",
+        "mix_pressure": "",
+        "mix_speed": ""
+      }
+    ],
+    "recipe_weight_CB": [
+      {
+        "CB_index": "",
+        "Act": "",
+        "CB_materialName": "",
+        "CB_materialCode": "",
+        "CB_set": "",
+        "CB_tol": ""
+      }
+    ],
+    "recipe_weight_poly": [
+      {
+        "POLY_index": "",
+        "Act": "",
+        "POLY_materialName": "",
+        "POLY_materialCode": "",
+        "POLY_set": "",
+        "POLY_tol": ""
+      }
+    ],
+    "recipe_weight_oil_a": [
+      {
+        "OIL_A_index": "",
+        "Act": "",
+        "OIL_A_materialName": "",
+        "OIL_A_materialCode": "",
+        "OIL_A_set": "",
+        "OIL_A_tol": ""
+      }
+    ],
+    "recipe_weight_oil_b": [
+      {
+        "OIL_B_index": "",
+        "Act": "",
+        "OIL_B_materialName": "",
+        "OIL_B_materialCode": "",
+        "OIL_B_set": "",
+        "OIL_B_tol": ""
+      }
+    ],
+    "recipe_weight_chemical_PD": [
+      {
+        "PD_index": "",
+        "Act": "",
+        "PD_materialName": "",
+        "PD_materialCode": "",
+        "PD_set": "",
+        "PD_tol": ""
+      }
+    ],
+    "recipe_weight_silica": [
+      {
+        "SI_index": "",
+        "Act": "",
+        "SI_materialName": "",
+        "SI_materialCode": "",
+        "SI_set": "",
+        "SI_tol": ""
+      }
+    ],
+    "recipe_weight_filler": [
+      {
+        "FL_index": "",
+        "Act": "",
+        "FL_materialName": "",
+        "FL_materialCode": "",
+        "FL_set": "",
+        "FL_tol": ""
+      }
+    ],
+    "recipe_id": ""
+  }
+}

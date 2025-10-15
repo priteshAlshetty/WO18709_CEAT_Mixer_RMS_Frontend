@@ -1,0 +1,107 @@
+{
+  "recipe_id": "",
+  "recipe_weighing": {
+    "recipe_id": "TX605",
+    "recipe_name": "Standard Rubber Mix A",
+    "MaxTempOfFeed": "160",
+    "MaxTimeOvertempDischarge": "5",
+    "MinTimeOvertempDischarge": "2",
+    "TempOvertempDischarg": "179",
+    "CBReclaim": "CBReclaim",
+    "TimeOfCBReclaim": "10",
+    "ModifyTime": "2025-08-06 16:30:00.000000",
+    "UsingStatus": "UsingStatus",
+    "Remark": "First production test of standard mix.",
+    "UseThreeTMP": "UseThreeTMP",
+    "DischargeTEMP_Max": "150",
+    "DischargeTEMP_Min": "120",
+    "DischargeTIME_Max": "3",
+    "DischargeTIME_Min": "1.5",
+    "OverEnergy": "12.5",
+    "TotalRubTolerance": "0.5",
+    "RotorTMP": "135",
+    "DischargeDoorTMP": "132",
+    "MixRoomTMP": "138",
+    "RotorTMPMinTol": "130",
+    "RotorTMPMaxTol": "140",
+    "DischargeDoorTMPMinTol": "128",
+    "DischargeDoorTMPMaxTol": "135",
+    "MixRoomTMPMinTol": "133",
+    "MixRoomTMPMaxTol": "143",
+    "IsActivate": "1"
+  },
+  "recipe_mixing": [
+    {
+      "mix_seq_no": 1,
+      "mix_condition": "Time",
+      "mix_time": 55555,
+      "mix_temp": 22,
+      "mix_power": 50,
+      "mix_energy": 4444,
+      "mix_action": "Add Poly",
+      "mix_pressure": 1.5,
+      "mix_speed": 30
+    }
+  ],
+  "recipe_weight_CB": [
+    {
+      "CB_index": 1,
+      "Act": "Weigh",
+      "CB_materialName": "Carbon Black N330",
+      "CB_materialCode": "CB-N330",
+      "CB_set": 50,
+      "CB_tol": 0.5
+    }
+  ],
+  "recipe_weight_poly": [
+    {
+      "POLY_index": 1,
+      "sheet_filter": "Weigh",
+      "POLY_materialName": "poly N330",
+      "POLY_materialCode": "poly-N330",
+      "POLY_set": 50,
+      "POLY_tol": 0.5
+    }
+  ],
+  "recipe_weight_oil_a": [
+    {
+      "OIL_A_index": 1,
+      "Act": "Weigh",
+      "OIL_A_materialName": "oil_a N330",
+      "OIL_A_materialCode": "oil_a-N330",
+      "OIL_A_set": 50,
+      "OIL_A_tol": 0.5
+    }
+  ],
+  "recipe_weight_oil_b": [
+    {
+      "OIL_B_index": 1,
+      "Act": "Weigh",
+      "OIL_B_materialName": "oil_b N330",
+      "OIL_B_materialCode": "oil_b-N330",
+      "OIL_B_set": 50,
+      "OIL_B_tol": 0.5
+    }
+  ],
+  "recipe_weight_chemical_PD": [
+    {
+      "PD_index": 1,
+      "Act": "Weigh",
+      "PD_materialName": "Carbon Black N330",
+      "PD_materialCode": "PD-N330",
+      "PD_set": 50,
+      "PD_tol": 0.5
+    }
+  ],
+
+  "recipe_weight_filler": [
+    {
+      "FL_index": 1,
+      "Act": "Weigh",
+      "FL_materialName": "filler N330",
+      "FL_materialCode": "filler-N330",
+      "FL_set": 50,
+      "FL_tol": 0.5
+    }
+  ]
+}
