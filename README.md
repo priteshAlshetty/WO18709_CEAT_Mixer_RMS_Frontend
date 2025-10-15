@@ -1,4 +1,26 @@
-# React + Vite
+# CEAT Mixer RMS Frontend
+
+This is the frontend dashboard for the CEAT Mixing SCADA RMS project. It is built using React and Vite, providing a fast development environment with hot module replacement (HMR) and ESLint integration.
+
+## Project Information
+
+- **Project:** CEAT Mixing SCADA RMS Dashboard
+- **Purpose:** Visualize and manage recipes, materials, and data for the CEAT mixing process.
+- **Tech Stack:** React, Vite, JavaScript, CSS
+- **Main Features:**
+  - Recipe management (add, delete, view)
+  - Material management
+  - Data clearing functionality
+  - Responsive navigation and footer components
+
+## Folder Structure
+
+- `src/Components/` – Reusable UI components (Navbar, Footer, ClearDataFunction)
+- `src/Pages/` – Main application pages (RecipePage, AddRecipe, DeleteRecipe, MaterialManagement)
+- `src/data/` – Static data files
+- `src/images/` – Image assets
+
+## Getting Started
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
