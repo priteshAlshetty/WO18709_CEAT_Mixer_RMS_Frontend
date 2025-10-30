@@ -50,7 +50,7 @@ const staticMixConditions = [
   "Energy",
   "Time And Temp",
   "Time And Energy",
-  "Tem And Energy",
+  "Temp And Energy",
   "(Time Or Temp)And EG",
   "(Time Or EG)And Temp",
   "(Temp Or EG)And Time"

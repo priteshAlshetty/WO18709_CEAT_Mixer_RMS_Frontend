@@ -5,8 +5,8 @@
   text-align: center;
 }
 
-.logo {
-  height: 100%;
+.Navbar .logo {
+  /* height: 100%; */
   /* padding: 1.5em; */
   will-change: filter;
   transition: filter 300ms;
@@ -16,7 +16,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 465px;
+  width: 365px;
   mix-blend-mode: multiply;
 }
 
