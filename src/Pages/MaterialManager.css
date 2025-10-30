@@ -1,0 +1,375 @@
+:root {
+  --accent: #222;
+  --muted: #666;
+  --border: #888;
+  --bg: #fff;
+  --card-bg: #fff;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.material-manager {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  /* background-color:     #f2f2f2;; */
+  background: linear-gradient(13deg, #ff8d8d 0%, rgb(23, 37, 161) 100%);
+  background-color: rgb(17, 30, 145);
+  padding: 20px;
+  color: var(--accent);
+  font-family: var(--font-family);
+}
+
+.title h2{
+  color: #ffff;
+}
+
+/* ---------- FORM SECTION ---------- */
+.form-section {
+  background: #ffffff33;
+  padding: 25px 120px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  max-width: 600px;
+  transition: box-shadow 0.2s ease;
+}
+
+.form-section:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  margin-bottom: 15px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 20px;
+}
+
+.form-group label {
+  display: block;
+  text-align: left;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #fff;
+  padding: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px 10px;
+  /* border-radius: 8px; */
+  border: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--accent);
+  background: #f9f9f9;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--accent);
+}
+
+/* ---------- BUTTONS ---------- */
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background 0.2s ease;
+}
+
+.save-btn {
+  /* background-color: var(--accent); */
+  background-color: #25c33e;
+  color: var(--bg);
+  border-radius: 5px;
+}
+
+.save-btn:hover {
+  background-color: #25c33db6;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: var(--accent);
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* ---------- TABLE SECTION ---------- */
+.table-section {
+  background: var(--card-bg);
+  /* padding:5px 20px; */
+  padding-block: 25px;
+  width: 100%;
+height: 100%;
+/* max-height: 400px; */
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.refresh-bar {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 18px;
+padding:0 50px;
+}
+
+.refresh-bar h3 {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.refresh-btn {
+  background-color: #0ac558;
+  color: var(--bg);
+  border: none;
+  padding: 8px 14px;
+
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.refresh-btn:hover {
+  background-color: #000;
+}
+
+/* ---------- TABLE GRID ---------- */
+.tables-grid {
+  padding: 0 50px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* ✅ exactly 2 tables per row */
+  gap: 20px;
+  /* better spacing between cards */
+  justify-content: center;
+  align-items: start;
+
+}
+
+/* 📱 Responsive: on smaller screens, show only 1 per row */
+@media (max-width: 900px) {
+  .tables-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.table-card {
+  background: #fafafa;
+  border: 1px solid var(--border);
+  height: 100%;
+  max-height: 225px;
+  overflow-y: scroll;
+  scrollbar-width: thin;        
+  scrollbar-color: #888 #f1f1f1; 
+
+
+  transition: box-shadow 0.2s;
+}
+
+.table-card:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-card h4 {
+  background-color: #423d6f;
+  ;
+  color: var(--bg);
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-card th,
+.table-card td {
+
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.table-card th {
+  position: sticky;
+  top: 45px; /* height of .table-header */
+  background: #fff;
+  z-index: 2;
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+
+.no-data {
+  color: var(--muted);
+  font-style: italic;
+  padding: 10px;
+}
+
+/* Alternate row background */
+.table-card table tr:nth-child(even) {
+  background-color: #e8e8f1;
+  /* light gray for even rows */
+}
+
+.table-card table tr:nth-child(odd) {
+  background-color: #ffffff;
+  /* white for odd rows */
+}
+
+/* Optional hover effect for rows */
+.table-card table tr:hover {
+  background-color: #eaeaea;
+  /* subtle highlight on hover */
+}
+
+
+.table-card h4 {
+  /* background: #efefef; */
+  color: #000;
+  font-weight: 700;
+  font-size: 12px;
+   position: sticky;
+  top: 0;      /* make sure header isn't transparent */
+  z-index: 3;
+}
+
+.table-header {
+  background: #423d6f;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.table-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.count-badge {
+  background: #b417173b;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 2px 8px;
+  /* border-radius: 12px; */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+
+.success-msg {
+  color: green;
+  margin-top: 10px;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 10px;
+}
+
+
+/* --- Popup Modal Styles --- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px 35px;
+  border-radius: 10px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.delete-confirm {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-confirm:hover {
+  background-color: #c0392b;
+}
+
+.delete-btn {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #ff4c4c;
+}
