@@ -3,6 +3,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RecipePage.css";
 import recipeTemplate from "../data/dummydata.json";
+import {
+  cbMaterialOptions,
+  chemicalPDOptions,
+  fillerOptions,
+  polyOptions,
+  oilAOptions,
+  oilBOptions,
+} from "../Constants/Material";
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -48,200 +57,18 @@ const staticMixConditions = [
 ];
 
 
-// Mateial Name And Code--------------------------------
-const cbMaterialOptions = [
-  { name: "CB1-N330", code: "N330" },
-  { name: "CB2-N326", code: "N326" },
-  { name: "CB3-N220", code: "N220" },
-  { name: "CB4-N339", code: "N339" },
-  { name: "CB5-N660", code: "N660" },
-  { name: "CB6", code: "CB6" }
-];
-
-const chemicalPDOptions = [
-  { name: "R729", code: "R729" },
-  { name: "R729G", code: "Silica" }
-];
-
-const fillerOptions = [
-  { name: "CBM1MS272", code: "CBM1MS272" },
-  { name: "DELAYCHEMICAL", code: "DELAYCHEMICAL" },
-  { name: "masteringredient", code: "masterchemicl" },
-  { name: "CBM1MS382G", code: "CBM1MS382G" }
-];
-
-
-const polyOptions = [
-  { name: "B2301", code: "B2301" },
-  { name: "BLOCKRUBBER1", code: "TSR10" },
-  { name: "BR-RUBBER", code: "R2322E" },
-  { name: "CARBON", code: "CARBON" },
-  { name: "CBM1B0121", code: "CBM1B0121" },
-  { name: "CBM1B0124", code: "CBM1B0124" },
-  { name: "CBM1MB0131", code: "CBM1MB0131" },
-  { name: "CBM1MB0761", code: "CBM1MB0761" },
-  { name: "CBM1MG011", code: "CBM1MG011" },
-  { name: "CBM1MK051", code: "CBM1MK051" },
-  { name: "CBM1MK083", code: "CBM1MK083" },
-  { name: "CBM1MK241", code: "CBM1MK241" },
-  { name: "CBM1MK391", code: "CBM1MK391" },
-  { name: "CBM1MK491", code: "CBM1MK491" },
-  { name: "CBM1ML611", code: "CBM1ML611" },
-  { name: "CBM1MS271", code: "CBM1MS271" },
-  { name: "CBM1MS461", code: "CBM1MS461" },
-  { name: "CBM1MS531", code: "CBM1MS531" },
-  { name: "CBM1MT021", code: "CBM1MT021" },
-  { name: "CBM1MT0431", code: "CBM1MT0431" },
-  { name: "CBM1MT0441", code: "CBM1MT0441" },
-  { name: "CBM1MT411", code: "CBM1MT411" },
-  { name: "CBM1MT421", code: "CBM1MT421" },
-  { name: "CBM1MT581", code: "CBM1MT581" },
-  { name: "CBM1MT671", code: "CBM1MT671" },
-  { name: "CBM1MW321", code: "CBM1MW321" },
-  { name: "CHEMICAL", code: "MASTERCHEMICAL" },
-  { name: "cleanout", code: "cleanout" },
-  { name: "Cleanout-FL", code: "Cleanout-FL" },
-  { name: "doubling", code: "doubling" },
-  { name: "ENM1211", code: "ENM1211" },
-  { name: "FBM1B0124", code: "FBM1B0124" },
-  { name: "FBM1B0126", code: "FBM1B0126" },
-  { name: "FBM1B0136", code: "FBM1B0136" },
-  { name: "FBM1B0766", code: "FBM1B0766" },
-  { name: "FBM1G016", code: "FBM1G016" },
-  { name: "FBM1K056", code: "FBM1K056" },
-  { name: "FBM1K246", code: "FBM1K246" },
-  { name: "FBM1K396", code: "FBM1K396" },
-  { name: "FBM1K496", code: "FBM1K496" },
-  { name: "FBM1KK056", code: "FBM1KK056" },
-  { name: "FBM1L616", code: "FBM1L616" },
-  { name: "FBM1ML616", code: "FBM1ML616" },
-  { name: "FBM1S276", code: "FBM1S276" },
-  { name: "FBM1S466", code: "FBM1S466" },
-  { name: "FBM1S536", code: "FBM1S536" },
-  { name: "FBM1T026", code: "FBM1T026" },
-  { name: "FBM1T0436", code: "FBM1T0436" },
-  { name: "FBM1T0446", code: "FBM1T0446" },
-  { name: "FBM1T2356", code: "FBM1T2356" },
-  { name: "FBM1T416", code: "FBM1T416" },
-  { name: "FBM1T426", code: "FBM1T426" },
-  { name: "FBM1T586", code: "FBM1T586" },
-  { name: "FBM1T676", code: "FBM1T676" },
-  { name: "FBM1W326", code: "FBM1W326" },
-  { name: "FILLERREPASS", code: "MS274" },
-  { name: "FINALCHEMICAL", code: "FINALCHEMICAL" },
-  { name: "G016", code: "REPASSG016" },
-  { name: "HOLDMASTER", code: "MT0441-MG011HOLD" },
-  { name: "HOLDS466", code: "HOLDS466" },
-  { name: "I2122", code: "I2122" },
-  { name: "I2155", code: "I2155" },
-  { name: "manualsilica", code: "manualsilica" },
-  { name: "MASTTSR", code: "MASTTSR" },
-  { name: "MB0121", code: "MB0121" },
-  { name: "MB0122", code: "MB0122" },
-  { name: "MB0124", code: "MB0124" },
-  { name: "MB0131", code: "MB0131" },
-  { name: "MB0134", code: "MB0134" },
-  { name: "MB0761", code: "MB0761" },
-  { name: "MB0764", code: "MB0764" },
-  { name: "MB330", code: "MB330" },
-  { name: "MG011", code: "MG011" },
-  { name: "MG2112", code: "MG2112" },
-  { name: "MK051", code: "MK051" },
-  { name: "MK241", code: "MK241" },
-  { name: "MK391", code: "MK391" },
-  { name: "MK394", code: "MK394" },
-  { name: "MK491", code: "MK491" },
-  { name: "ML611", code: "ML611" },
-  { name: "MM8080", code: "MM8080" },
-  { name: "MN333", code: "MN333" },
-  { name: "MNU177", code: "MNU177" },
-  { name: "MNU178", code: "MNU178" },
-  { name: "MNU1983", code: "MNU1983" },
-  { name: "MS271", code: "MS271" },
-  { name: "MS272", code: "MS272" },
-  { name: "MS461", code: "MS461" },
-  { name: "MS462", code: "MS462" },
-  { name: "MS464", code: "MS464" },
-  { name: "MS5001", code: "MS5001" },
-  { name: "MS5002", code: "MS5002" },
-  { name: "MS531", code: "MS531" },
-  { name: "MS532", code: "MS532" },
-  { name: "MS534", code: "BEADINSUMASTER" },
-  { name: "MT021", code: "MT021" },
-  { name: "MT024", code: "MT024" },
-  { name: "MT0431", code: "MT0431" },
-  { name: "MT0434", code: "MT0434" },
-  { name: "MT0441", code: "MT0441" },
-  { name: "MT0444", code: "MT0444" },
-  { name: "MT101", code: "MT101" },
-  { name: "MT104", code: "MT104" },
-  { name: "MT1111", code: "MT1111" },
-  { name: "MT1114", code: "MT1114" },
-  { name: "MT2354", code: "MT2354" },
-  { name: "MT411", code: "MT411" },
-  { name: "MT421", code: "MT421" },
-  { name: "MT424", code: "MT424" },
-  { name: "MT581", code: "MT581" },
-  { name: "MT584", code: "MT584" },
-  { name: "MT671", code: "MT671" },
-  { name: "MT674", code: "MT674" },
-  { name: "MT981", code: "MT981" },
-  { name: "MT984", code: "MT984" },
-  { name: "MTU176", code: "MTU176" },
-  { name: "MW321", code: "MW321" },
-  { name: "R1502", code: "R1502" },
-  { name: "R1678", code: "R1678" },
-  { name: "R1723", code: "R1723" },
-  { name: "R2322", code: "synrubber3" },
-  { name: "R2322E", code: "synrubber4" },
-  { name: "R2555", code: "R2555" },
-  { name: "REPASS", code: "REPASS" },
-  { name: "REWORK", code: "REWORK" },
-  { name: "REWORK-FINAL", code: "REWORK-FINAL" },
-  { name: "RSS3", code: "RSS3" },
-  { name: "RSS4", code: "RSS4" },
-  { name: "RSS4DF", code: "RSS4DF" },
-  { name: "RWL616", code: "RWL616" },
-  { name: "RWS466", code: "RWS466" },
-  { name: "RWT026", code: "RWT026" },
-  { name: "RWT416", code: "RWT416" },
-  { name: "RWW326", code: "RWW326" },
-  { name: "Smalltest", code: "Smalltest" },
-  { name: "T026RW", code: "T026RW" },
-  { name: "T0446", code: "WRONGCARBONHOLDT0446" },
-  { name: "T416RW", code: "T416RW" },
-  { name: "TREADREPASS", code: "MT412" },
-  { name: "TSR10", code: "BLOCKRUBBER" },
-  { name: "TSR20", code: "TSR20" },
-  { name: "TSR3L", code: "TSR3L" },
-  { name: "MASTERCHEMICAL", code: "CHEMICAL" },
-];
-
-
-const oilAOptions = [
-  { name: "R6347", code: "R6347" },
-  { name: "388B", code: "388B" }
-];
-
-const oilBOptions = [
-  { name: "OilB1", code: "OILB1" },
-  { name: "OilB2", code: "OILB2" },
-];
-
-
-
 function humanizeKey(key) {
-  // Replace underscores with space
-  let result = key.replace(/_/g, ' ');
+    // Replace underscores with space
+    let result = key.replace(/_/g, ' ');
 
-  // Insert space before capital letters, only if preceded by a lowercase letter or digit
-  result = result.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+    // Insert space before capital letters, only if preceded by a lowercase letter or digit
+    result = result.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
-  // Capitalize first letter of each word
-  return result
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    // Capitalize first letter of each word
+    return result
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 }
 
 
@@ -250,7 +77,9 @@ function getInputType(key, value) {
     const normalizedKey = lowerKey.replace(/[^a-z]/g, "");
     const checkboxTextFields = new Set(["usethreetmp", "cbreclaim", "usingstatus"]);
 
-    if (checkboxTextFields.has(normalizedKey)) return "checkbox-text";
+    // if (checkboxTextFields.has(normalizedKey)) return "checkbox-text";
+    if (checkboxTextFields.has(normalizedKey)) return "checkbox-number";
+
     if (typeof value === "number") return "number";
     if (typeof value === "boolean" || lowerKey.includes("status") || lowerKey.includes("activate")) return "boolean";
     return "text";
@@ -276,12 +105,19 @@ export default function AddRecipeFromTemplate() {
         }
     }, [data, cleared]);
 
-    function cleanMaterialArray(arr, nameKey, codeKey) {
+    // function cleanMaterialArray(arr, nameKey, codeKey) {
+    //     if (!Array.isArray(arr)) return [];
+    //     return arr.filter(item => {
+    //         const name = item[nameKey]?.toString().trim();
+    //         const code = item[codeKey]?.toString().trim();
+    //         return name !== "" && name !== "0" && code !== "" && code !== "0";
+    //     });
+    // }
+    function cleanMaterialArray(arr) {
         if (!Array.isArray(arr)) return [];
         return arr.filter(item => {
-            const name = item[nameKey]?.toString().trim();
-            const code = item[codeKey]?.toString().trim();
-            return name !== "" && name !== "0" && code !== "" && code !== "0";
+            const act = item.Act?.toString().trim();
+            return act && act !== "" && act !== " " && act !== "0";
         });
     }
 
@@ -395,190 +231,191 @@ export default function AddRecipeFromTemplate() {
 
 
 
-       if (key === "CB_materialName") {
-  return (
-    <select value={val} onChange={(e) => {
-      const selectedName = e.target.value;
-      const selected = cbMaterialOptions.find(opt => opt.name === selectedName);
+        if (key === "CB_materialName") {
+            return (
+                <select value={val} onChange={(e) => {
+                    const selectedName = e.target.value;
+                    const selected = cbMaterialOptions.find(opt => opt.name === selectedName);
 
-      // Find the index of this row
-      const index = data.recipe_weight_CB.findIndex(row => row[key] === val);
+                    // Find the index of this row
+                    const index = data.recipe_weight_CB.findIndex(row => row[key] === val);
 
-      if (index === -1) return; // fallback if not found
+                    if (index === -1) return; // fallback if not found
 
-      setData(prev => {
-        const updatedCB = [...prev.recipe_weight_CB];
-        updatedCB[index] = {
-          ...updatedCB[index],
-          CB_materialName: selectedName,
-          CB_materialCode: selected?.code || ""
-        };
-        return { ...prev, recipe_weight_CB: updatedCB };
-      });
-    }}>
-      <option value="">-- Select CB Material --</option>
-      {cbMaterialOptions.map(opt => (
-        <option key={opt.name} value={opt.name}>{opt.name}</option>
-      ))}
-    </select>
-  );
-}
-
-
-if (key === "PD_materialName") {
-  return (
-    <select
-      value={val}
-      onChange={(e) => {
-        const selectedName = e.target.value;
-        const selected = chemicalPDOptions.find(opt => opt.name === selectedName);
-
-        // Find row index by matching materialName
-        const index = data.recipe_weight_chemical_PD.findIndex(row => row[key] === val);
-        if (index === -1) return;
-
-        setData(prev => {
-          const updated = [...prev.recipe_weight_chemical_PD];
-          updated[index] = {
-            ...updated[index],
-            PD_materialName: selectedName,
-            PD_materialCode: selected?.code || ""
-          };
-          return { ...prev, recipe_weight_chemical_PD: updated };
-        });
-      }}
-    >
-      <option value="">-- Select PD Material --</option>
-      {chemicalPDOptions.map(opt => (
-        <option key={opt.name} value={opt.name}>{opt.name}</option>
-      ))}
-    </select>
-  );
-}
+                    setData(prev => {
+                        const updatedCB = [...prev.recipe_weight_CB];
+                        updatedCB[index] = {
+                            ...updatedCB[index],
+                            CB_materialName: selectedName,
+                            CB_materialCode: selected?.code || ""
+                        };
+                        return { ...prev, recipe_weight_CB: updatedCB };
+                    });
+                }}>
+                    <option value="">-- Select CB Material --</option>
+                    {cbMaterialOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
 
 
-if (key === "FL_materialName") {
-  return (
-    <select
-      value={val}
-      onChange={(e) => {
-        const selectedName = e.target.value;
-        const selected = fillerOptions.find(opt => opt.name === selectedName);
+        if (key === "PD_materialName") {
+            return (
+                <select
+                    value={val}
+                    onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = chemicalPDOptions.find(opt => opt.name === selectedName);
 
-        const index = data.recipe_weight_filler.findIndex(row => row[key] === val);
-        if (index === -1) return;
+                        // Find row index by matching materialName
+                        const index = data.recipe_weight_chemical_PD.findIndex(row => row[key] === val);
+                        if (index === -1) return;
 
-        setData(prev => {
-          const updated = [...prev.recipe_weight_filler];
-          updated[index] = {
-            ...updated[index],
-            FL_materialName: selectedName,
-            FL_materialCode: selected?.code || ""
-          };
-          return { ...prev, recipe_weight_filler: updated };
-        });
-      }}
-    >
-      <option value="">-- Select FL Material --</option>
-      {fillerOptions.map(opt => (
-        <option key={opt.name} value={opt.name}>{opt.name}</option>
-      ))}
-    </select>
-  );
-}
-
-
-if (key === "POLY_materialName") {
-  return (
-    <select
-      value={val}
-      onChange={(e) => {
-        const selectedName = e.target.value;
-        const selected = polyOptions.find(opt => opt.name === selectedName);
-
-        const index = data.recipe_weight_poly.findIndex(row => row[key] === val);
-        if (index === -1) return;
-
-        setData(prev => {
-          const updated = [...prev.recipe_weight_poly];
-          updated[index] = {
-            ...updated[index],
-            POLY_materialName: selectedName,
-            POLY_materialCode: selected?.code || ""
-          };
-          return { ...prev, recipe_weight_poly: updated };
-        });
-      }}
-    >
-      <option value="">-- Select Poly Material --</option>
-      {polyOptions.map(opt => (
-        <option key={opt.name} value={opt.name}>{opt.name}</option>
-      ))}
-    </select>
-  );
-}
+                        setData(prev => {
+                            const updated = [...prev.recipe_weight_chemical_PD];
+                            updated[index] = {
+                                ...updated[index],
+                                PD_materialName: selectedName,
+                                PD_materialCode: selected?.code || ""
+                            };
+                            return { ...prev, recipe_weight_chemical_PD: updated };
+                        });
+                    }}
+                >
+                    <option value="">-- Select PD Material --</option>
+                    {chemicalPDOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
 
 
-if (key === "OIL_A_materialName") {
-  return (
-    <select
-      value={val}
-      onChange={(e) => {
-        const selectedName = e.target.value;
-        const selected = oilAOptions.find(opt => opt.name === selectedName);
+        if (key === "FL_materialName") {
+            return (
+                <select
+                    value={val}
+                    onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = fillerOptions.find(opt => opt.name === selectedName);
 
-        const index = data.recipe_weight_oil_a.findIndex(row => row[key] === val);
-        if (index === -1) return;
+                        const index = data.recipe_weight_filler.findIndex(row => row[key] === val);
+                        if (index === -1) return;
 
-        setData(prev => {
-          const updated = [...prev.recipe_weight_oil_a];
-          updated[index] = {
-            ...updated[index],
-            OIL_A_materialName: selectedName,
-            OIL_A_materialCode: selected?.code || ""
-          };
-          return { ...prev, recipe_weight_oil_a: updated };
-        });
-      }}
-    >
-      <option value="">-- Select Oil A Material --</option>
-      {oilAOptions.map(opt => (
-        <option key={opt.name} value={opt.name}>{opt.name}</option>
-      ))}
-    </select>
-  );
-}
+                        setData(prev => {
+                            const updated = [...prev.recipe_weight_filler];
+                            updated[index] = {
+                                ...updated[index],
+                                FL_materialName: selectedName,
+                                FL_materialCode: selected?.code || ""
+                            };
+                            return { ...prev, recipe_weight_filler: updated };
+                        });
+                    }}
+                >
+                    <option value="">-- Select FL Material --</option>
+                    {fillerOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
 
 
-// if (key === "OIL_B_materialName") {
-//   return (
-//     <select
-//       value={val}
-//       onChange={(e) => {
-//         const selectedName = e.target.value;
-//         const selected = oilBOptions.find(opt => opt.name === selectedName);
+        if (key === "POLY_materialName") {
+            return (
+                <select
+                    value={val}
+                    onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = polyOptions.find(opt => opt.name === selectedName);
 
-//         const index = data.recipe_weight_oil_b.findIndex(row => row[key] === val);
-//         if (index === -1) return;
+                        // Find the index of this row
+                        const index = data.recipe_weight_poly.findIndex(row => row[key] === val);
+                        if (index === -1) return;
 
-//         setData(prev => {
-//           const updated = [...prev.recipe_weight_oil_b];
-//           updated[index] = {
-//             ...updated[index],
-//             OIL_B_materialName: selectedName,
-//             OIL_B_materialCode: selected?.code || ""
-//           };
-//           return { ...prev, recipe_weight_oil_b: updated };
-//         });
-//       }}
-//     >
-//       <option value="">-- Select Oil B Material --</option>
-//       {oilBOptions.map(opt => (
-//         <option key={opt.name} value={opt.name}>{opt.name}</option>
-//       ))}
-//     </select>
-//   );
-// }
+                        setData(prev => {
+                            const updatedPoly = [...prev.recipe_weight_poly];
+                            updatedPoly[index] = {
+                                ...updatedPoly[index],
+                                POLY_materialName: selectedName,
+                                POLY_materialCode: selected?.code || ""
+                            };
+                            return { ...prev, recipe_weight_poly: updatedPoly };
+                        });
+                    }}
+                >
+                    <option value="">-- Select Poly Material --</option>
+                    {polyOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
+
+
+        if (key === "OIL_A_materialName") {
+            return (
+                <select
+                    value={val}
+                    onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = oilAOptions.find(opt => opt.name === selectedName);
+
+                        const index = data.recipe_weight_oil_a.findIndex(row => row[key] === val);
+                        if (index === -1) return;
+
+                        setData(prev => {
+                            const updated = [...prev.recipe_weight_oil_a];
+                            updated[index] = {
+                                ...updated[index],
+                                OIL_A_materialName: selectedName,
+                                OIL_A_materialCode: selected?.code || ""
+                            };
+                            return { ...prev, recipe_weight_oil_a: updated };
+                        });
+                    }}
+                >
+                    <option value="">-- Select Oil A Material --</option>
+                    {oilAOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
+
+
+        if (key === "OIL_B_materialName") {
+            return (
+                <select
+                    value={val}
+                    onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = oilBOptions.find(opt => opt.name === selectedName);
+
+                        const index = data.recipe_weight_oil_b.findIndex(row => row[key] === val);
+                        if (index === -1) return;
+
+                        setData(prev => {
+                            const updated = [...prev.recipe_weight_oil_b];
+                            updated[index] = {
+                                ...updated[index],
+                                OIL_B_materialName: selectedName,
+                                OIL_B_materialCode: selected?.code || ""
+                            };
+                            return { ...prev, recipe_weight_oil_b: updated };
+                        });
+                    }}
+                >
+                    <option value="">-- Select Oil B Material --</option>
+                    {oilBOptions.map(opt => (
+                        <option key={opt.name} value={opt.name}>{opt.name}</option>
+                    ))}
+                </select>
+            );
+        }
 
 
 
@@ -586,7 +423,7 @@ if (key === "OIL_A_materialName") {
             const actions = mixingActions.length > 0 ? mixingActions : staticMixingActions;
             return (
                 <select value={val || ""} onChange={(e) => onChange(e.target.value)}>
-                    <option value="">-- Select Action --</option>
+                    <option value=""></option>
                     {actions.map((act) => <option key={act} value={act}>{act}</option>)}
                 </select>
             );
@@ -594,13 +431,13 @@ if (key === "OIL_A_materialName") {
         if (key === "mix_condition") {
             return (
                 <select value={val || ""} onChange={(e) => onChange(e.target.value)}>
-                    <option value="">-- Select Condition --</option>
+                    <option value=""></option>
                     {staticMixConditions.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
             );
         }
         if (key === "Act") {
-            const mixerOpts = [" ","Weigh", "Weigh To", "Discharge"];
+            const mixerOpts = [" ", "Weigh", "Weigh To", "Discharge"];
             return (
                 <select value={val || ""} onChange={(e) => onChange(e.target.value)}>
                     <option value="">-- Select Mixer --</option>
@@ -628,16 +465,18 @@ if (key === "OIL_A_materialName") {
             );
         }
 
-        if (type === "checkbox-text") {
-            const labelValue = key.trim();
-            return (
-                <input
-                    type="checkbox"
-                    checked={val === labelValue}
-                    onChange={(e) => onChange(e.target.checked ? labelValue : "")}
-                />
-            );
-        }
+if (type === "checkbox-number") {
+    return (
+        <input
+            type="checkbox"
+            checked={!!val} // force boolean
+            onChange={(e) => onChange(e.target.checked)} // directly store true/false
+        />
+    );
+}
+
+
+
 
         return (
             <input
@@ -757,6 +596,7 @@ if (key === "OIL_A_materialName") {
             }));
         }
 
+
         function deleteLastRow() {
             if (mixArr.length <= 1) return; // Keep at least one row
             const updated = mixArr.slice(0, -1); // remove last row
@@ -844,7 +684,15 @@ if (key === "OIL_A_materialName") {
         return (
             <div className="material-card" key={key}>
                 <div className="material-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{key.replace("recipe_weight_", "").toUpperCase()}</span>
+                    <span>
+  {(() => {
+    const name = key.replace("recipe_weight_", "").toUpperCase();
+    if (name === "CHEMICAL_PD") return "PD";
+    if (name === "FILLER") return "FL";
+    return name;
+  })()}
+</span>
+
                     <div style={{ display: "flex", gap: "0.5rem" }}>
                         <button className="btn small" onClick={addRow}>+ Add</button>
                         <button className="btn small danger" onClick={deleteLastRow}>- Delete</button>

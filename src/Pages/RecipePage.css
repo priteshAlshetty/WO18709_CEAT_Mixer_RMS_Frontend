@@ -261,7 +261,7 @@ input {
 }
 select{
   width: 100%;
-  max-width: 150px;
+  /* max-width: 150px; */
 }
 
 .materials-grid.view-mode {
@@ -363,4 +363,26 @@ font-size: 13px;
 .btn.danger {
     background-color: #1759d4;
    
+}
+
+/* Increase width of Mix Action column */
+.mix-table th:nth-child(7),
+.mix-table td:nth-child(7) {
+  min-width: 200px;   /* adjust as needed */
+  width: 200px;
+}
+
+
+.mix-table th:nth-child(1),
+.mix-table td:nth-child(1) {
+  min-width: 20px;   /* adjust as needed */
+  width: 40px;
+}
+
+
+.details-grid input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #007bff; /* blue tick */
 }

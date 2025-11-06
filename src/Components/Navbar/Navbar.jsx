@@ -27,6 +27,15 @@ const Navbar = () => {
               Material Management
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/report"
+              className={({ isActive }) => (isActive ? 'active-link' : '')}
+            >
+              Report
+            </NavLink>
+          </li>
           {/* <li>
             <NavLink
               to="/add-edit-recipe"
