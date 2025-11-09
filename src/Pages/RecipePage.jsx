@@ -1034,6 +1034,9 @@ async function saveChanges() {
             <button type="button" className="btn outline" style={{ backgroundColor: "#ea4949", color: "#ffff", border: "none" }} onClick={() => { navigate("/delete-recipe") }}>
               Delete Recipe
             </button>
+            <button type="button" className="btn outline" style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }} onClick={() => { navigate("/copy-recipe") }}>
+              Copy Recipe
+            </button>
           </form>
           <div className="add-new-recipe ">
             <button className="btn" onClick={() => {

@@ -1,7 +1,7 @@
 // AddRecipeFromTemplate.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./RecipePage.css";
+import "./CopyRecipe.css";
 import recipeTemplate from "../data/dummydata.json";
 import {
   cbMaterialOptions,
