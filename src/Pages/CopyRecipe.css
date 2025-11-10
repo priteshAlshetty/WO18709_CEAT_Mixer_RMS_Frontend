@@ -1,0 +1,15 @@
+.main_div{
+    background: linear-gradient(360deg, #b75eff 0%, rgb(23, 37, 161) 100%);
+    color: #ffff;
+    text-transform: capitalize;
+    padding: 30px ;
+}
+
+.Copy_div{
+        background: #ffffff33;
+    padding: 25px 120px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    max-width: 600px;
+    transition: box-shadow 0.2s 
+ease;
+}

@@ -7,6 +7,14 @@ import React, { useState, useEffect } from "react";
 import './RecipePage.css';
 // import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useNavigate, NavLink } from 'react-router-dom';
+import {
+  cbMaterialOptions,
+  chemicalPDOptions,
+  fillerOptions,
+  polyOptions,
+  oilAOptions,
+  oilBOptions,
+} from "../Constants/Material";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -100,12 +108,19 @@ function humanizeKey(key) {
 
 //   return value;
 // }
-function formatValue(key, value) {
-  if (value === null || value === undefined) return "-";
+const formatValue = (key, val) => {
+  const boolFields = ["CBReclaim", "UsingStatus", "UseThreeTMP"];
 
-  // No date conversion at all, just return the raw value
-  return value;
-}
+  // Handle boolean flags
+  if (boolFields.includes(key)) {
+    // Convert 1/0 to boolean safely
+    const isTrue = val === true || val === 1 || val === "1";
+    return isTrue ? "✅" : "❌";
+  }
+
+  if (val === null || val === undefined || val === "") return "-";
+  return val;
+};
 
 
 
@@ -320,16 +335,16 @@ export default function RecipePage() {
       return <input type="datetime-local" value={formatted} onChange={(e) => onChange(e.target.value)} />;
     }
 
-    if (type === "checkbox-text") {
-      const labelValue = key.trim();
-      return (
-        <input
-          type="checkbox"
-          checked={val === labelValue}
-          onChange={(e) => onChange(e.target.checked ? labelValue : "")}
-        />
-      );
-    }
+if (type === "checkbox-text") {
+  return (
+    <input
+      type="checkbox"
+      checked={Boolean(val)}
+      onChange={(e) => onChange(e.target.checked)}
+    />
+  );
+}
+
 
     return (
       <input
@@ -429,43 +444,103 @@ export default function RecipePage() {
   //   }
   // }
 
-  async function saveChanges() {
-    // Show confirmation dialog and store the result
-    const userConfirmed = confirm("Are You Sure Want To Save Changes");
+  // async function saveChanges() {
+  //   // Show confirmation dialog and store the result
+  //   const userConfirmed = confirm("Are You Sure Want To Save Changes");
 
-    // If user clicks Cancel, just return early, do nothing
-    if (!userConfirmed) {
-      return;
-    }
+  //   // If user clicks Cancel, just return early, do nothing
+  //   if (!userConfirmed) {
+  //     return;
+  //   }
 
-    setLoading(true);
-    setError(null);
+  //   setLoading(true);
+  //   setError(null);
 
-    try {
-      const payload = { recipe: data };
-      console.log("🟢 Payload that would be sent to backend:");
-      console.log(JSON.stringify(payload, null, 2));
+  //   try {
+  //     const payload = { recipe: data };
+  //     console.log("🟢 Payload that would be sent to backend:");
+  //     console.log(JSON.stringify(payload, null, 2));
 
-      const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+  //     const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(payload),
+  //     });
 
-      if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
+  //     if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
 
-      const result = await response.json(); // ✅ Only call this once
-      console.log("Save success:", result);
+  //     const result = await response.json(); // ✅ Only call this once
+  //     console.log("Save success:", result);
 
-      setOriginalData(JSON.parse(JSON.stringify(data)));
-      setIsEditing(false);
-    } catch (err) {
-      setError(err.message || "Failed to process changes");
-    } finally {
-      setLoading(false);
-    }
+  //     setOriginalData(JSON.parse(JSON.stringify(data)));
+  //     setIsEditing(false);
+  //   } catch (err) {
+  //     setError(err.message || "Failed to process changes");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
+async function saveChanges() {
+  const userConfirmed = confirm("Are You Sure Want To Save Changes");
+  if (!userConfirmed) return;
+
+  setLoading(true);
+  setError(null);
+
+  try {
+    // 🧹 Clean up data before sending
+    const cleanedData = { ...data };
+
+    // 1️⃣ Filter invalid POLY entries (no material name or code)
+    cleanedData.recipe_weight_poly = (data.recipe_weight_poly || []).filter(
+      item => item.POLY_materialName?.trim() && item.POLY_materialCode?.trim()
+    );
+
+    // 2️⃣ (optional) Filter other materials too if needed:
+    cleanedData.recipe_weight_CB = (data.recipe_weight_CB || []).filter(
+      item => item.CB_materialName?.trim() && item.CB_materialCode?.trim()
+    );
+    cleanedData.recipe_weight_oil_a = (data.recipe_weight_oil_a || []).filter(
+      item => item.OIL_A_materialName?.trim() && item.OIL_A_materialCode?.trim()
+    );
+    cleanedData.recipe_weight_oil_b = (data.recipe_weight_oil_b || []).filter(
+      item => item.OIL_B_materialName?.trim() && item.OIL_B_materialCode?.trim()
+    );
+    cleanedData.recipe_weight_chemical_PD = (data.recipe_weight_chemical_PD || []).filter(
+      item => item.PD_materialName?.trim() && item.PD_materialCode?.trim()
+    );
+    cleanedData.recipe_weight_filler = (data.recipe_weight_filler || []).filter(
+      item => item.FL_materialName?.trim() && item.FL_materialCode?.trim()
+    );
+    cleanedData.recipe_weight_silica = (data.recipe_weight_silica || []).filter(
+      item => item.SI_materialName?.trim() && item.SI_materialCode?.trim()
+    );
+
+    const payload = { recipe: cleanedData };
+
+    console.log("🟢 Payload that would be sent to backend (cleaned):");
+    console.log(JSON.stringify(payload, null, 2));
+
+    const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
+
+    const result = await response.json();
+    console.log("Save success:", result);
+
+    setOriginalData(JSON.parse(JSON.stringify(cleanedData)));
+    setIsEditing(false);
+  } catch (err) {
+    setError(err.message || "Failed to process changes");
+  } finally {
+    setLoading(false);
   }
-
+}
 
 
   function cancelEdit() {
@@ -769,95 +844,161 @@ export default function RecipePage() {
 
 
   function renderMaterialTable(key, arr) {
-    if (!Array.isArray(arr) || arr.length === 0) return null; // 👈 Add length check if there is blank array
-    let headers = arr.length > 0 ? Object.keys(arr[0]) : ["material_name", "weight"];
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  let headers = arr.length > 0 ? Object.keys(arr[0]) : ["material_name", "weight"];
 
-    // Move "Sheet Filter" to the end if this is the POLY table
-    if (key === "recipe_weight_poly") {
-      const sheetFilterKey = headers.find(h => h.toLowerCase().includes("sheet_filter")); // Adjust if exact match is needed
-      if (sheetFilterKey) {
-        headers = headers.filter(h => h !== sheetFilterKey);
-        headers.push(sheetFilterKey);
+  if (key === "recipe_weight_poly") {
+    const sheetFilterKey = headers.find(h => h.toLowerCase().includes("sheet_filter"));
+    if (sheetFilterKey) {
+      headers = headers.filter(h => h !== sheetFilterKey);
+      headers.push(sheetFilterKey);
+    }
+  }
+
+  function addNewMaterialRow() {
+    const newRow = {};
+    const lastRow = data[key][data[key].length - 1];
+    headers.forEach((h) => {
+      if (h.toLowerCase().includes("index")) {
+        const lastVal = lastRow?.[h];
+        const nextIndex = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
+        newRow[h] = nextIndex;
+      } else {
+        newRow[h] = "";
       }
-    }
+    });
+    setData((prev) => ({
+      ...prev,
+      [key]: [...prev[key], newRow],
+    }));
+  }
 
+  function removeLastMaterialRow() {
+    setData((prev) => ({
+      ...prev,
+      [key]: prev[key].slice(0, -1),
+    }));
+  }
 
-    function addNewMaterialRow() {
-      const newRow = {};
-      const lastRow = data[key][data[key].length - 1];
+  // Title formatting
+  let title = key.replace("recipe_weight_", "").replace(/_/g, " ").toUpperCase();
+  if (title === "CHEMICAL PD") title = "PD";
+  if (title === "FILLER") title = "FL";
 
-      headers.forEach((h) => {
-        if (h.toLowerCase().includes("index")) {
-          const lastVal = lastRow?.[h];
-          const nextIndex = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
-          newRow[h] = nextIndex;
-        } else {
-          newRow[h] = "";
-        }
-      });
+  // Get corresponding material options
+  let materialOptions = [];
+  let nameKey = "";
+  let codeKey = "";
 
-      setData((prev) => ({
-        ...prev,
-        [key]: [...prev[key], newRow],
-      }));
-    }
+  switch (key) {
+    case "recipe_weight_poly":
+      materialOptions = polyOptions;
+      nameKey = "POLY_materialName";
+      codeKey = "POLY_materialCode";
+      break;
+    case "recipe_weight_CB":
+      materialOptions = cbMaterialOptions;
+      nameKey = "CB_materialName";
+      codeKey = "CB_materialCode";
+      break;
+    case "recipe_weight_chemical_PD":
+      materialOptions = chemicalPDOptions;
+      nameKey = "PD_materialName";
+      codeKey = "PD_materialCode";
+      break;
+    case "recipe_weight_filler":
+      materialOptions = fillerOptions;
+      nameKey = "FL_materialName";
+      codeKey = "FL_materialCode";
+      break;
+    case "recipe_weight_oil_a":
+      materialOptions = oilAOptions;
+      nameKey = "OIL_A_materialName";
+      codeKey = "OIL_A_materialCode";
+      break;
+    case "recipe_weight_oil_b":
+      materialOptions = oilBOptions;
+      nameKey = "OIL_B_materialName";
+      codeKey = "OIL_B_materialCode";
+      break;
+    default:
+      break;
+  }
 
-    function removeLastMaterialRow() {
-      setData((prev) => ({
-        ...prev,
-        [key]: prev[key].slice(0, -1),
-      }));
-    }
+  return (
+    <div className="material-card" key={key}>
+      <div className="material-title">
+        {title}
+        {isEditing && (
+          <div style={{ display: "flex" }}>
+            <button className="btn small" onClick={addNewMaterialRow}>
+              + Add
+            </button>
+            <button
+              className="btn small"
+              onClick={removeLastMaterialRow}
+              disabled={arr.length <= 1}
+              style={{ backgroundColor: "#ff5959", color: "white", borderLeft: "1px solid white" }}
+            >
+              - Remove Last
+            </button>
+          </div>
+        )}
+      </div>
 
-    const title = key.replace("recipe_weight_", "").replace(/_/g, " ").toUpperCase();
-
-    return (
-      <div className="material-card" key={key}>
-        <div className="material-title">
-          {title}
-          {isEditing && (
-            <div style={{ display: "flex" }}>
-              <button className="btn small" onClick={addNewMaterialRow}>
-                + Add
-              </button>
-              <button
-                className="btn small"
-                onClick={removeLastMaterialRow}
-                disabled={arr.length <= 1}
-                style={{ backgroundColor: "#ff5959", color: "white", borderLeft: "1px solid white" }}
-              >
-                - Remove Last
-              </button>
-            </div>
-          )}
-
-        </div>
-        <table className="material-table">
-          <thead>
-            <tr>{headers.map((h) => <th key={h}>{humanizeKey(h)}</th>)}</tr>
-          </thead>
-          <tbody>
-            {arr.map((r, idx) => (
-              <tr key={idx}>
-                {headers.map((h) => (
-                  <td key={h + idx}>
-                    {isEditing
-                      ? renderInput(r[h], (newVal) => {
+      <table className="material-table">
+        <thead>
+          <tr>{headers.map((h) => <th key={h}>{humanizeKey(h)}</th>)}</tr>
+        </thead>
+        <tbody>
+          {arr.map((r, idx) => (
+            <tr key={idx}>
+              {headers.map((h) => (
+                <td key={h + idx}>
+                  {/* Check if this field is a Material Name */}
+                  {isEditing && h === nameKey ? (
+                    <select
+                      value={r[h] || ""}
+                      onChange={(e) => {
+                        const selectedName = e.target.value;
+                        const selected = materialOptions.find((m) => m.name === selectedName);
                         const copy = { ...data };
                         copy[key] = [...copy[key]];
-                        copy[key][idx] = { ...copy[key][idx], [h]: newVal };
+                        copy[key][idx] = {
+                          ...copy[key][idx],
+                          [h]: selectedName,
+                          [codeKey]: selected ? selected.code : "",
+                        };
                         setData(copy);
-                      }, h)
-                      : formatValue(h, r[h])}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+                      }}
+                    >
+                      <option value="">-- Select Material --</option>
+                      {materialOptions.map((m) => (
+                        <option key={m.code} value={m.name}>{m.name}</option>
+                      ))}
+                    </select>
+                  ) : isEditing && h === codeKey ? (
+                    <input type="text" value={r[h] || ""} readOnly />
+                  ) : isEditing ? (
+                    renderInput(r[h], (newVal) => {
+                      const copy = { ...data };
+                      copy[key] = [...copy[key]];
+                      copy[key][idx] = { ...copy[key][idx], [h]: newVal };
+                      setData(copy);
+                    }, h)
+                  ) : (
+                    formatValue(h, r[h])
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 
 
   return (
@@ -892,6 +1033,9 @@ export default function RecipePage() {
 
             <button type="button" className="btn outline" style={{ backgroundColor: "#ea4949", color: "#ffff", border: "none" }} onClick={() => { navigate("/delete-recipe") }}>
               Delete Recipe
+            </button>
+            <button type="button" className="btn outline" style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }} onClick={() => { navigate("/copy-recipe") }}>
+              Copy Recipe
             </button>
           </form>
           <div className="add-new-recipe ">
