@@ -1,7 +1,4 @@
 
-
-
-
 // Import necessary React modules and styles
 import React, { useState, useEffect } from "react";
 import './RecipePage.css';
@@ -17,7 +14,6 @@ import {
 } from "../Constants/Material";
 
 const apiUrl = import.meta.env.VITE_API_URL;
-
 
 
 /* ----------------------------------------
@@ -175,7 +171,7 @@ function getInputType(key, value) {
   Main Component: RecipePage
 ---------------------------------------- */
 export default function RecipePage() {
-  const [recipeId, setRecipeId] = useState("TX605");
+  const [recipeId, setRecipeId] = useState("");
   const [data, setData] = useState(null);
   const [originalData, setOriginalData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -1000,6 +996,22 @@ async function saveChanges() {
 }
 
 
+const [recipeList, setRecipeList] = useState([]);
+
+useEffect(() => {
+  async function fetchRecipeList() {
+    try {
+      const res = await fetch(`${apiUrl}/recipe/allRecipeIds`);
+      const json = await res.json();
+      if (json?.data?.recipe_ids) {
+        setRecipeList(json.data.recipe_ids);
+      }
+    } catch (err) {
+      console.error("Error fetching recipe IDs:", err);
+    }
+  }
+  fetchRecipeList();
+}, []);
 
   return (
     <div className="page-root">
@@ -1007,7 +1019,7 @@ async function saveChanges() {
         <h1>Recipe</h1>
 
         <div className="controls">
-          <form onSubmit={fetchRecipe} className="search-form">
+          {/* <form onSubmit={fetchRecipe} className="search-form">
             <input
               value={recipeId}
               onChange={(e) => setRecipeId(e.target.value)}
@@ -1037,7 +1049,64 @@ async function saveChanges() {
             <button type="button" className="btn outline" style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }} onClick={() => { navigate("/copy-recipe") }}>
               Copy Recipe
             </button>
-          </form>
+          </form> */}
+
+          <form onSubmit={fetchRecipe} className="search-form">
+  {/* Dropdown before input */}
+  <select
+    value={recipeId}
+    onChange={(e) => setRecipeId(e.target.value)}
+    className="recipe-dropdown"
+  >
+    <option value="">-- Select Recipe ID --</option>
+    {recipeList.map((id) => (
+      <option key={id} value={id}>{id}</option>
+    ))}
+  </select>
+
+  {/* Existing input field */}
+  <input
+    value={recipeId}
+    onChange={(e) => setRecipeId(e.target.value)}
+    placeholder="Enter Recipe ID (e.g. MTR0076)"
+    className="recipe-input"
+  />
+
+  <button type="submit" className="btn" disabled={loading}>
+    {loading ? "Loading..." : "Fetch"}
+  </button>
+
+  {data && !isEditing && (
+    <button type="button" className="btn outline" onClick={() => setIsEditing(true)}>
+      Edit
+    </button>
+  )}
+
+  {data && isEditing && (
+    <>
+      <button type="button" className="btn" onClick={saveChanges}>Save Changes</button>
+      <button type="button" className="btn outline" onClick={cancelEdit}>Cancel</button>
+    </>
+  )}
+
+  <button
+    type="button"
+    className="btn outline"
+    style={{ backgroundColor: "#ea4949", color: "#ffff", border: "none" }}
+    onClick={() => navigate("/delete-recipe")}
+  >
+    Delete Recipe
+  </button>
+  <button
+    type="button"
+    className="btn outline"
+    style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }}
+    onClick={() => navigate("/copy-recipe")}
+  >
+    Copy Recipe
+  </button>
+</form>
+
           <div className="add-new-recipe ">
             <button className="btn" onClick={() => {
               clearDataValues();
