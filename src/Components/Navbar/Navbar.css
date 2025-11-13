@@ -46,3 +46,52 @@
 .logo img {
   height: 100%;
 }
+/* Keep Navbar flex layout */
+.Navbar {
+  width: 100%;
+  max-height: 65px;
+  background-color: #b5b5b5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Left section holds logo + mixer tightly */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Remove any spacing between logo and dropdown */
+.logo img {
+  height: 65px; /* Matches navbar height */
+  display: block;
+}
+
+.Mixer-selection {
+ 
+  margin-left: 0; /* No gap between logo and mixer */
+  
+    background-color: rgb(38 45 105);
+  padding: 5px 20px;
+  
+}
+.Mixer-selection {
+  display: inline-flex;          /* keep text and dropdown inline */
+  align-items: center;           /* vertically center them */
+  white-space: nowrap;           /* prevent wrapping to next line */
+  gap: 8px;                      /* small gap between label and dropdown */
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.mixer-dropdown {
+  height: 35px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-left: 5px; /* Optional: tiny breathing space */
+  text-align: center;
+}
