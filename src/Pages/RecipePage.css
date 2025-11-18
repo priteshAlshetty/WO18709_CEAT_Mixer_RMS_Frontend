@@ -66,7 +66,7 @@
   background:transparent;
   color:var(--accent);
   border:1px solid var(--border);
-  width: 210px;
+  /* width: 210px; */
 }
 .error {
   color:darkred;
@@ -389,6 +389,7 @@ font-size: 13px;
 }
 
 .recipe-dropdown {
+  max-width: 200px;
   margin-right: 10px;
   padding: 6px 8px;
   border-radius: 4px;

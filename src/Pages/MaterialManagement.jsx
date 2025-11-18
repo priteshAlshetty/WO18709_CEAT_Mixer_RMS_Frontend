@@ -263,7 +263,7 @@ const MaterialManager = () => {
       {/* ✅ Toast */}
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover
