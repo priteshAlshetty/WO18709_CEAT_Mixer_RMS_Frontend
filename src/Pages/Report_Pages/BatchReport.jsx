@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 import {
   Box,
   Button,
@@ -14,7 +15,7 @@ import {
   Paper
 } from "@mui/material";
 
-const BASE_URL = "http://192.168.1.88:3000";
+
 
 export default function ReportPage() {
   const [fromDate, setFromDate] = useState("");
@@ -47,7 +48,7 @@ export default function ReportPage() {
       setErrorMsg("");
 
       const res = await axios.post(
-        `${BASE_URL}/report/batch/getBatchName/bydate`,
+        `${apiUrl}/report/batch/getBatchName/bydate`,
         { from: fromDate, to: toDate }
       );
 
@@ -76,7 +77,7 @@ export default function ReportPage() {
       setErrorMsg("");
 
       const res = await axios.post(
-        `${BASE_URL}/report/batch/getSerial/byBatchName`,
+        `${apiUrl}/report/batch/getSerial/byBatchName`,
         {
           batchName: batchName === "All" ? batchNames.slice(1) : [batchName],
           from: fromDate,
@@ -106,7 +107,7 @@ export default function ReportPage() {
       setErrorMsg("");
 
       const res = await axios.post(
-        `${BASE_URL}/report/batch/getbatchNo/bySerialNo`,
+        `${apiUrl}/report/batch/getbatchNo/bySerialNo`,
         { serialNo }
       );
 
@@ -130,7 +131,7 @@ export default function ReportPage() {
       setErrorMsg("");
 
       const res = await axios.post(
-        `${BASE_URL}/report/batch/getExcelReport`,
+        `${apiUrl}/report/batch/getExcelReport`,
         {
           recipeId: selectedBatchName,
           serialNo: selectedSerial,
