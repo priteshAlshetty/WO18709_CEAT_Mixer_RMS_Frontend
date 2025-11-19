@@ -1,0 +1,43 @@
+.report-container {
+  width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f8f8f8;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.report-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.report-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.report-input:focus {
+  border-color: #4caf50;
+}
+
+.report-button {
+  width: 100%;
+  padding: 10px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.report-button:hover {
+  background: #3ab63a;
+}

@@ -1095,7 +1095,7 @@ useEffect(() => {
     style={{ backgroundColor: "#ea4949", color: "#ffff", border: "none" }}
     onClick={() => navigate("/delete-recipe")}
   >
-    Delete Recipe
+    Delete
   </button>
   <button
     type="button"
@@ -1103,7 +1103,7 @@ useEffect(() => {
     style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }}
     onClick={() => navigate("/copy-recipe")}
   >
-    Copy Recipe
+    Copy
   </button>
 </form>
 
