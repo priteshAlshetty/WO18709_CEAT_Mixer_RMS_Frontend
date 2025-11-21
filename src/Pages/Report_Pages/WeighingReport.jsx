@@ -10,7 +10,7 @@ function ExcelReportDownloader() {
   const [materialType, setMaterialType] = useState("C.B.");
 
   const materialList = ["All Material", "Material A", "Material B", "Material C"];
-  const materialTypeList = ["C.B.", "F.L.", "Oil1", "P.D.", "Poly"];
+  const materialTypeList = ["All","C.B.", "F.L.", "Oil1", "P.D.", "Poly"];
 
   const downloadReport = async () => {
     try {

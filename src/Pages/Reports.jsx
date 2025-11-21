@@ -12,7 +12,7 @@ const Reports = () => {
       </div>
 
       <div className="Right">
-       
+      
         {/* Nested Route Output Goes Here */}
         <Outlet />
       </div>
