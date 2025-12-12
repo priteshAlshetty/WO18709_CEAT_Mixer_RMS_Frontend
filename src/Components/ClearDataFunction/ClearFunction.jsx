@@ -8,4 +8,4 @@ const ClearFunction = () => {
   
 }
 
-export default ClearFunction
+export default ClearFunction                                                                                                         

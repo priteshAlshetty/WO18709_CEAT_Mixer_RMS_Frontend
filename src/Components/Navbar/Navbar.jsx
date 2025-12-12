@@ -54,6 +54,14 @@ const Navbar = () => {
                 Report
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/oee-downtime"
+                className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
+                OEE & Downtime
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>
