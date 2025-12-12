@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./ReportPage.css"; 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function ExcelReportDownloader() {
@@ -14,13 +13,13 @@ function ExcelReportDownloader() {
 
   const downloadReport = async () => {
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         `${apiUrl}/report/weighing/getExcelReport`,
         { from: fromDate, to: toDate, materialName, materialType },
         { responseType: "blob" }
       );
 
-      const blob = new Blob([response.data], {
+      const blob = new Blob([res.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
@@ -31,58 +30,110 @@ function ExcelReportDownloader() {
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error(error);
       alert("Error downloading report");
     }
   };
 
   return (
-    <div className="report-container">
-      <h2 className="report-title">Weighing Report</h2>
-
-      <label>From Date:</label>
-      <input
-        className="report-input"
-        type="date"
-        value={fromDate}
-        onChange={(e) => setFromDate(e.target.value)}
-      />
-
-      <label>To Date:</label>
-      <input
-        className="report-input"
-        type="date"
-        value={toDate}
-        onChange={(e) => setToDate(e.target.value)}
-      />
-
-      <label>Material Name:</label>
-      <select
-        className="report-input"
-        value={materialName}
-        onChange={(e) => setMaterialName(e.target.value)}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "40px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          width: "450px",
+          background: "#fff",
+          padding: "25px",
+          borderRadius: "10px",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+        }}
       >
-        {materialList.map((m) => (
-          <option key={m}>{m}</option>
-        ))}
-      </select>
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            marginBottom: "20px",
+          }}
+        >
+          Weighing Report
+        </h2>
 
-      <label>Material Type:</label>
-      <select
-        className="report-input"
-        value={materialType}
-        onChange={(e) => setMaterialType(e.target.value)}
-      >
-        {materialTypeList.map((t) => (
-          <option key={t}>{t}</option>
-        ))}
-      </select>
+        <label style={labelStyle}>From Date:</label>
+        <input
+          type="date"
+          value={fromDate}
+          onChange={(e) => setFromDate(e.target.value)}
+          style={inputStyle}
+        />
 
-      <button className="report-button" onClick={downloadReport}>
-        Download Report
-      </button>
+        <label style={labelStyle}>To Date:</label>
+        <input
+          type="date"
+          value={toDate}
+          onChange={(e) => setToDate(e.target.value)}
+          style={inputStyle}
+        />
+
+        <label style={labelStyle}>Material Name:</label>
+        <select
+          value={materialName}
+          onChange={(e) => setMaterialName(e.target.value)}
+          style={inputStyle}
+        >
+          {materialList.map((m) => (
+            <option key={m}>{m}</option>
+          ))}
+        </select>
+
+        <label style={labelStyle}>Material Type:</label>
+        <select
+          value={materialType}
+          onChange={(e) => setMaterialType(e.target.value)}
+          style={inputStyle}
+        >
+          {materialTypeList.map((t) => (
+            <option key={t}>{t}</option>
+          ))}
+        </select>
+
+        <button
+          onClick={downloadReport}
+          style={{
+            width: "100%",
+            background: "#007bff",
+            color: "white",
+            padding: "12px",
+            fontSize: "16px",
+            border: "none",
+            borderRadius: "6px",
+            marginTop: "10px",
+            cursor: "pointer",
+          }}
+        >
+          Download Report
+        </button>
+      </div>
     </div>
   );
 }
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px",
+  marginBottom: "15px",
+  border: "1px solid #bbb",
+  borderRadius: "6px",
+  fontSize: "15px",
+};
+
+const labelStyle = {
+  fontWeight: "bold",
+  marginBottom: "5px",
+  display: "block",
+};
 
 export default ExcelReportDownloader;

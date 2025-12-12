@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const AlarmReport = () => {
   const [fromDate, setFromDate] = useState("");
@@ -18,7 +19,7 @@ const downloadReport = async () => {
     setLoading(true);
 
     const response = await axios.post(
-      "http://192.168.1.194:3000/report/alarm/generateReport",
+      `${apiUrl}/report/alarm/generateReport`,
       { from: fromDate, to: toDate },
       { responseType: "blob" }
     );

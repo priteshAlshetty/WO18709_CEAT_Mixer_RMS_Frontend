@@ -1,71 +1,76 @@
+/* Layout container similar to OperatorLog */
 .report-container {
-  width: 420px;
-  margin: 40px auto;
-  padding: 20px;
+  width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
   font-family: Arial, sans-serif;
 }
 
+/* Main page title */
 .title {
   text-align: center;
   margin-bottom: 20px;
-}
-
-.card {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 18px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.section-title {
-  margin-bottom: 15px;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
 }
 
-.input-group {
+/* Each card grouping section */
+.card {
   margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fafafa;
 }
 
-.input-group label {
+/* Section titles inside cards */
+.section-title {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Default label styling */
+.card label {
   display: block;
   margin-bottom: 6px;
   font-weight: bold;
 }
 
-.input-group input,
-.input-group select {
+/* Input and select controls */
+input[type="date"],
+select {
   width: 100%;
   padding: 8px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  outline: none;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
-.input-group input:focus,
-.input-group select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-.btn {
+/* Button styling */
+.btn.download {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   background: #007bff;
   color: #fff;
   border: none;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
-.btn:hover {
-  background: #0056b3;
+/* Disabled button state */
+.btn.download:disabled {
+  background: #7daecb;
+  cursor: not-allowed;
 }
 
-.btn.download {
-  margin-top: 10px;
+/* Optional hover effects */
+.btn.download:hover:not(:disabled) {
+  background: #005dc1;
 }

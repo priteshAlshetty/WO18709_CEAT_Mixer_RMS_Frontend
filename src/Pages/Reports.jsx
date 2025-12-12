@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import './Report.css';
 import ReportNavbar from '../Components/ReportNavbar';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Reports = () => {
   return (

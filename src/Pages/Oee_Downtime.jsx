@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import './Report.css';
 import Oee_Downtime_Navbar from '../Components/OEE_Down_Nav';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Reports = () => {
   return (

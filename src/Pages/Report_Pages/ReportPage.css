@@ -8,6 +8,8 @@
   font-family: Arial, sans-serif;
 }
 
+
+
 .report-title {
   text-align: center;
   margin-bottom: 20px;
@@ -28,14 +30,14 @@
 }
 
 .report-button {
-  width: 100%;
+   width: 100%;
   padding: 10px;
-  background: green;
-  color: white;
+  background: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  font-size: 16px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 15px;
 }
 
 .report-button:hover {
