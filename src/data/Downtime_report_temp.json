@@ -1,0 +1,28 @@
+[
+  {
+    "sr": 1,
+    "DTTM": "2025-12-09 10:15:30",
+    "shift": "A",
+    "downtime_start": "2025-12-09 10:00:00",
+    "downtime_stop": "2025-12-09 10:10:00",
+    "total_downtime" : 125,
+    "error_code": "E101",
+    "category": "Mechanical",
+    "sub_category": "Bearing",
+    "current_login": "operator01",
+    "description": "Bearing jam detected on roller 2"
+  },
+  {
+    "sr": 2,
+    "DTTM": "2025-12-09 11:05:45",
+    "shift": "B",
+    "downtime_start": "2025-12-09 11:00:00",
+    "downtime_stop": "2025-12-09 11:03:00",
+ "total_downtime" : 125,
+    "error_code": "E202",
+    "category": "Electrical",
+    "sub_category": "Sensor",
+    "current_login": "operator02",
+    "description": "Proximity sensor misalignment"
+  }
+]

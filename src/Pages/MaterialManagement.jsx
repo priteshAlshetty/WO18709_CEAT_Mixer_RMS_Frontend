@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MaterialManager.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const MaterialManager = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const MaterialManager = () => {
   // Fetch data
   const fetchMaterials = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:3000/material/getMaterials");
+      const res = await fetch(`${apiUrl}/material/getMaterials`);
       const data = await res.json();
       setMaterials(data);
     } catch (err) {
@@ -52,7 +53,7 @@ const MaterialManager = () => {
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:3000/material/addMaterial", {
+      const res = await fetch(`${apiUrl}/material/addMaterial`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -90,7 +91,7 @@ const MaterialManager = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch("http://127.0.0.1:3000/material/deleteMaterial", {
+      const res = await fetch(`${apiUrl}/material/deleteMaterial`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

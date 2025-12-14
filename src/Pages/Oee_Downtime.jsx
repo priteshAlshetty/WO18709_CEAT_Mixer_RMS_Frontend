@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import './Report.css';
-import ReportNavbar from '../Components/ReportNavbar';
+import Oee_Downtime_Navbar from '../Components/OEE_Down_Nav';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Reports = () => {
   return (
     <div className="page-container">
       <div className="left">
-        <div className="Report-title">Report Selection</div>
-        <ReportNavbar />
+        <div className="Report-title">Selection</div>
+        <Oee_Downtime_Navbar />
       </div>
 
       <div className="Right">
@@ -22,3 +22,8 @@ const Reports = () => {
 }
 
 export default Reports;
+ 
+
+
+
+
