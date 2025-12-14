@@ -1,12 +1,14 @@
 .main_div{
-    background: linear-gradient(360deg, #b75eff 0%, rgb(23, 37, 161) 100%);
-    color: #ffff;
+    min-height: 80vh;
+    background: #f1f1f16b;
+    /* background: linear-gradient(360deg, #b75eff 0%, rgb(23, 37, 161) 100%); */
+    color: #0e0d0d;
     text-transform: capitalize;
     padding: 30px ;
 }
 
 .Copy_div{
-        background: #ffffff33;
+        background: #ffffffb9;
     padding: 25px 120px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     max-width: 600px;
