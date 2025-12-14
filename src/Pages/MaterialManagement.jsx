@@ -16,8 +16,8 @@ const MaterialManager = () => {
     PD: [],
     FL: [],
     POLY: [],
-    OIL_1: [],
-    OIL_2: [],
+    Oil1: [],
+    Oil2: [],
   });
 
   const [loading, setLoading] = useState(false);
@@ -154,8 +154,8 @@ const MaterialManager = () => {
             <option value="PD">PD</option>
             <option value="FL">FL</option>
             <option value="POLY">POLY</option>
-            <option value="OIL_1">OIL_1</option>
-            <option value="OIL_2">OIL_2</option>
+            <option value="Oil1">Oil1</option>
+            <option value="Oil2">Oil2</option>
           </select>
         </div>
 
