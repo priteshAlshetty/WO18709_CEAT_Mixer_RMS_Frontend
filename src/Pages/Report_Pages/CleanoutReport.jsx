@@ -27,7 +27,18 @@ const CleanoutReport = () => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "Cleanout_Report.xlsx");
+   const now = new Date();
+
+// format: YYYY-MM-DD_HH-mm-ss
+const timestamp = now.toISOString()
+  .replace(/T/, "_")
+  .replace(/:/g, "-")
+  .replace(/\..+/, "");
+
+const fileName = `CleanoutReport Generated on ${timestamp}.xlsx`;
+
+link.setAttribute("download", fileName);
+
     document.body.appendChild(link);
     link.click();
     link.remove();
