@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function SummaryReport() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-
   const [batchList, setBatchList] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState("");
-
   const [serialList, setSerialList] = useState([]);
   const [selectedSerial, setSelectedSerial] = useState("");
 
@@ -25,16 +26,33 @@ export default function SummaryReport() {
           to: `${toDate} 23:59:59`,
         }
       );
-      setBatchList(res.data.BATCH_NAME || []);
+
+      if (res.data.BATCH_NAME?.length) {
+        setBatchList(res.data.BATCH_NAME);
+        toast.success("Batch names loaded successfully!");
+      } else {
+        toast.info("No batch names found for selected dates");
+        setBatchList([]);
+      }
+
       setSelectedBatch("");
       setSerialList([]);
     } catch (e) {
-      console.error(e);
+      toast.error(
+        e.response?.data?.message || "Error fetching batch names!"
+      );
     }
   };
 
   const fetchSerialNumbers = async (batch) => {
     if (!batch) return;
+
+    if (batch === "All") {
+      setSerialList(["All"]);
+      setSelectedSerial("All");
+      toast.info("Serial set to All");
+      return;
+    }
 
     try {
       const res = await axios.post(
@@ -48,24 +66,36 @@ export default function SummaryReport() {
 
       const serials = res.data.SERIAL_NO || [];
       setSerialList(["All", ...serials]);
+      setSelectedSerial("");
+      toast.success("Serial numbers fetched!");
     } catch (e) {
-      console.error(e);
+      toast.error(
+        e.response?.data?.message || "Error fetching serial numbers!"
+      );
     }
   };
 
   const downloadReport = async () => {
-    if (!selectedBatch) return alert("Please select Batch");
-    if (!selectedSerial) return alert("Please select Serial");
+    if (!selectedBatch) {
+      toast.warning("Please select a batch");
+      return;
+    }
+    if (!selectedSerial) {
+      toast.warning("Please select a serial number");
+      return;
+    }
+
+    const requestData = {
+      from: `${fromDate} 00:00:00`,
+      to: `${toDate} 23:59:59`,
+      batch_name: selectedBatch,
+      serial_no: selectedSerial,
+    };
 
     try {
       const res = await axios.post(
         `${apiUrl}/report/summary/getExcelReport`,
-        {
-          from: `${fromDate} 00:00:00`,
-          to: `${toDate} 23:59:59`,
-          batch_name: selectedBatch,
-          serial_no: selectedSerial === "All" ? null : Number(selectedSerial),
-        },
+        requestData,
         { responseType: "blob" }
       );
 
@@ -74,8 +104,12 @@ export default function SummaryReport() {
       a.href = url;
       a.download = "Summary_Report.xlsx";
       a.click();
+
+      toast.success("Report downloaded successfully!");
     } catch (e) {
-      console.error(e);
+      toast.error(
+        e.response?.data?.message || "Failed to download report!"
+      );
     }
   };
 
@@ -88,6 +122,9 @@ export default function SummaryReport() {
         fontFamily: "Arial, sans-serif",
       }}
     >
+      {/* TOASTS */}
+      <ToastContainer position="bottom-right" />
+
       <div
         style={{
           width: "450px",
@@ -107,7 +144,6 @@ export default function SummaryReport() {
           Summary Report
         </h2>
 
-        {/* Date Range Card */}
         <div style={cardStyle}>
           <h3 style={sectionTitle}>Select Date Range</h3>
 
@@ -128,7 +164,6 @@ export default function SummaryReport() {
           />
         </div>
 
-        {/* Batch Section */}
         {batchList.length > 0 && (
           <div style={cardStyle}>
             <h3 style={sectionTitle}>Batch Details</h3>
@@ -143,6 +178,7 @@ export default function SummaryReport() {
               style={inputStyle}
             >
               <option value="">Select Batch</option>
+              <option value="All">All</option>
               {batchList.map((b, i) => (
                 <option key={i} value={b}>
                   {b}
@@ -157,8 +193,8 @@ export default function SummaryReport() {
                   value={selectedSerial}
                   onChange={(e) => setSelectedSerial(e.target.value)}
                   style={inputStyle}
+                  disabled={selectedBatch === "All"}
                 >
-                  <option value="">Select Serial</option>
                   {serialList.map((s, i) => (
                     <option key={i} value={s}>
                       {s}
@@ -170,7 +206,6 @@ export default function SummaryReport() {
           </div>
         )}
 
-        {/* Download Button */}
         {selectedSerial && (
           <button
             onClick={downloadReport}
@@ -194,7 +229,7 @@ export default function SummaryReport() {
   );
 }
 
-/* Shared inline styles */
+// Shared inline styles below (unchanged)
 const inputStyle = {
   width: "100%",
   padding: "10px",
@@ -222,4 +257,3 @@ const sectionTitle = {
   fontSize: "16px",
   fontWeight: "600",
 };
-

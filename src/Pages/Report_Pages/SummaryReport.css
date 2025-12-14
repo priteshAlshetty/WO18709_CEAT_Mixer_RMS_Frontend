@@ -73,4 +73,5 @@ select {
 /* Optional hover effects */
 .btn.download:hover:not(:disabled) {
   background: #005dc1;
+  
 }

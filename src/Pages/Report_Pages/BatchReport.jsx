@@ -56,7 +56,8 @@ export default function ReportPage() {
         from: fromDate,
         to: toDate
       });
-      setSerialNumbers(res.data.SERIAL_NO || []);
+
+      setSerialNumbers(["All", ...(res.data.SERIAL_NO || [])]);
       setSelectedSerial("");
       setBatchNumbers([]);
       setSelectedBatchNo("");
@@ -138,7 +139,7 @@ export default function ReportPage() {
             marginBottom: "20px"
           }}
         >
-          Batch Report Generator
+          Batch Report
         </h2>
 
         {errorMsg && (
@@ -155,72 +156,117 @@ export default function ReportPage() {
           </div>
         )}
 
-        <input
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-          style={inputStyle}
-        />
+        <div>
+          <label htmlFor="fromDate" style={{"font-weight": "bold"}}>From Date</label>
+          <input
+            id="fromDate"
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
 
-        <input
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-          style={inputStyle}
-        />
+        <div>
+          <label htmlFor="toDate" style={{"font-weight": "bold"}}>To Date</label>
+          <input
+            id="toDate"
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
 
         {batchNames.length > 0 && (
-          <select
-            value={selectedBatchName}
-            onChange={(e) => {
-              setSelectedBatchName(e.target.value);
-              fetchSerialNumbers(e.target.value);
-            }}
-            style={inputStyle}
-          >
-            <option value="">Select Batch</option>
-            {batchNames.map((bn, i) => (
-              <option key={i} value={bn}>
-                {bn}
-              </option>
-            ))}
-          </select>
+          <div>
+            <label htmlFor="batchSelect" style={{"font-weight": "bold"}}>Batch Name</label>
+            <select
+              id="batchSelect"
+              value={selectedBatchName}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedBatchName(value);
+
+                if (value === "All") {
+                  setSerialNumbers(["All"]);
+                  setSelectedSerial("All");
+
+                  setBatchNumbers(["All"]);
+                  setSelectedBatchNo("All");
+
+                  setReportReady(true);
+                } else {
+                  fetchSerialNumbers(value);
+                }
+              }}
+              style={inputStyle}
+            >
+              <option value="">Select Batch</option>
+              {batchNames.map((bn, i) => (
+                <option key={i} value={bn}>
+                  {bn}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
 
         {serialNumbers.length > 0 && (
-          <select
-            value={selectedSerial}
-            onChange={(e) => {
-              setSelectedSerial(e.target.value);
-              fetchBatchNumbers(e.target.value);
-            }}
-            style={inputStyle}
-          >
-            <option value="">Select Serial No</option>
-            {serialNumbers.map((sn, i) => (
-              <option key={i} value={sn}>
-                {sn}
-              </option>
-            ))}
-          </select>
+          <div>
+            <label htmlFor="serialSelect" style={{"font-weight": "bold"}}>Serial Number</label>
+            <select
+              id="serialSelect"
+              value={selectedSerial}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedSerial(value);
+
+                if (value === "All") {
+                  setBatchNumbers(["All"]);
+                  setSelectedBatchNo("All");
+                  setReportReady(true);
+                } else {
+                  fetchBatchNumbers(value);
+                }
+              }}
+              style={inputStyle}
+            >
+              <option value="">Select Serial No</option>
+              {serialNumbers.map((sn, i) => (
+                <option key={i} value={sn}>
+                  {sn}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
 
         {batchNumbers.length > 0 && (
-          <select
-            value={selectedBatchNo}
-            onChange={(e) => {
-              setSelectedBatchNo(e.target.value);
-              setReportReady(true);
-            }}
-            style={inputStyle}
-          >
-            <option value="">Select Batch No</option>
-            {batchNumbers.map((bn, i) => (
-              <option key={i} value={bn}>
-                {bn}
-              </option>
-            ))}
-          </select>
+          <div>
+            <label htmlFor="batchNoSelect" style={{"font-weight": "bold"}}>Batch Number</label>
+            <select
+              id="batchNoSelect"
+              value={selectedBatchNo}
+              disabled={selectedSerial === "All"}
+              onChange={(e) => {
+                setSelectedBatchNo(e.target.value);
+                setReportReady(true);
+              }}
+              style={{
+                ...inputStyle,
+                backgroundColor: selectedSerial === "All" ? "#eee" : "white",
+                cursor: selectedSerial === "All" ? "not-allowed" : "pointer"
+              }}
+            >
+              <option value="">Select Batch No</option>
+              {batchNumbers.map((bn, i) => (
+                <option key={i} value={bn}>
+                  {bn}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
 
         {reportReady && (

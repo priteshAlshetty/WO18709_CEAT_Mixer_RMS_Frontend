@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function ExcelReportDownloader() {
@@ -11,113 +14,147 @@ function ExcelReportDownloader() {
   const materialList = ["All Material", "Material A", "Material B", "Material C"];
   const materialTypeList = ["C.B.", "F.L.", "Oil1", "P.D.", "Poly"];
 
-  const downloadReport = async () => {
-    try {
-      const res = await axios.post(
-        `${apiUrl}/report/weighing/getExcelReport`,
-        { from: fromDate, to: toDate, materialName, materialType },
-        { responseType: "blob" }
-      );
+ const downloadReport = async () => {
+  try {
+    const payload = {
+      from: fromDate,
+      to: toDate,
+      materialName,
+      materialType,
+    };
 
-      const blob = new Blob([res.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
+    // ✅ Log JSON being sent
+    console.log("Downloading report with payload:", payload);
 
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `Weighing_Report_${fromDate}_to_${toDate}.xlsx`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      alert("Error downloading report");
+    const res = await axios.post(
+      `${apiUrl}/report/weighing/getExcelReport`,
+      payload,
+      { responseType: "blob" }
+    );
+
+    const blob = new Blob([res.data], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Weighing_Report_${fromDate}_to_${toDate}.xlsx`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Report downloaded successfully!");
+  } catch (error) {
+    if (error.response && error.response.data) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const errorObj = JSON.parse(reader.result);
+          toast.error(errorObj.message || "Something went wrong");
+        } catch {
+          toast.error("Failed to download report");
+        }
+      };
+      reader.readAsText(error.response.data);
+    } else {
+      toast.error("Network error or server unreachable");
     }
-  };
+  }
+};
+
+
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "40px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
+    <>
+      {/* Toast Container */}
+      <ToastContainer position="bottom-right" autoClose={3000} />
+
       <div
         style={{
-          width: "450px",
-          background: "#fff",
-          padding: "25px",
-          borderRadius: "10px",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "40px",
+          fontFamily: "Arial, sans-serif",
         }}
       >
-        <h2
+        <div
           style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginBottom: "20px",
+            width: "450px",
+            background: "#fff",
+            padding: "25px",
+            borderRadius: "10px",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
           }}
         >
-          Weighing Report
-        </h2>
+          <h2
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              marginBottom: "20px",
+            }}
+          >
+            Weighing Report
+          </h2>
 
-        <label style={labelStyle}>From Date:</label>
-        <input
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-          style={inputStyle}
-        />
+          <label style={labelStyle}>From Date & Time:</label>
+          <input
+            type="datetime-local"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            style={inputStyle}
+          />
 
-        <label style={labelStyle}>To Date:</label>
-        <input
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-          style={inputStyle}
-        />
 
-        <label style={labelStyle}>Material Name:</label>
-        <select
-          value={materialName}
-          onChange={(e) => setMaterialName(e.target.value)}
-          style={inputStyle}
-        >
-          {materialList.map((m) => (
-            <option key={m}>{m}</option>
-          ))}
-        </select>
+          <label style={labelStyle}>To Date & Time:</label>
+          <input
+            type="datetime-local"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            style={inputStyle}
+          />
 
-        <label style={labelStyle}>Material Type:</label>
-        <select
-          value={materialType}
-          onChange={(e) => setMaterialType(e.target.value)}
-          style={inputStyle}
-        >
-          {materialTypeList.map((t) => (
-            <option key={t}>{t}</option>
-          ))}
-        </select>
 
-        <button
-          onClick={downloadReport}
-          style={{
-            width: "100%",
-            background: "#007bff",
-            color: "white",
-            padding: "12px",
-            fontSize: "16px",
-            border: "none",
-            borderRadius: "6px",
-            marginTop: "10px",
-            cursor: "pointer",
-          }}
-        >
-          Download Report
-        </button>
+          {/* <label style={labelStyle}>Material Name:</label>
+          <select
+            value={materialName}
+            onChange={(e) => setMaterialName(e.target.value)}
+            style={inputStyle}
+          >
+            {materialList.map((m) => (
+              <option key={m}>{m}</option>
+            ))}
+          </select>
+
+          <label style={labelStyle}>Material Type:</label>
+          <select
+            value={materialType}
+            onChange={(e) => setMaterialType(e.target.value)}
+            style={inputStyle}
+          >
+            {materialTypeList.map((t) => (
+              <option key={t}>{t}</option>
+            ))}
+          </select> */}
+
+          <button
+            onClick={downloadReport}
+            style={{
+              width: "100%",
+              background: "#007bff",
+              color: "white",
+              padding: "12px",
+              fontSize: "16px",
+              border: "none",
+              borderRadius: "6px",
+              marginTop: "10px",
+              cursor: "pointer",
+            }}
+          >
+            Download Report
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

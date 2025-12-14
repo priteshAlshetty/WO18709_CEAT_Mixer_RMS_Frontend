@@ -32,7 +32,7 @@ const downloadReport = async () => {
     const timestamp = new Date().toISOString().replace(/[:.-]/g, "_");
 
     // Use the timestamp in the file name
-    link.setAttribute("download", `Alarm_Report_Generated_on${timestamp}.xlsx`);
+    link.setAttribute("download", `Operator${timestamp}.xlsx`);
 
     document.body.appendChild(link);
     link.click();

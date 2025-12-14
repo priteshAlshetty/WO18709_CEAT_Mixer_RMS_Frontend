@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function DowntimeReport() {
@@ -10,9 +13,14 @@ export default function DowntimeReport() {
   const [editValues, setEditValues] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Sub-navbar modal states
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteSr, setDeleteSr] = useState("");
+
   const handleSearch = async () => {
     if (!fromDate || !toDate) {
-      alert("Please select both From and To dates");
+      toast.warning("Please select both From and To dates");
       return;
     }
 
@@ -25,13 +33,12 @@ export default function DowntimeReport() {
           to: new Date(toDate).toISOString(),
         }
       );
-
       const apiData = response.data.downtime_data || [];
       setData(apiData);
       setEditValues(JSON.parse(JSON.stringify(apiData)));
     } catch (error) {
       console.error(error);
-      alert("Failed to fetch data from API");
+      toast.error("Failed to fetch data from API");
     }
     setLoading(false);
   };
@@ -40,21 +47,20 @@ export default function DowntimeReport() {
 
   const handleSaveAll = async () => {
     try {
-      const response = await axios.post(
-        `${apiUrl}/downtime/updateDowntime`,
-        { downtime_data: editValues }
-      );
+      const response = await axios.post(`${apiUrl}/downtime/updateDowntime`, {
+        downtime_data: editValues,
+      });
 
       if (response.data.status === true) {
-        alert("Data saved successfully!");
+        toast.success("Data saved successfully!");
         setData(editValues);
         setIsEditing(false);
       } else {
-        alert("Update failed on server.");
+        toast.error("Update failed on server.");
       }
     } catch (error) {
       console.error(error);
-      alert("Error updating downtime values.");
+      toast.error("Error updating downtime values.");
     }
   };
 
@@ -62,6 +68,58 @@ export default function DowntimeReport() {
     const updated = [...editValues];
     updated[index][field] = value;
     setEditValues(updated);
+  };
+
+  // Download Report
+  const handleDownloadReport = async () => {
+    if (!fromDate || !toDate) {
+      toast.warning("Please select both From and To dates");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiUrl}/downtime/generateReport`,
+        {
+          from: new Date(fromDate).toISOString(),
+          to: new Date(toDate).toISOString(),
+        },
+        { responseType: "blob" }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "DowntimeReport.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setShowDownloadModal(false);
+      toast.success("Report downloaded successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to download report");
+    }
+  };
+
+  // Delete Downtime
+  const handleDeleteDowntime = async () => {
+    if (!deleteSr) {
+      toast.warning("Please enter SR to delete");
+      return;
+    }
+
+    try {
+      await axios.post(`${apiUrl}/downtime/deleteDowntime`, {
+        sr: Number(deleteSr),
+      });
+      toast.success("Downtime deleted successfully");
+      setShowDeleteModal(false);
+      handleSearch(); // Refresh data
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete downtime");
+    }
   };
 
   return (
@@ -76,7 +134,6 @@ export default function DowntimeReport() {
       <div
         style={{
           width: "95%",
-          maxWidth: "1200px",
           background: "#fff",
           padding: "25px",
           borderRadius: "10px",
@@ -92,6 +149,19 @@ export default function DowntimeReport() {
         >
           Downtime Report
         </h2>
+
+        {/* Sub-navbar */}
+        <div style={subNavbarStyle}>
+          <button style={subNavButtonStyle} onClick={() => setShowDownloadModal(true)}>
+            Download Report
+          </button>
+          <button
+            style={{ ...subNavButtonStyle, background: "#dc3545" }}
+            onClick={() => setShowDeleteModal(true)}
+          >
+            Delete Downtime
+          </button>
+        </div>
 
         {/* Filters */}
         <div
@@ -171,7 +241,10 @@ export default function DowntimeReport() {
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan="11" style={{ textAlign: "center", padding: "10px" }}>
+                  <td
+                    colSpan="11"
+                    style={{ textAlign: "center", padding: "10px" }}
+                  >
                     No Data Found
                   </td>
                 </tr>
@@ -185,7 +258,6 @@ export default function DowntimeReport() {
                     <td style={tdStyle}>{row.downtime_stop}</td>
                     <td style={tdStyle}>{row.total_downtime}</td>
 
-                    {/* Editable fields */}
                     {[
                       "error_code",
                       "category",
@@ -195,13 +267,53 @@ export default function DowntimeReport() {
                     ].map((field) => (
                       <td key={field} style={tdStyle}>
                         {isEditing ? (
-                          <input
-                            value={editValues[index][field]}
-                            onChange={(e) =>
-                              handleFieldChange(index, field, e.target.value)
-                            }
-                            style={{ ...inputStyle, marginBottom: "0" }}
-                          />
+                          ["error_code", "category", "sub_category"].includes(
+                            field
+                          ) ? (
+                            <select
+                              value={editValues[index][field] || "Other"}
+                              onChange={(e) =>
+                                handleFieldChange(index, field, e.target.value)
+                              }
+                              style={{ ...inputStyle, marginBottom: "0" }}
+                            >
+                              {field === "error_code" &&
+                                [
+                                  "Other",
+                                  ...Array.from({ length: 10 }, (_, i) => `E${101 + i}`),
+                                ].map((opt) => (
+                                  <option key={opt} value={opt}>
+                                    {opt}
+                                  </option>
+                                ))}
+                              {field === "category" &&
+                                [
+                                  "Other",
+                                  ...Array.from({ length: 10 }, (_, i) => `CAT${1 + i}`),
+                                ].map((opt) => (
+                                  <option key={opt} value={opt}>
+                                    {opt}
+                                  </option>
+                                ))}
+                              {field === "sub_category" &&
+                                [
+                                  "Other",
+                                  ...Array.from({ length: 10 }, (_, i) => `SUB CAT${1 + i}`),
+                                ].map((opt) => (
+                                  <option key={opt} value={opt}>
+                                    {opt}
+                                  </option>
+                                ))}
+                            </select>
+                          ) : (
+                            <input
+                              value={editValues[index][field]}
+                              onChange={(e) =>
+                                handleFieldChange(index, field, e.target.value)
+                              }
+                              style={{ ...inputStyle, marginBottom: "0" }}
+                            />
+                          )
                         ) : (
                           row[field]
                         )}
@@ -214,6 +326,73 @@ export default function DowntimeReport() {
           </table>
         </div>
       </div>
+
+      {/* Download Modal */}
+      {showDownloadModal && (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h3>Download Report</h3>
+            <label>From Date</label>
+            <input
+              type="datetime-local"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              style={inputStyle}
+            />
+            <label>To Date</label>
+            <input
+              type="datetime-local"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              style={inputStyle}
+            />
+            <div style={{ marginTop: "10px", display: "flex", gap: "10px" ,}}>
+              <button style={buttonStyle} onClick={handleDownloadReport}>
+                Save & Download
+              </button>
+              <button
+                style={{ ...buttonStyle, background: "#6c757d" }}
+                onClick={() => setShowDownloadModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h3>Delete Downtime</h3>
+            <label>SR Number</label>
+            <input
+              type="number"
+              value={deleteSr}
+              onChange={(e) => setDeleteSr(e.target.value)}
+              style={inputStyle}
+            />
+            <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+              <button
+                style={{ ...buttonStyle, background: "#dc3545" }}
+                onClick={handleDeleteDowntime}
+              >
+                Submit
+              </button>
+              <button
+                style={{ ...buttonStyle, background: "#6c757d" }}
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast container */}
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 }
@@ -265,4 +444,48 @@ const tdStyle = {
 
 const theadStyle = {
   background: "#f0f0f0",
+};
+
+const modalStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  background: "rgba(0,0,0,0.4)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyle = {
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  background: "#fff",
+  padding: "20px",
+  borderRadius: "10px",
+  width: "500px",
+  height:"300px",
+  display: "flex",
+  flexDirection: "column",
+};
+
+const subNavbarStyle = {
+  display: "flex",
+  gap: "10px",
+  marginBottom: "20px",
+  justifyContent:"end"
+};
+
+const subNavButtonStyle = {
+  
+  padding: "10px",
+  border: "none",
+  borderRadius: "6px",
+  background: "#007bff",
+  color: "#fff",
+  cursor: "pointer",
+  fontSize: "14px",
 };
