@@ -102,7 +102,16 @@ export default function SummaryReport() {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Summary_Report.xlsx";
+      // create timestamp (YYYY-MM-DD_HH-mm-ss)
+const now = new Date();
+const timestamp = now
+  .toISOString()
+  .replace(/:/g, "-")
+  .replace("T", "_")
+  .split(".")[0];
+
+a.download = `SummaryReport Generated on ${timestamp}.xlsx`;
+
       a.click();
 
       toast.success("Report downloaded successfully!");

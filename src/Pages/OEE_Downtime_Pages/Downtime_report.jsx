@@ -71,36 +71,45 @@ export default function DowntimeReport() {
   };
 
   // Download Report
-  const handleDownloadReport = async () => {
-    if (!fromDate || !toDate) {
-      toast.warning("Please select both From and To dates");
-      return;
-    }
+const handleDownloadReport = async () => {
+  if (!fromDate || !toDate) {
+    toast.warning("Please select both From and To dates");
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        `${apiUrl}/downtime/generateReport`,
-        {
-          from: new Date(fromDate).toISOString(),
-          to: new Date(toDate).toISOString(),
-        },
-        { responseType: "blob" }
-      );
+  try {
+    const response = await axios.post(
+      `${apiUrl}/downtime/generateReport`,
+      {
+        from: new Date(fromDate).toISOString(),
+        to: new Date(toDate).toISOString(),
+      },
+      { responseType: "blob" }
+    );
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "DowntimeReport.xlsx");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setShowDownloadModal(false);
-      toast.success("Report downloaded successfully!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to download report");
-    }
-  };
+    // 👉 Create timestamp (safe for filenames)
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[:.]/g, "-"); // replaces : and . to avoid filename issues
+
+    const fileName = `Downtime report generated on ${timestamp}.xlsx`;
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setShowDownloadModal(false);
+    toast.success("Report downloaded successfully!");
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to download report");
+  }
+};
+
 
   // Delete Downtime
   const handleDeleteDowntime = async () => {

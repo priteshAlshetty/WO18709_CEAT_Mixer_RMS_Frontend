@@ -108,7 +108,19 @@ export default function ReportPage() {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "Report.xlsx");
+     const now = new Date();
+
+// Format timestamp: YYYY-MM-DD_HH-mm-ss
+const timestamp = now
+  .toISOString()
+  .replace("T", "_")
+  .replace(/:/g, "-")
+  .split(".")[0];
+
+const fileName = `Batch Report Generated on ${timestamp}.xlsx`;
+
+link.setAttribute("download", fileName);
+
       document.body.appendChild(link);
       link.click();
 
