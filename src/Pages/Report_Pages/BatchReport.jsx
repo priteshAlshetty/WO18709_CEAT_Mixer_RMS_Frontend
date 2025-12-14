@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ReportPage() {
@@ -16,7 +19,6 @@ export default function ReportPage() {
   const [selectedBatchNo, setSelectedBatchNo] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [reportReady, setReportReady] = useState(false);
 
   useEffect(() => {
@@ -26,10 +28,9 @@ export default function ReportPage() {
   const fetchBatchNames = async () => {
     try {
       setLoading(true);
-      setErrorMsg("");
       const res = await axios.post(`${apiUrl}/report/batch/getBatchName/bydate`, {
         from: fromDate,
-        to: toDate
+        to: toDate,
       });
       const list = res.data.BATCH_NAME || [];
       setBatchNames(["All", ...list]);
@@ -40,8 +41,10 @@ export default function ReportPage() {
       setSelectedSerial("");
       setSelectedBatchNo("");
       setReportReady(false);
+
+      toast.success("Batch names fetched successfully!", { position: "bottom-right" });
     } catch {
-      setErrorMsg("Failed to fetch batch names.");
+      toast.error("Failed to fetch batch names.", { position: "bottom-right" });
     } finally {
       setLoading(false);
     }
@@ -50,11 +53,10 @@ export default function ReportPage() {
   const fetchSerialNumbers = async (batchName) => {
     try {
       setLoading(true);
-      setErrorMsg("");
       const res = await axios.post(`${apiUrl}/report/batch/getSerial/byBatchName`, {
         batchName: batchName === "All" ? batchNames.slice(1) : [batchName],
         from: fromDate,
-        to: toDate
+        to: toDate,
       });
 
       setSerialNumbers(["All", ...(res.data.SERIAL_NO || [])]);
@@ -62,8 +64,10 @@ export default function ReportPage() {
       setBatchNumbers([]);
       setSelectedBatchNo("");
       setReportReady(false);
+
+      toast.success("Serial numbers fetched successfully!", { position: "bottom-right" });
     } catch {
-      setErrorMsg("Failed to fetch serial numbers.");
+      toast.error("Failed to fetch serial numbers.", { position: "bottom-right" });
     } finally {
       setLoading(false);
     }
@@ -72,15 +76,16 @@ export default function ReportPage() {
   const fetchBatchNumbers = async (serialNo) => {
     try {
       setLoading(true);
-      setErrorMsg("");
       const res = await axios.post(`${apiUrl}/report/batch/getbatchNo/bySerialNo`, {
-        serialNo
+        serialNo,
       });
       setBatchNumbers(["All", ...(res.data.BATCH_NO || [])]);
       setSelectedBatchNo("");
       setReportReady(false);
+
+      toast.success("Batch numbers fetched successfully!", { position: "bottom-right" });
     } catch {
-      setErrorMsg("Failed to fetch batch numbers.");
+      toast.error("Failed to fetch batch numbers.", { position: "bottom-right" });
     } finally {
       setLoading(false);
     }
@@ -89,7 +94,6 @@ export default function ReportPage() {
   const downloadReport = async () => {
     try {
       setLoading(true);
-      setErrorMsg("");
       const res = await axios.post(
         `${apiUrl}/report/batch/getExcelReport`,
         {
@@ -97,7 +101,7 @@ export default function ReportPage() {
           serialNo: selectedSerial,
           batchNo: selectedBatchNo,
           dttmFrom: fromDate,
-          dttmTo: toDate
+          dttmTo: toDate,
         },
         { responseType: "blob" }
       );
@@ -107,8 +111,10 @@ export default function ReportPage() {
       link.setAttribute("download", "Report.xlsx");
       document.body.appendChild(link);
       link.click();
+
+      toast.success("Report downloaded successfully!", { position: "bottom-right" });
     } catch {
-      setErrorMsg("Failed to download report.");
+      toast.error("Failed to download report.", { position: "bottom-right" });
     } finally {
       setLoading(false);
     }
@@ -120,7 +126,7 @@ export default function ReportPage() {
         display: "flex",
         justifyContent: "center",
         marginTop: "40px",
-        fontFamily: "Arial, sans-serif"
+        fontFamily: "Arial, sans-serif",
       }}
     >
       <div
@@ -129,35 +135,17 @@ export default function ReportPage() {
           background: "#fff",
           padding: "25px",
           borderRadius: "10px",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)"
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <h2
-          style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginBottom: "20px"
-          }}
-        >
+        <h2 style={{ textAlign: "center", fontWeight: "bold", marginBottom: "20px" }}>
           Batch Report
         </h2>
 
-        {errorMsg && (
-          <div
-            style={{
-              background: "#ffdddd",
-              color: "#b30000",
-              padding: "10px",
-              borderLeft: "5px solid red",
-              marginBottom: "15px"
-            }}
-          >
-            {errorMsg}
-          </div>
-        )}
-
         <div>
-          <label htmlFor="fromDate" style={{"font-weight": "bold"}}>From Date</label>
+          <label htmlFor="fromDate" style={{ fontWeight: "bold" }}>
+            From Date
+          </label>
           <input
             id="fromDate"
             type="date"
@@ -168,7 +156,9 @@ export default function ReportPage() {
         </div>
 
         <div>
-          <label htmlFor="toDate" style={{"font-weight": "bold"}}>To Date</label>
+          <label htmlFor="toDate" style={{ fontWeight: "bold" }}>
+            To Date
+          </label>
           <input
             id="toDate"
             type="date"
@@ -180,7 +170,9 @@ export default function ReportPage() {
 
         {batchNames.length > 0 && (
           <div>
-            <label htmlFor="batchSelect" style={{"font-weight": "bold"}}>Batch Name</label>
+            <label htmlFor="batchSelect" style={{ fontWeight: "bold" }}>
+              Batch Name
+            </label>
             <select
               id="batchSelect"
               value={selectedBatchName}
@@ -214,7 +206,9 @@ export default function ReportPage() {
 
         {serialNumbers.length > 0 && (
           <div>
-            <label htmlFor="serialSelect" style={{"font-weight": "bold"}}>Serial Number</label>
+            <label htmlFor="serialSelect" style={{ fontWeight: "bold" }}>
+              Serial Number
+            </label>
             <select
               id="serialSelect"
               value={selectedSerial}
@@ -244,7 +238,9 @@ export default function ReportPage() {
 
         {batchNumbers.length > 0 && (
           <div>
-            <label htmlFor="batchNoSelect" style={{"font-weight": "bold"}}>Batch Number</label>
+            <label htmlFor="batchNoSelect" style={{ fontWeight: "bold" }}>
+              Batch Number
+            </label>
             <select
               id="batchNoSelect"
               value={selectedBatchNo}
@@ -256,7 +252,7 @@ export default function ReportPage() {
               style={{
                 ...inputStyle,
                 backgroundColor: selectedSerial === "All" ? "#eee" : "white",
-                cursor: selectedSerial === "All" ? "not-allowed" : "pointer"
+                cursor: selectedSerial === "All" ? "not-allowed" : "pointer",
               }}
             >
               <option value="">Select Batch No</option>
@@ -282,13 +278,16 @@ export default function ReportPage() {
               border: "none",
               borderRadius: "6px",
               marginTop: "10px",
-              cursor: loading ? "not-allowed" : "pointer"
+              cursor: loading ? "not-allowed" : "pointer",
             }}
           >
             {loading ? "Loading..." : "Download Report"}
           </button>
         )}
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} />
     </div>
   );
 }
@@ -299,5 +298,5 @@ const inputStyle = {
   marginBottom: "15px",
   border: "1px solid #bbb",
   borderRadius: "6px",
-  fontSize: "15px"
+  fontSize: "15px",
 };
