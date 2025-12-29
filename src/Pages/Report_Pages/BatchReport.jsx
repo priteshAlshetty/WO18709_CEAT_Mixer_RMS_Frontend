@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,7 +29,7 @@ export default function ReportPage() {
   const fetchBatchNames = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(`${apiUrl}/report/batch/getBatchName/bydate`, {
+      const res = await api.post(`/report/batch/getBatchName/bydate`, {
         from: fromDate,
         to: toDate,
       });
@@ -53,7 +54,7 @@ export default function ReportPage() {
   const fetchSerialNumbers = async (batchName) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${apiUrl}/report/batch/getSerial/byBatchName`, {
+      const res = await api.post(`/report/batch/getSerial/byBatchName`, {
         batchName: batchName === "All" ? batchNames.slice(1) : [batchName],
         from: fromDate,
         to: toDate,
@@ -76,7 +77,7 @@ export default function ReportPage() {
   const fetchBatchNumbers = async (serialNo) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${apiUrl}/report/batch/getbatchNo/bySerialNo`, {
+      const res = await api.post(`/report/batch/getbatchNo/bySerialNo`, {
         serialNo,
       });
       setBatchNumbers(["All", ...(res.data.BATCH_NO || [])]);
@@ -94,8 +95,8 @@ export default function ReportPage() {
   const downloadReport = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
-        `${apiUrl}/report/batch/getExcelReport`,
+      const res = await api.post(
+        `/report/batch/getExcelReport`,
         {
           recipeId: selectedBatchName,
           serialNo: selectedSerial,
