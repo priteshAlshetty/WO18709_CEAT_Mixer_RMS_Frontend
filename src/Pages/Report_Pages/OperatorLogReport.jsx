@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -18,8 +19,8 @@ const downloadReport = async () => {
   try {
     setLoading(true);
 
-    const response = await axios.post(
-      `${apiUrl}/report/alarm/generateReport`,
+    const response = await api.post(
+      `/report/alarm/generateReport`,
       { from: fromDate, to: toDate },
       { responseType: "blob" }
     );

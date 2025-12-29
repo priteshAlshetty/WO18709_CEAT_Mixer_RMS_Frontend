@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api/axios";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -26,8 +28,8 @@ function ExcelReportDownloader() {
     // ✅ Log JSON being sent
     console.log("Downloading report with payload:", payload);
 
-    const res = await axios.post(
-      `${apiUrl}/report/weighing/getExcelReport`,
+    const res = await api.post(
+      `/report/weighing/getExcelReport`,
       payload,
       { responseType: "blob" }
     );

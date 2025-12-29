@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CopyRecipe.css";
+import api from "../api/axios";
+
 import recipeTemplate from "../data/dummydata.json";
 import {
   cbMaterialOptions,
@@ -141,31 +143,30 @@ export default function AddRecipeFromTemplate() {
         console.log("Sending payload:", JSON.stringify(payload, null, 2));
 
         try {
-            const response = await fetch(`${apiUrl}/recipe/addNewRecipe`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload),
-            });
+            // const response = await fetch(`${apiUrl}/recipe/addNewRecipe`, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify(payload),
+            // });
 
-            const result = await response.json();
-            console.log("Server response:", result);
+            const response = await api.post("/recipe/addNewRecipe", payload);
 
-            if (response.ok) {
-                const confirmed = window.confirm("Are you sure you want to save this recipe?");
-                if (!confirmed) return;
+// axios already gives parsed JSON
+const result = response.data;
 
-                window.alert("Recipe Saved Successfully");
-                navigate("/");
-            } else {
-                setError(result?.message || "Error adding recipe");
-                alert(result?.message);
-            }
+const confirmed = window.confirm("Are you sure you want to save this recipe?");
+if (!confirmed) return;
+
+window.alert("Recipe Saved Successfully");
+navigate("/");
+
         } catch (err) {
-            console.error("Fetch error:", err);
-            setError("Network error while adding recipe");
-        }
+    console.error(err);
+    setError(err.response?.data?.message || "Error adding recipe");
+}
+
     };
 
     function clearDataValues() {

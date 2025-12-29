@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,8 +20,8 @@ export default function SummaryReport() {
 
   const fetchBatchNames = async () => {
     try {
-      const res = await axios.post(
-        `${apiUrl}/report/summary/getBatchName/byDateTime`,
+      const res = await api.post(
+        `/report/summary/getBatchName/byDateTime`,
         {
           from: `${fromDate} 00:00:00`,
           to: `${toDate} 23:59:59`,
@@ -55,8 +56,8 @@ export default function SummaryReport() {
     }
 
     try {
-      const res = await axios.post(
-        `${apiUrl}/report/summary/getSerial/byBatchName`,
+      const res = await api.post(
+        `/report/summary/getSerial/byBatchName`,
         {
           from: `${fromDate} 00:00:00`,
           to: `${toDate} 23:59:59`,
@@ -93,8 +94,8 @@ export default function SummaryReport() {
     };
 
     try {
-      const res = await axios.post(
-        `${apiUrl}/report/summary/getExcelReport`,
+      const res = await api.post(
+        `/report/summary/getExcelReport`,
         requestData,
         { responseType: "blob" }
       );

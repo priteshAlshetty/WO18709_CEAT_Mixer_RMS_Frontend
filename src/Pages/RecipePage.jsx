@@ -2,6 +2,8 @@
 // Import necessary React modules and styles
 import React, { useState, useEffect } from "react";
 import './RecipePage.css';
+import api from "../api/axios"; // adjust path if needed
+
 // import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useNavigate, NavLink } from 'react-router-dom';
 import {
@@ -12,6 +14,7 @@ import {
   oilAOptions,
   oilBOptions,
 } from "../Constants/Material";
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -373,15 +376,22 @@ if (type === "checkbox-text") {
     setData(null);
 
     try {
-      const res = await fetch(`${apiUrl}/recipe/viewRecipe/byId`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipe_id: recipeId.trim() }),
-      });
+      // const res = await fetch(`${apiUrl}/recipe/viewRecipe/byId`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ recipe_id: recipeId.trim() }),
+      // });
 
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      // if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
-      const json = await res.json();
+      // const json = await res.json();
+
+      const res = await api.post("/recipe/viewRecipe/byId", {
+  recipe_id: recipeId.trim(),
+});
+
+const json = res.data;
+
 
       if (!json.data || !json.data.recipe_id) {
         setError(`No recipe found for ID "${recipeId}"`);
@@ -518,15 +528,23 @@ async function saveChanges() {
     console.log("🟢 Payload that would be sent to backend (cleaned):");
     console.log(JSON.stringify(payload, null, 2));
 
-    const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    // const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(payload),
+    // });
 
-    if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
+    // if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
 
-    const result = await response.json();
+    // const result = await response.json();
+
+    const response = await api.post(
+  "/recipe/editRecipe/byId",
+  payload
+);
+
+const result = response.data;
+
     console.log("Save success:", result);
 
     setOriginalData(JSON.parse(JSON.stringify(cleanedData)));
@@ -1001,8 +1019,11 @@ const [recipeList, setRecipeList] = useState([]);
 useEffect(() => {
   async function fetchRecipeList() {
     try {
-      const res = await fetch(`${apiUrl}/recipe/allRecipeIds`);
-      const json = await res.json();
+      // const res = await fetch(`${apiUrl}/recipe/allRecipeIds`);
+      // const json = await res.json();
+      const res = await api.get("/recipe/allRecipeIds");
+const json = res.data;
+
       if (json?.data?.recipe_ids) {
         setRecipeList(json.data.recipe_ids);
       }

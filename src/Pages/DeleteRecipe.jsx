@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../api/axios';   // adjust path if needed
+
 import './DeleteRecipe.css';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -10,22 +11,23 @@ const DeleteRecipe = () => {
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  const handleDelete = async () => {
-    try {
-      const res = await axios.delete(`${apiUrl}/recipe/deleteRecipe/byId`, {
-        data: { recipe_id: recipeId },
-      });
+const handleDelete = async () => {
+  try {
+    const res = await api.delete('/recipe/deleteRecipe/byId', {
+      data: { recipe_id: recipeId },
+    });
 
-      setResponse(res.data);
-      setError('');
-      setRecipeId('');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-      setResponse(null);
-    } finally {
-      setShowModal(false);
-    }
-  };
+    setResponse(res.data);
+    setError('');
+    setRecipeId('');
+  } catch (err) {
+    setError(err.response?.data?.message || 'Something went wrong');
+    setResponse(null);
+  } finally {
+    setShowModal(false);
+  }
+};
+
 
   const openConfirmModal = () => {
     if (!recipeId.trim()) {

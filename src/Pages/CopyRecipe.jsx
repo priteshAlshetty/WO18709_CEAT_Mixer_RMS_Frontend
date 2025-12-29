@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../api/axios"; // adjust path if needed
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./RecipePage.css";
@@ -49,7 +51,7 @@ const RecipeCopyPage = () => {
       setLoading(true);
       toast.info("Fetching recipe data...");
 
-      const res = await axios.post(`${BASE_URL}/viewRecipe/byId`, {
+      const res = await api.post(`recipe/viewRecipe/byId`, {
         recipe_id: fromRecipeId,
       });
 
@@ -87,7 +89,7 @@ const RecipeCopyPage = () => {
       };
 
       toast.info("Copying recipe...");
-      const saveRes = await axios.post(`${BASE_URL}/addNewRecipe`, body);
+      const saveRes = await api.post(`recipe/addNewRecipe`, body);
 
       const success =
         saveRes.data?.success === true ||

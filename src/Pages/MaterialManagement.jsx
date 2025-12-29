@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./MaterialManager.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../api/axios"; // adjust path if needed
+
 const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const MaterialManager = () => {
   const [formData, setFormData] = useState({
@@ -25,15 +28,21 @@ const MaterialManager = () => {
   const [deleteCode, setDeleteCode] = useState(""); // ✅ for material code input
 
   // Fetch data
-  const fetchMaterials = async () => {
-    try {
-      const res = await fetch(`${apiUrl}/material/getMaterials`);
-      const data = await res.json();
-      setMaterials(data);
-    } catch (err) {
-      console.error("Error fetching materials:", err);
-    }
-  };
+const [refreshing, setRefreshing] = useState(false);
+
+const fetchMaterials = async () => {
+  try {
+    setRefreshing(true);
+    const res = await api.get("/material/getMaterials");
+    setMaterials(res.data);
+  } catch (err) {
+    console.error("Error fetching materials:", err);
+    toast.error("Failed to fetch materials");
+  } finally {
+    setRefreshing(false);
+  }
+};
+
 
   useEffect(() => {
     fetchMaterials();
@@ -53,26 +62,24 @@ const MaterialManager = () => {
     }
 
     try {
-      const res = await fetch(`${apiUrl}/material/addMaterial`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          material_data: {
-            material_code: formData.materialCode,
-            material_name: formData.materialName,
-            material_type: formData.category,
-          },
-        }),
-      });
+      const res = await api.post("/material/addMaterial", {
+  material_data: {
+    material_code: formData.materialCode,
+    material_name: formData.materialName,
+    material_type: formData.category,
+  },
+});
 
-      const data = await res.json();
-      if (res.ok && data.success) {
-        toast.success(data.message || "Material added successfully!");
-        fetchMaterials();
-        setFormData({ materialName: "", materialCode: "", category: "" });
-      } else {
-        toast.error(data.error || data.message || "Something went wrong");
-      }
+const data = res.data;
+
+      if (data.success) {
+  toast.success(data.message || "Material added successfully!");
+  fetchMaterials();
+  setFormData({ materialName: "", materialCode: "", category: "" });
+} else {
+  toast.error(data.error || data.message || "Something went wrong");
+}
+
     } catch (err) {
       toast.error(err.message || "Network error. Please check the server.");
     }
@@ -187,9 +194,10 @@ const MaterialManager = () => {
       <div className="table-section">
         <div className="table-class">
           <div className="refresh-bar">
-            <button className="refresh-btn" onClick={fetchMaterials}>
-              ⭮ Refresh
-            </button>
+           <button className="refresh-btn" onClick={fetchMaterials} disabled={refreshing}>
+  {refreshing ? "Refreshing..." : "⭮ Refresh"}
+</button>
+
           </div>
         </div>
 
