@@ -112,6 +112,8 @@ import CopyRecipe from './Pages/CopyRecipe'
 import Report from './Pages/Reports'
 import Oee_Downtime from './Pages/Oee_Downtime'
 import TestMixer from './Pages/TestMixer'
+import GraphPage from './Pages/Graphpage'
+import MixerSelection from './Pages/Mixer_Selection_Screen'
 
 // Report Pages
 import WeighingReport from './Pages/Report_Pages/WeighingReport'
@@ -130,13 +132,19 @@ import Batch_hold from './Pages/OEE_Downtime_Pages/Batch_hold'
 /* ---------------- Layout Wrapper ---------------- */
 function Layout({ children }) {
   const location = useLocation()
-  const hideLayout = location.pathname === '/login'
+
+  const hideNavbar =
+    location.pathname === '/login' ||
+    location.pathname === '/mixer-selection'
+
+  const hideFooter =
+    location.pathname === '/login'
 
   return (
     <>
-      {!hideLayout && <Navbar />}
+      {!hideNavbar && <Navbar />}
       {children}
-      {!hideLayout && <Footer />}
+      {!hideFooter && <Footer />}
     </>
   )
 }
@@ -144,12 +152,24 @@ function Layout({ children }) {
 /* ---------------- App Component ---------------- */
 function App() {
   // ⭐ GLOBAL MIXER STATE
-  const [selectedMixer, setSelectedMixer] = useState('Mixer 1')
+  // const [selectedMixer, setSelectedMixer] = useState('Mixer 1')
+
+  const [selectedMixer, setSelectedMixer] = useState(null)
+
 
   // ⭐ Sync mixer to Axios (one-time logic)
   useEffect(() => {
     setCurrentMixer(selectedMixer)
   }, [selectedMixer])
+
+
+  const RequireMixer = ({ children }) => {
+    if (!selectedMixer) {
+      return <Navigate to="/mixer-selection" replace />;
+    }
+    return children;
+  };
+
 
   return (
     // ⭐ PROVIDER WRAPS ENTIRE APP
@@ -160,29 +180,50 @@ function App() {
             <Route path="/test-mixer" element={<TestMixer />} />
 
 
-            <Route path="/login" element={<Login />} />
 
-            <Route path="/" element={<RecipePage />} />
-            <Route path="/Material-management" element={<MaterialManagement />} />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/graph" element={<GraphPage />} />
+            <Route path="/mixer-selection" element={<MixerSelection />} />
+
+
+            <Route
+              path="/"
+              element={
+                <RequireMixer>
+                  <RecipePage />
+                </RequireMixer>
+              }
+            />
+
+            <Route
+              path="/Material-management"
+              element={
+                <RequireMixer>
+                  <MaterialManagement />
+                </RequireMixer>
+              }
+            />
+
             <Route path="/add-edit-recipe" element={<AddRecipe />} />
             <Route path="/delete-recipe" element={<DeleteRecipe />} />
             <Route path="/copy-recipe" element={<CopyRecipe />} />
 
             <Route path="/report" element={<Report />}>
-  {/* Redirect /report to /report/weighing */}
-  <Route index element={<Navigate to="weighing" replace />} />
+              {/* Redirect /report to /report/weighing */}
+              <Route index element={<Navigate to="weighing" replace />} />
 
-  <Route path="weighing" element={<WeighingReport />} />
-  <Route path="batch" element={<BatchReport />} />
-  <Route path="summary" element={<SummaryReport />} />
-  <Route path="production" element={<ProductionReport />} />
-  <Route path="cleanout" element={<CleanoutReport />} />
-  <Route path="alarm" element={<AlarmReport />} />
-  <Route path="operators-log" element={<OperatorLog />} />
-</Route>
+              <Route path="weighing" element={<WeighingReport />} />
+              <Route path="batch" element={<BatchReport />} />
+              <Route path="summary" element={<SummaryReport />} />
+              <Route path="production" element={<ProductionReport />} />
+              <Route path="cleanout" element={<CleanoutReport />} />
+              <Route path="alarm" element={<AlarmReport />} />
+              <Route path="operators-log" element={<OperatorLog />} />
+            </Route>
 
             <Route path="/oee-downtime" element={<Oee_Downtime />}>
-            <Route index element={<Navigate to="downtime-Report" replace />} />
+              <Route index element={<Navigate to="downtime-Report" replace />} />
               <Route path="downtime-Report" element={<DowntimeReport />} />
               <Route path="oee" element={<Oee />} />
               <Route path="batch-hold" element={<Batch_hold />} />

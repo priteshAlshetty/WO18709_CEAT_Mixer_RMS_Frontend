@@ -1,6 +1,6 @@
 import axiosInstance from './axios'
 
-let currentMixer = 'Mixer 1'
+let currentMixer = 'Mixer1'
 
 export const setCurrentMixer = (mixer) => {
   currentMixer = mixer
