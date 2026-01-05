@@ -150,7 +150,7 @@ const Navbar = () => {
   const { selectedMixer, setSelectedMixer } = useContext(MixerContext)
 
   const user = {
-    name: "Pritesh Alshetty",
+    name: "Multiquadrant",
     role: "Admin"
   }
 

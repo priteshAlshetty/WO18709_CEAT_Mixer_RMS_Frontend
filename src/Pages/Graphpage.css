@@ -276,6 +276,7 @@
 
 .field {
   display: flex;
+  align-items: center;
   flex-direction: column;
   font-size: 12px;
 }
@@ -328,3 +329,30 @@
     background-color: #3e973b;
     color: #fff;
   }
+
+.batch-div{
+  gap: 10px;
+}
+.second{
+ 
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+
+.meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: #f7f9fc;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.meta-bar div {
+  font-size: 14px;
+  white-space: nowrap;
+}
