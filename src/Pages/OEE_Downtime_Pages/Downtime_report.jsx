@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -26,8 +27,8 @@ export default function DowntimeReport() {
 
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${apiUrl}/downtime/getDowntime/byDateTime`,
+      const response = await api.post(
+        `/downtime/getDowntime/byDateTime`,
         {
           from: new Date(fromDate).toISOString(),
           to: new Date(toDate).toISOString(),
@@ -47,7 +48,7 @@ export default function DowntimeReport() {
 
   const handleSaveAll = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/downtime/updateDowntime`, {
+      const response = await api.post(`/downtime/updateDowntime`, {
         downtime_data: editValues,
       });
 
@@ -78,8 +79,8 @@ const handleDownloadReport = async () => {
   }
 
   try {
-    const response = await axios.post(
-      `${apiUrl}/downtime/generateReport`,
+    const response = await api.post(
+      `/downtime/generateReport`,
       {
         from: new Date(fromDate).toISOString(),
         to: new Date(toDate).toISOString(),
@@ -119,7 +120,7 @@ const handleDownloadReport = async () => {
     }
 
     try {
-      await axios.post(`${apiUrl}/downtime/deleteDowntime`, {
+      await api.post(`/downtime/deleteDowntime`, {
         sr: Number(deleteSr),
       });
       toast.success("Downtime deleted successfully");
@@ -477,7 +478,6 @@ const modalContentStyle = {
   borderRadius: "10px",
   width: "500px",
   height:"300px",
-  display: "flex",
   flexDirection: "column",
 };
 

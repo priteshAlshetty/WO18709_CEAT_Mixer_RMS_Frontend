@@ -1,0 +1,330 @@
+/* Page background */
+.page-container {
+    width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f4ff, #f9fbff);
+  /* padding: 30px; */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Card */
+.card {
+    margin-top: 10px;
+  background: #ffffff;
+  width: 100%;
+  max-width: 1300px;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.title {
+  margin-bottom: 20px;
+  color: #1f1f1f;
+  font-weight: 600;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #555;
+}
+
+.input-group input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #1677ff;
+}
+
+/* Button */
+.btn-submit {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #1677ff;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+  background: #0958d9;
+}
+
+/* Chart */
+.chart-wrapper {
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 12px;
+}
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+/* Print button */
+.btn-print {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid #1677ff;
+  background: #ffffff;
+  color: #1677ff;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-print:hover {
+  background: #e6f4ff;
+}
+
+/* Print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .filter-bar,
+  .btn-submit,
+  .btn-print {
+    display: none;
+  }
+}
+.input-group input[readonly] {
+  background-color: #f5f5f5;
+  color: #555;
+  cursor: not-allowed;
+}
+/* ================== Summary Info Div ================== */
+.summary-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px; /* ensures enough space for key-value */
+}
+
+.summary-item span.key {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.summary-item span.value {
+  font-weight: 400;
+}
+
+/* ================== Form styling ================== */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
+
+.input-group label {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ================== Buttons ================== */
+.button-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-submit, .btn-print {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-submit {
+  background-color: #1677ff;
+  color: white;
+}
+
+.btn-print {
+  background-color: #52c41a;
+  color: white;
+}
+
+/* ================== Chart wrapper ================== */
+.chart-wrapper {
+  margin-top: 16px;
+}
+
+/* ================== Print styling ================== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area, .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+
+.btn-prev,.btn-next{
+    background-color: #555;
+    color: #d9d9d9;
+    padding: 5px ;
+}
+.btn-prev:hover,.btn-next:hover{background-color: #555555a8;}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border: none;
+    outline: 0;
+    
+}
+
+
+/* spinner.css */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+
+
+.filter-bar {
+  display: grid;
+  grid-template-columns:
+    180px 220px
+    180px 220px
+    auto auto auto auto auto;
+  gap: 12px;
+  align-items: end;
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.field label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.field input,
+.field select {
+  height: 32px;
+  padding: 4px 6px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.nav-buttons button,
+.action-buttons button {
+  height: 32px;
+  padding: 0 14px;
+  font-weight: 600;
+  border:none
+  
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  
+}
+
+
+.Download-button{
+  background-color: #0958d9;
+  color: #ffff;
+  border: none;
+  padding: 10px 20px;
+}
+
+.Download-button:hover{
+  background-color: #0959d998;}
+
+
+  .search_btn{
+    background-color: #3e973b;
+    color: #fff;
+  }

@@ -1,0 +1,77 @@
+/* Full screen background */
+.lp-wrapper {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #e6e6e6, #f5f5f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup card */
+.lp-container {
+  width: 360px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo */
+.lp-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.lp-logo img {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Input fields */
+.lp-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.lp-fields label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.lp-fields input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.lp-fields input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Button */
+.lp-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.lp-button:hover {
+  background-color: #0056b3;
+}
+
+

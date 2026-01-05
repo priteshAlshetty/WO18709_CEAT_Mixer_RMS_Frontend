@@ -1,0 +1,115 @@
+.profile-root {
+  position: relative;
+  margin-left: 20px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* Trigger */
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 24px;
+  transition: background 0.2s ease;
+}
+
+.profile-trigger:hover {
+  background: #eef2f7;
+}
+
+/* Avatar */
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb; /* steel blue */
+  color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar.large {
+  width: 46px;
+  height: 46px;
+  font-size: 15px;
+}
+
+.profile-username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* Dropdown */
+.profile-card {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 280px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 999;
+}
+
+.profile-root:hover .profile-card {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Header */
+.profile-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-header h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #111827;
+}
+
+.profile-header p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Menu */
+.profile-menu {
+  padding: 10px;
+}
+
+.profile-menu button {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  color: #1f2937;
+  transition: background 0.2s ease;
+}
+
+.profile-menu button:hover {
+  background: #f1f5f9;
+}
+
+/* Logout */
+.profile-menu .danger {
+  color: #b91c1c;
+}

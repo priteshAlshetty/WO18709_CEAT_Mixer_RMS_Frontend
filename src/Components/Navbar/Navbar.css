@@ -85,6 +85,11 @@
   font-weight: 500;
   color: #ffffff;
   font-size: 18px;
+  transition: all 0.4s ease-in;
+}
+
+.Mixer-selection:hover{
+   background-color: rgba(38, 45, 105, 0.644);
 }
 
 .mixer-dropdown {
@@ -94,4 +99,16 @@
   border: 1px solid #ccc;
   margin-left: 5px; /* Optional: tiny breathing space */
   text-align: center;
+}
+
+
+
+.mixer-clickable {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.mixer-clickable:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
