@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import API from "../utils/api";
+import api from "../api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Graphpage.css";
@@ -66,7 +66,7 @@ const GraphPage = () => {
 const fetchRecipes = async () => {
   try {
     const body = { from, to };
-    const res = await API.post("/getRecipeIdByDate", body);
+    const res = await api.post("/graph/getRecipeIdByDate", body);
 
     // Update state
     setRecipes(res.data.recipe_id || []);
@@ -96,7 +96,7 @@ const fetchRecipes = async () => {
 const fetchSrNos = async (rid) => {
   try {
     const body = { from, to, recipe_id: rid };
-    const res = await API.post("/getSrNoByRecipeId", body);
+    const res = await api.post("/graph/getSrNoByRecipeId", body);
 
     setSrNos(res.data.result?.sr_no || []);
     toast.success("Recipe selected successfully!"); // ✅ success toast
@@ -112,7 +112,7 @@ const fetchSrNos = async (rid) => {
 const fetchBatches = async (sr) => {
   try {
     const body = { from, to, recipe_id: recipeId, sr_no: sr };
-    const res = await API.post("/getBatchCountBySrno", body);
+    const res = await api.post("/graph/getBatchCountBySrno", body);
 
     setBatchCount(res.data.set_batch || 0);
     setBatches(
@@ -143,7 +143,7 @@ const fetchGraph = async (batch) => {
       batch_no: batch
     };
 
-    const res = await API.post("/getGraphDataByBatchNo", body);
+    const res = await api.post("/graph/getGraphDataByBatchNo", body);
 
     setGraphData(res.data.graphData);
     setMeta(res.data.meta);
