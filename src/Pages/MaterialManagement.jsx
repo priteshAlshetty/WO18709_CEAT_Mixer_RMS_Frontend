@@ -85,41 +85,40 @@ const data = res.data;
     }
   };
 
-  // ✅ Handle Delete Material
-  const handleDelete = async () => {
-    if (!deleteCode.trim()) {
-      toast.error("Please enter a material code to delete.");
-      return;
+  //  Handle Delete Material
+const handleDelete = async () => {
+  if (!deleteCode.trim()) {
+    toast.error("Please enter a material code to delete.");
+    return;
+  }
+
+  const confirmDelete = window.confirm(
+    `Are you sure you want to delete material: ${deleteCode}?`
+  );
+  if (!confirmDelete) return;
+
+  try {
+    const res = await api.delete(`/material/deleteMaterial`, {
+      data: {
+        material_data: { material_code: deleteCode },
+      },
+    });
+
+    const data = res.data;
+
+    if (res.status === 200 && data.success) {
+      toast.success(data.message || "Material deleted successfully!");
+      setShowDeletePopup(false);
+      setDeleteCode("");
+      fetchMaterials();
+    } else {
+      toast.error(data.message || "Failed to delete material.");
     }
+  } catch (err) {
+    toast.error(err.response?.data?.message || err.message || "Network error. Please check the server.");
+  }
+};
 
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete material: ${deleteCode}?`
-    );
-    if (!confirmDelete) return;
-
-    try {
-      const res = await fetch(`${apiUrl}/material/deleteMaterial`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          material_data: { material_code: deleteCode },
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        toast.success(data.message || "Material deleted successfully!");
-        setShowDeletePopup(false);
-        setDeleteCode("");
-        fetchMaterials();
-      } else {
-        toast.error(data.message || "Failed to delete material.");
-      }
-    } catch (err) {
-      toast.error(err.message || "Network error. Please check the server.");
-    }
-  };
 
   return (
     <div className="material-manager">
