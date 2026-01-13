@@ -1,44 +1,68 @@
 .mixer-container {
-  height: 90vh;
+  min-height: 90vh;
+  background: #f7f9fc;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: #f7f9fc;
-  justify-content: space-evenly;
+  padding: 60px 20px;
+}
+
+.mixer-container h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 50px;
+  color: #1f2a44;
 }
 
 .mixer-cards {
   display: flex;
-  gap: 24px;
-  width: 80%;
+  gap: 32px;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .mixer-card {
   flex: 1;
   background: #ffffff;
-  border-radius: 12px;
-  padding: 40px 20px;
-  text-align: center;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  transition: all 0.5s ease, box-shadow 0.5s ease;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 260px;
 }
 
+/* top blue accent */
+.card-accent {
+  height: 6px;
+  background: linear-gradient(90deg, #7ec8ff, #4fa3ff);
+}
 
+.card-content {
+  padding: 32px 28px 36px;
+}
 
-.mixer-card h2 {
-  margin-bottom: 10px;
-  color: #333;
+.mixer-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2a44;
+  margin-bottom: 16px;
 }
 
 .mixer-card p {
-  color: #777;
   font-size: 14px;
+  line-height: 1.6;
+  color: #5f6b7a;
+  margin-bottom: 24px;
+}
+
+.card-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1b6ac9;
 }
 
 .mixer-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  background: #ebeffd;
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }

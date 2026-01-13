@@ -10,14 +10,14 @@ const MixerSelection = () => {
   const navigate = useNavigate();
 
   const handleSelect = (mixer) => {
-    console.log("Selected Mixer:", mixer); // 🔍 DEBUG
     setSelectedMixer(mixer);
     navigate("/", { replace: true });
   };
 
   return (
     <div className="mixer-container">
-        <h2>Please Select the Mixer First</h2>
+      <h2>Please Select the Mixer First</h2>
+
       <div className="mixer-cards">
         {mixers.map((mixer) => (
           <div
@@ -25,8 +25,15 @@ const MixerSelection = () => {
             className="mixer-card"
             onClick={() => handleSelect(mixer)}
           >
-            <h2>{mixer}</h2>
-            <p>Click to select</p>
+            <div className="card-accent"></div>
+
+            <div className="card-content">
+              <h3>{mixer}</h3>
+              <p>
+                Click to select this mixer and continue with the workflow.
+              </p>
+              <span className="card-link">Learn More</span>
+            </div>
           </div>
         ))}
       </div>
