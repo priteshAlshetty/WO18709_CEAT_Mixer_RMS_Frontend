@@ -1,8 +1,8 @@
 /* Page background */
 .page-container {
     width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4ff, #f9fbff);
+  min-height: 80vh;
+  /* background: linear-gradient(135deg, #f0f4ff, #f9fbff); */
   /* padding: 30px; */
   display: flex;
   justify-content: center;

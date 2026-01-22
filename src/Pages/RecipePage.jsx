@@ -1,19 +1,12 @@
 
 // Import necessary React modules and styles
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import './RecipePage.css';
 import api from "../api/axios"; // adjust path if needed
 
 // import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useNavigate, NavLink } from 'react-router-dom';
-import {
-  cbMaterialOptions,
-  chemicalPDOptions,
-  fillerOptions,
-  polyOptions,
-  oilAOptions,
-  oilBOptions,
-} from "../Constants/Material";
+import { MixerContext } from "../context/MixerContext";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -174,6 +167,9 @@ function getInputType(key, value) {
   Main Component: RecipePage
 ---------------------------------------- */
 export default function RecipePage() {
+  // Get selectedMixer from context instead of local state
+  const { selectedMixer } = useContext(MixerContext);
+
   const [recipeId, setRecipeId] = useState("");
   const [data, setData] = useState(null);
   const [originalData, setOriginalData] = useState(null);
@@ -184,7 +180,15 @@ export default function RecipePage() {
   const [mixingActions, setMixingActions] = useState([]);
   const [loadingActions, setLoadingActions] = useState(false);
   const [actionError, setActionError] = useState(null);
-  const [selectedMixer, setSelectedMixer] = useState("Mixer 1"); // default value
+  
+  // Local material options state (will be populated based on selectedMixer)
+  const [cbMaterialOptions, setCbMaterialOptions] = useState([]);
+  const [chemicalPDOptions, setChemicalPDOptions] = useState([]);
+  const [fillerOptions, setFillerOptions] = useState([]);
+  const [polyOptions, setPolyOptions] = useState([]);
+  const [oilAOptions, setOilAOptions] = useState([]);
+  const [oilBOptions, setOilBOptions] = useState([]);
+
   const navigate = useNavigate();
 
 
@@ -252,6 +256,40 @@ export default function RecipePage() {
 
     // fetchActions();
   }, []);
+
+  // ✅ NEW: Fetch materials whenever selectedMixer changes
+  useEffect(() => {
+    async function fetchMaterials() {
+      if (!selectedMixer) return;
+
+      try {
+        const res = await api.get("/material/getMaterials/options", {
+          params: { mixer: selectedMixer }
+        });
+
+        const json = res.data;
+
+        if (json?.success && json?.data) {
+          const { CB, PD, FL, Poly, Oil1, Oil2 } = json.data;
+
+          setCbMaterialOptions(CB || []);
+          setChemicalPDOptions(PD || []);
+          setFillerOptions(FL || []);
+          setPolyOptions(Poly || []);
+          setOilAOptions(Oil1 || []);
+          setOilBOptions(Oil2 || []);
+
+          console.log(`✅ Materials loaded for ${selectedMixer}:`, json.data);
+        } else {
+          console.warn("Invalid material response:", json);
+        }
+      } catch (err) {
+        console.error(`Failed to load materials for ${selectedMixer}:`, err);
+      }
+    }
+
+    fetchMaterials();
+  }, [selectedMixer]); // ✅ Dependency on selectedMixer
 
   // ------------------ Render Inputs ------------------
   function renderInput(val, onChange, key) {

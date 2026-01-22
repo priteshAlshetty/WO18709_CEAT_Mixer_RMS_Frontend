@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
 export const MixerContext = createContext({
-  selectedMixer: 'Mixer 1',
+  selectedMixer: 'Mixer1',
   setSelectedMixer: () => {}
 })
