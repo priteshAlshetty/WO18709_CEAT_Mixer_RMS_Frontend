@@ -187,7 +187,7 @@ const navigate = useNavigate();
   onClick={() => navigate("/mixer-selection")}
 >
  Selected Mixer:
-  <span style={{ marginLeft: "6px", fontWeight: 600 }}>
+  <span id='cur' style={{ marginLeft: "6px", fontWeight: 600 }}>
     {selectedMixer || "Select"}
   </span>
 </div>

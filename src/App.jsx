@@ -88,7 +88,7 @@ function App() {
           <Routes>
             <Route path="/test-mixer" element={<TestMixer />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/graph" element={<RequireMixer><GraphPage /></RequireMixer>}  />
+            <Route path="/graph" element={<RequireMixer><GraphPage /></RequireMixer>} />
             <Route path="/mixer-selection" element={<MixerSelection />} />
 
 

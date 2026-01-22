@@ -1,18 +1,11 @@
 // AddRecipeFromTemplate.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CopyRecipe.css";
 import api from "../api/axios";
+import { MixerContext } from "../context/MixerContext";
 
 import recipeTemplate from "../data/dummydata.json";
-import {
-  cbMaterialOptions,
-  chemicalPDOptions,
-  fillerOptions,
-  polyOptions,
-  oilAOptions,
-  oilBOptions,
-} from "../Constants/Material";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -88,11 +81,22 @@ function getInputType(key, value) {
 }
 
 export default function AddRecipeFromTemplate() {
+    // Get selectedMixer from context
+    const { selectedMixer } = useContext(MixerContext);
+
     const [data, setData] = useState(null);
     const [mixingActions, setMixingActions] = useState([]);
     const [error, setError] = useState(null);
     const [cleared, setCleared] = useState(false);
     const navigate = useNavigate();
+
+    // Local material options state (will be populated based on selectedMixer)
+    const [cbMaterialOptions, setCbMaterialOptions] = useState([]);
+    const [chemicalPDOptions, setChemicalPDOptions] = useState([]);
+    const [fillerOptions, setFillerOptions] = useState([]);
+    const [polyOptions, setPolyOptions] = useState([]);
+    const [oilAOptions, setOilAOptions] = useState([]);
+    const [oilBOptions, setOilBOptions] = useState([]);
 
     // Load template data on mount
     useEffect(() => {
@@ -106,6 +110,40 @@ export default function AddRecipeFromTemplate() {
             setCleared(true);
         }
     }, [data, cleared]);
+
+    // ✅ NEW: Fetch materials whenever selectedMixer changes
+    useEffect(() => {
+        async function fetchMaterials() {
+            if (!selectedMixer) return;
+
+            try {
+                const res = await api.get("/material/getMaterials/options", {
+                    params: { mixer: selectedMixer }
+                });
+
+                const json = res.data;
+
+                if (json?.success && json?.data) {
+                    const { CB, PD, FL, Poly, Oil1, Oil2 } = json.data;
+
+                    setCbMaterialOptions(CB || []);
+                    setChemicalPDOptions(PD || []);
+                    setFillerOptions(FL || []);
+                    setPolyOptions(Poly || []);
+                    setOilAOptions(Oil1 || []);
+                    setOilBOptions(Oil2 || []);
+
+                    console.log(`✅ Materials loaded for ${selectedMixer}:`, json.data);
+                } else {
+                    console.warn("Invalid material response:", json);
+                }
+            } catch (err) {
+                console.error(`Failed to load materials for ${selectedMixer}:`, err);
+            }
+        }
+
+        fetchMaterials();
+    }, [selectedMixer]); // ✅ Dependency on selectedMixer
 
     // function cleanMaterialArray(arr, nameKey, codeKey) {
     //     if (!Array.isArray(arr)) return [];

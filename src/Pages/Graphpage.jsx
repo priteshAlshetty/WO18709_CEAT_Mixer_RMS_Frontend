@@ -215,7 +215,7 @@ const chartData = graphData && {
   };
 
   return (
-    <div ref={printRef} style={{ padding: 50 }}>
+    <div ref={printRef} style={{minHeight:"80vh" ,padding: 50 }}>
       <ToastContainer position="bottom-right" />
       <h2>Graph Page</h2>
 
