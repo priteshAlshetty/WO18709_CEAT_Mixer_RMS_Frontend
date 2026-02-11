@@ -15,9 +15,14 @@ function ExcelReportDownloader() {
 
   const materialList = ["All Material", "Material A", "Material B", "Material C"];
   const materialTypeList = ["C.B.", "F.L.", "Oil1", "P.D.", "Poly"];
+const [isDownloading, setIsDownloading] = useState(false);
 
- const downloadReport = async () => {
+
+
+const downloadReport = async () => {
   try {
+    setIsDownloading(true); // ✅ start loading
+
     const payload = {
       from: fromDate,
       to: toDate,
@@ -25,7 +30,6 @@ function ExcelReportDownloader() {
       materialType,
     };
 
-    // ✅ Log JSON being sent
     console.log("Downloading report with payload:", payload);
 
     const res = await api.post(
@@ -61,8 +65,11 @@ function ExcelReportDownloader() {
     } else {
       toast.error("Network error or server unreachable");
     }
+  } finally {
+    setIsDownloading(false); // ✅ reset button
   }
 };
+
 
 
 
@@ -138,22 +145,25 @@ function ExcelReportDownloader() {
             ))}
           </select> */}
 
-          <button
-            onClick={downloadReport}
-            style={{
-              width: "100%",
-              background: "#007bff",
-              color: "white",
-              padding: "12px",
-              fontSize: "16px",
-              border: "none",
-              borderRadius: "6px",
-              marginTop: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Download Report
-          </button>
+         <button
+  onClick={downloadReport}
+  disabled={isDownloading}
+  style={{
+    width: "100%",
+    background: isDownloading ? "gray" : "#007bff",
+    color: "white",
+    padding: "12px",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "6px",
+    marginTop: "10px",
+    cursor: isDownloading ? "not-allowed" : "pointer",
+    opacity: isDownloading ? 0.8 : 1,
+  }}
+>
+  {isDownloading ? "Downloading..." : "Download Report"}
+</button>
+
         </div>
       </div>
     </>
