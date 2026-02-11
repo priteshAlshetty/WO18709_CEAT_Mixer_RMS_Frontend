@@ -21,6 +21,8 @@ export default function ReportPage() {
 
   const [loading, setLoading] = useState(false);
   const [reportReady, setReportReady] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
 
   useEffect(() => {
     if (fromDate && toDate) fetchBatchNames();
@@ -92,46 +94,51 @@ export default function ReportPage() {
     }
   };
 
-  const downloadReport = async () => {
-    try {
-      setLoading(true);
-      const res = await api.post(
-        `/report/batch/getExcelReport`,
-        {
-          recipeId: selectedBatchName,
-          serialNo: selectedSerial,
-          batchNo: selectedBatchNo,
-          dttmFrom: fromDate,
-          dttmTo: toDate,
-        },
-        { responseType: "blob" }
-      );
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.href = url;
-     const now = new Date();
+const downloadReport = async () => {
+  try {
+    setIsDownloading(true); // ✅ start button loading
 
-// Format timestamp: YYYY-MM-DD_HH-mm-ss
-const timestamp = now
-  .toISOString()
-  .replace("T", "_")
-  .replace(/:/g, "-")
-  .split(".")[0];
+    const res = await api.post(
+      `/report/batch/getExcelReport`,
+      {
+        recipeId: selectedBatchName,
+        serialNo: selectedSerial,
+        batchNo: selectedBatchNo,
+        dttmFrom: fromDate,
+        dttmTo: toDate,
+      },
+      { responseType: "blob" }
+    );
 
-const fileName = `Batch Report Generated on ${timestamp}.xlsx`;
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement("a");
+    link.href = url;
 
-link.setAttribute("download", fileName);
+    const now = new Date();
+    const timestamp = now
+      .toISOString()
+      .replace("T", "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
 
-      document.body.appendChild(link);
-      link.click();
+    const fileName = `Batch Report Generated on ${timestamp}.xlsx`;
 
-      toast.success("Report downloaded successfully!", { position: "bottom-right" });
-    } catch {
-      toast.error("Failed to download report.", { position: "bottom-right" });
-    } finally {
-      setLoading(false);
-    }
-  };
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+
+    toast.success("Report downloaded successfully!", {
+      position: "bottom-right",
+    });
+  } catch {
+    toast.error("Failed to download report.", {
+      position: "bottom-right",
+    });
+  } finally {
+    setIsDownloading(false); // ✅ reset button
+  }
+};
+
 
   return (
     <div
@@ -279,24 +286,26 @@ link.setAttribute("download", fileName);
         )}
 
         {reportReady && (
-          <button
-            onClick={downloadReport}
-            disabled={loading}
-            style={{
-              width: "100%",
-              background: loading ? "gray" : "#007bff",
-              color: "white",
-              padding: "12px",
-              fontSize: "16px",
-              border: "none",
-              borderRadius: "6px",
-              marginTop: "10px",
-              cursor: loading ? "not-allowed" : "pointer",
-            }}
-          >
-            {loading ? "Loading..." : "Download Report"}
-          </button>
-        )}
+  <button
+    onClick={downloadReport}
+    disabled={isDownloading}
+    style={{
+      width: "100%",
+      background: isDownloading ? "gray" : "#007bff",
+      color: "white",
+      padding: "12px",
+      fontSize: "16px",
+      border: "none",
+      borderRadius: "6px",
+      marginTop: "10px",
+      cursor: isDownloading ? "not-allowed" : "pointer",
+      opacity: isDownloading ? 0.8 : 1,
+    }}
+  >
+    {isDownloading ? "Downloading..." : "Download Report"}
+  </button>
+)}
+
       </div>
 
       {/* Toast Container */}

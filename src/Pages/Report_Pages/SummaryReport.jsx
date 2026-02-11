@@ -13,6 +13,8 @@ export default function SummaryReport() {
   const [selectedBatch, setSelectedBatch] = useState("");
   const [serialList, setSerialList] = useState([]);
   const [selectedSerial, setSelectedSerial] = useState("");
+  const [isDownloading, setIsDownloading] = useState(false);
+
 
   useEffect(() => {
     if (fromDate && toDate) fetchBatchNames();
@@ -76,52 +78,56 @@ export default function SummaryReport() {
     }
   };
 
-  const downloadReport = async () => {
-    if (!selectedBatch) {
-      toast.warning("Please select a batch");
-      return;
-    }
-    if (!selectedSerial) {
-      toast.warning("Please select a serial number");
-      return;
-    }
+const downloadReport = async () => {
+  if (!selectedBatch) {
+    toast.warning("Please select a batch");
+    return;
+  }
+  if (!selectedSerial) {
+    toast.warning("Please select a serial number");
+    return;
+  }
 
-    const requestData = {
-      from: `${fromDate} 00:00:00`,
-      to: `${toDate} 23:59:59`,
-      batch_name: selectedBatch,
-      serial_no: selectedSerial,
-    };
-
-    try {
-      const res = await api.post(
-        `/report/summary/getExcelReport`,
-        requestData,
-        { responseType: "blob" }
-      );
-
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const a = document.createElement("a");
-      a.href = url;
-      // create timestamp (YYYY-MM-DD_HH-mm-ss)
-const now = new Date();
-const timestamp = now
-  .toISOString()
-  .replace(/:/g, "-")
-  .replace("T", "_")
-  .split(".")[0];
-
-a.download = `SummaryReport Generated on ${timestamp}.xlsx`;
-
-      a.click();
-
-      toast.success("Report downloaded successfully!");
-    } catch (e) {
-      toast.error(
-        e.response?.data?.message || "Failed to download report!"
-      );
-    }
+  const requestData = {
+    from: `${fromDate} 00:00:00`,
+    to: `${toDate} 23:59:59`,
+    batch_name: selectedBatch,
+    serial_no: selectedSerial,
   };
+
+  try {
+    setIsDownloading(true); // ✅ start loading
+
+    const res = await api.post(
+      `/report/summary/getExcelReport`,
+      requestData,
+      { responseType: "blob" }
+    );
+
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const a = document.createElement("a");
+    a.href = url;
+
+    const now = new Date();
+    const timestamp = now
+      .toISOString()
+      .replace(/:/g, "-")
+      .replace("T", "_")
+      .split(".")[0];
+
+    a.download = `SummaryReport Generated on ${timestamp}.xlsx`;
+    a.click();
+
+    toast.success("Report downloaded successfully!");
+  } catch (e) {
+    toast.error(
+      e.response?.data?.message || "Failed to download report!"
+    );
+  } finally {
+    setIsDownloading(false); // ✅ stop loading
+  }
+};
+
 
   return (
     <div
@@ -216,24 +222,25 @@ a.download = `SummaryReport Generated on ${timestamp}.xlsx`;
           </div>
         )}
 
-        {selectedSerial && (
-          <button
-            onClick={downloadReport}
-            style={{
-              width: "100%",
-              background: "#007bff",
-              color: "white",
-              padding: "12px",
-              fontSize: "16px",
-              border: "none",
-              borderRadius: "6px",
-              marginTop: "10px",
-              cursor: "pointer",
-            }}
-          >
-            ⬇ Download Report
-          </button>
-        )}
+        <button
+  onClick={downloadReport}
+  disabled={isDownloading}
+  style={{
+    width: "100%",
+    background: isDownloading ? "#6c757d" : "#007bff",
+    color: "white",
+    padding: "12px",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "6px",
+    marginTop: "10px",
+    cursor: isDownloading ? "not-allowed" : "pointer",
+    opacity: isDownloading ? 0.8 : 1,
+  }}
+>
+  {isDownloading ? "Downloading..." : "Download Report"}
+</button>
+
       </div>
     </div>
   );
