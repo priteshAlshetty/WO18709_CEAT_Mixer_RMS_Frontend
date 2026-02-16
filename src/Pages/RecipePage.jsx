@@ -458,73 +458,7 @@ const json = res.data;
     }
   }
 
-  // async function saveChanges() {
-  //   confirm("Are You Sure Want To Save Changes")
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const payload = { recipe: data };
-  //     console.log("🟢 Payload that would be sent to backend:");
-  //     console.log(JSON.stringify(payload, null, 2));
-
-  //     const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
-
-  //     const result = await response.json(); // ✅ Only call this once
-  //     console.log("Save success:", result);
-
-  //     setOriginalData(JSON.parse(JSON.stringify(data)));
-  //     setIsEditing(false);
-  //   } catch (err) {
-  //     setError(err.message || "Failed to process changes");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // async function saveChanges() {
-  //   // Show confirmation dialog and store the result
-  //   const userConfirmed = confirm("Are You Sure Want To Save Changes");
-
-  //   // If user clicks Cancel, just return early, do nothing
-  //   if (!userConfirmed) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const payload = { recipe: data };
-  //     console.log("🟢 Payload that would be sent to backend:");
-  //     console.log(JSON.stringify(payload, null, 2));
-
-  //     const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
-
-  //     const result = await response.json(); // ✅ Only call this once
-  //     console.log("Save success:", result);
-
-  //     setOriginalData(JSON.parse(JSON.stringify(data)));
-  //     setIsEditing(false);
-  //   } catch (err) {
-  //     setError(err.message || "Failed to process changes");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
+  
 async function saveChanges() {
   const userConfirmed = confirm("Are You Sure Want To Save Changes");
   if (!userConfirmed) return;
@@ -560,6 +494,32 @@ async function saveChanges() {
     cleanedData.recipe_weight_silica = (data.recipe_weight_silica || []).filter(
       item => item.SI_materialName?.trim() && item.SI_materialCode?.trim()
     );
+
+    // 🚨 Ensure discharge rows have default values even if user didn't trigger UI logic
+    const applyDischargeDefaults = (arr, prefix) => {
+      return (arr || []).map((item) => {
+        if (item.Act === "Discharge") {
+          const nameKey = `${prefix}_materialName`;
+          const codeKey = `${prefix}_materialCode`;
+          const setKey = `${prefix}_set`;
+          const tolKey = `${prefix}_tol`;
+
+          if (!item[nameKey]) item[nameKey] = "-";
+          if (!item[codeKey]) item[codeKey] = "-";
+          if (item[setKey] === "" || item[setKey] == null) item[setKey] = 0;
+          if (item[tolKey] === "" || item[tolKey] == null) item[tolKey] = 0;
+        }
+        return item;
+      });
+    };
+
+    cleanedData.recipe_weight_CB = applyDischargeDefaults(cleanedData.recipe_weight_CB, "CB");
+    cleanedData.recipe_weight_poly = applyDischargeDefaults(cleanedData.recipe_weight_poly, "POLY");
+    cleanedData.recipe_weight_oil_a = applyDischargeDefaults(cleanedData.recipe_weight_oil_a, "OIL_A");
+    cleanedData.recipe_weight_oil_b = applyDischargeDefaults(cleanedData.recipe_weight_oil_b, "OIL_B");
+    cleanedData.recipe_weight_chemical_PD = applyDischargeDefaults(cleanedData.recipe_weight_chemical_PD, "PD");
+    cleanedData.recipe_weight_filler = applyDischargeDefaults(cleanedData.recipe_weight_filler, "FL");
+    cleanedData.recipe_weight_silica = applyDischargeDefaults(cleanedData.recipe_weight_silica, "SI");
 
     const payload = { recipe: cleanedData };
 
@@ -907,6 +867,10 @@ const result = response.data;
     }
   }
 
+  // determine fields for name, code, set and tol so Act logic can reference them
+  const setKey = headers.find(h => h.toLowerCase().endsWith("_set"));
+  const tolKey = headers.find(h => h.toLowerCase().endsWith("_tol"));
+
   function addNewMaterialRow() {
     const newRow = {};
     const lastRow = data[key][data[key].length - 1];
@@ -1035,7 +999,27 @@ const result = response.data;
                     renderInput(r[h], (newVal) => {
                       const copy = { ...data };
                       copy[key] = [...copy[key]];
-                      copy[key][idx] = { ...copy[key][idx], [h]: newVal };
+
+                      // prepare row update & check for 'Discharge' logic
+                      const updatedRow = { ...copy[key][idx], [h]: newVal };
+
+                      if (h === "Act" && newVal === "Discharge") {
+                        // if other fields are empty we populate defaults
+                        if (nameKey && !updatedRow[nameKey]) {
+                          updatedRow[nameKey] = "-";
+                        }
+                        if (codeKey && !updatedRow[codeKey]) {
+                          updatedRow[codeKey] = "-";
+                        }
+                        if (setKey && (updatedRow[setKey] === "" || updatedRow[setKey] == null)) {
+                          updatedRow[setKey] = 0;
+                        }
+                        if (tolKey && (updatedRow[tolKey] === "" || updatedRow[tolKey] == null)) {
+                          updatedRow[tolKey] = 0;
+                        }
+                      }
+
+                      copy[key][idx] = updatedRow;
                       setData(copy);
                     }, h)
                   ) : (
