@@ -504,8 +504,8 @@ async function saveChanges() {
           const setKey = `${prefix}_set`;
           const tolKey = `${prefix}_tol`;
 
-          if (!item[nameKey]) item[nameKey] = "-";
-          if (!item[codeKey]) item[codeKey] = "-";
+          item[nameKey] = "-";
+          item[codeKey] = "-";
           if (item[setKey] === "" || item[setKey] == null) item[setKey] = 0;
           if (item[tolKey] === "" || item[tolKey] == null) item[tolKey] = 0;
         }
@@ -972,7 +972,21 @@ const result = response.data;
               {headers.map((h) => (
                 <td key={h + idx}>
                   {/* Check if this field is a Material Name */}
-                  {isEditing && h === nameKey ? (
+                  {isEditing && h === nameKey && r.Act === "Discharge" ? (
+                    <input
+                      type="text"
+                      value={r[h] || ""}
+                      onChange={(e) => {
+                        const copy = { ...data };
+                        copy[key] = [...copy[key]];
+                        copy[key][idx] = {
+                          ...copy[key][idx],
+                          [h]: e.target.value,
+                        };
+                        setData(copy);
+                      }}
+                    />
+                  ) : isEditing && h === nameKey ? (
                     <select
                       value={r[h] || ""}
                       onChange={(e) => {
@@ -1004,11 +1018,11 @@ const result = response.data;
                       const updatedRow = { ...copy[key][idx], [h]: newVal };
 
                       if (h === "Act" && newVal === "Discharge") {
-                        // if other fields are empty we populate defaults
-                        if (nameKey && !updatedRow[nameKey]) {
+                        // Always set defaults when Act is Discharge
+                        if (nameKey) {
                           updatedRow[nameKey] = "-";
                         }
-                        if (codeKey && !updatedRow[codeKey]) {
+                        if (codeKey) {
                           updatedRow[codeKey] = "-";
                         }
                         if (setKey && (updatedRow[setKey] === "" || updatedRow[setKey] == null)) {
