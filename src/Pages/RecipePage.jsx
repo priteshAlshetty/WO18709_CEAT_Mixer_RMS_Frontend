@@ -351,6 +351,9 @@ export default function RecipePage() {
 
 
     const type = getInputType(key, val);
+    const normalizedKey = key.toLowerCase().replace(/\s|_/g, "");
+const isMixSeqNo = normalizedKey === "mixseqno";
+const isIndexField = normalizedKey.includes("index");
 
     if (type === "boolean") {
       return (
@@ -384,16 +387,21 @@ if (type === "checkbox-text") {
 
 
     return (
-      <input
-        type={type}
-        value={val ?? ""}
-        onChange={(e) => {
-          let newVal = e.target.value;
-          if (type === "number") newVal = parseFloat(newVal) || 0;
-          onChange(newVal);
-        }}
-      />
-    );
+  <input
+    type={type}
+    value={val ?? ""}
+    // disabled={isMixSeqNo}   // ✅ disables Mix Seq No
+    disabled={isMixSeqNo || isIndexField}
+    style={isMixSeqNo ? { backgroundColor: "#eee", cursor: "not-allowed" } : {}}
+    onChange={(e) => {
+      if (isMixSeqNo) return; // extra safety
+
+      let newVal = e.target.value;
+      if (type === "number") newVal = parseFloat(newVal) || 0;
+      onChange(newVal);
+    }}
+  />
+);
   }
 
   function materialKeys(obj) {
@@ -778,6 +786,87 @@ const result = response.data;
     if (!Array.isArray(mix)) return null;
     const headers = Array.from(new Set(mix.flatMap((row) => Object.keys(row))));
 
+    function deleteMixRowAtSeq() {
+  const mixSeqKey = headers.find(
+    (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
+  );
+
+  if (!mixSeqKey) {
+    alert("Mix Seq No column not found!");
+    return;
+  }
+
+  const seqInput = prompt("Enter Mix Seq No to delete:");
+  const seqNo = parseInt(seqInput);
+
+  if (isNaN(seqNo) || seqNo <= 0) {
+    alert("Invalid Mix Seq No");
+    return;
+  }
+
+  let updatedMix = [...data.recipe_mixing];
+
+  if (seqNo > updatedMix.length) {
+    alert("Sequence does not exist");
+    return;
+  }
+
+  // 👉 Remove that row
+  updatedMix.splice(seqNo - 1, 1);
+
+  // 👉 Re-sequence remaining rows
+  updatedMix = updatedMix.map((row, index) => ({
+    ...row,
+    [mixSeqKey]: index + 1,
+  }));
+
+  setData((prev) => ({
+    ...prev,
+    recipe_mixing: updatedMix,
+  }));
+}
+
+    function insertMixRowAtSeq() {
+  const mixSeqKey = headers.find(
+    (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
+  );
+
+  if (!mixSeqKey) {
+    alert("Mix Seq No column not found!");
+    return;
+  }
+
+  const seqInput = prompt("Enter Mix Seq No where you want to insert:");
+  const seqNo = parseInt(seqInput);
+
+  if (isNaN(seqNo) || seqNo <= 0) {
+    alert("Invalid Mix Seq No");
+    return;
+  }
+
+  const newRow = {};
+  headers.forEach((h) => (newRow[h] = ""));
+
+  newRow[mixSeqKey] = seqNo;
+
+  // Clone existing data
+  let updatedMix = [...data.recipe_mixing];
+
+  // 👉 Insert at correct position
+  updatedMix.splice(seqNo - 1, 0, newRow);
+
+  // 👉 Re-sequence all rows
+  updatedMix = updatedMix.map((row, index) => ({
+    ...row,
+    [mixSeqKey]: index + 1,
+  }));
+
+  setData((prev) => ({
+    ...prev,
+    recipe_mixing: updatedMix,
+  }));
+}
+
     function addNewMixRow() {
       const newRow = {};
       headers.forEach((h) => (newRow[h] = ""));
@@ -811,19 +900,36 @@ const result = response.data;
         <div className="section-title">
           Mix Sequence
           {isEditing && (
-            <div style={{ display: "flex" }}>
-              <button className="btn small" onClick={addNewMixRow}>
-                + Add New
-              </button>
-              <button
-                className="btn small"
-                onClick={removeLastMixRow}
-                disabled={mix.length <= 1}
-                style={{ backgroundColor: "#ff5959", color: "white", borderLeft: "1px solid white" }}
-              >
-                - Remove Last
-              </button>
-            </div>
+           <div style={{ display: "flex" }}>
+  <button className="btn small" onClick={addNewMixRow}>
+    + Add New
+  </button>
+
+  <button
+    className="btn small"
+    onClick={insertMixRowAtSeq}
+    style={{ marginLeft: "5px", backgroundColor: "#4caf50", color: "white" }}
+  >
+    + Insert At
+  </button>
+
+  <button
+    className="btn small"
+    onClick={deleteMixRowAtSeq}
+    style={{ marginLeft: "5px", backgroundColor: "#ff9800", color: "white" }}
+  >
+    🗑 Delete At
+  </button>
+
+  <button
+    className="btn small"
+    onClick={removeLastMixRow}
+    disabled={mix.length <= 1}
+    style={{ backgroundColor: "#ff5959", color: "white", borderLeft: "1px solid white" }}
+  >
+    - Remove Last
+  </button>
+</div>
           )}
 
         </div>
