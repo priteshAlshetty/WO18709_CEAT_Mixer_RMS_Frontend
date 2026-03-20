@@ -112,7 +112,7 @@
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
 }
-.detail-label { font-size:12px; color:var(--muted); margin-bottom:4px; color: #ffffff;}
+.detail-label { font-size:12px; color:var(--muted); margin-bottom:4px; color: #ffffff;text-shadow: #007bffaf 1px 1px 1px;}
 .detail-value { font-weight:600; font-size:13px; color: #fff;}
 
 /* materials section */
@@ -146,7 +146,7 @@
 .material-table, .mix-table {
   width:100%;
   border-collapse:collapse;
-  font-size:13px;
+  font-size:14px;
   overflow-y: scroll;
 }
 .material-table th, .material-table td, .mix-table th, .mix-table td {

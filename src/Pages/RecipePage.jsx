@@ -103,6 +103,10 @@ function humanizeKey(key) {
 const formatValue = (key, val) => {
   const boolFields = ["CBReclaim", "UsingStatus", "UseThreeTMP"];
 
+  
+//user dont want to show 0 value in recipe details section
+ if (val === 0) return "";
+
   // Handle boolean flags
   if (boolFields.includes(key)) {
     // Convert 1/0 to boolean safely
@@ -867,26 +871,66 @@ const result = response.data;
   }));
 }
 
+    // function addNewMixRow() {
+    //   const newRow = {};
+    //   headers.forEach((h) => (newRow[h] = ""));
+
+    //   const mixSeqKey = headers.find(
+    //     (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
+    //   );
+
+    //   if (mixSeqKey) {
+    //     const lastRow = data.recipe_mixing[data.recipe_mixing.length - 1];
+    //     const lastVal = lastRow?.[mixSeqKey];
+    //     const nextVal = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
+    //     newRow[mixSeqKey] = nextVal;
+    //   }
+
+    //   setData((prev) => ({
+    //     ...prev,
+    //     recipe_mixing: [...prev.recipe_mixing, newRow],
+    //   }));
+    // }
     function addNewMixRow() {
-      const newRow = {};
-      headers.forEach((h) => (newRow[h] = ""));
+  const newRow = {};
 
-      const mixSeqKey = headers.find(
-        (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
-      );
+  // 👇 Define fields that should be numbers
+ const numberFields = [
+  "mixtime",
+  "mixtemp",
+  "mixpower",
+  "mixenergy",
+  "mixpressure",   
+  "mixspeed"       
+];
 
-      if (mixSeqKey) {
-        const lastRow = data.recipe_mixing[data.recipe_mixing.length - 1];
-        const lastVal = lastRow?.[mixSeqKey];
-        const nextVal = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
-        newRow[mixSeqKey] = nextVal;
-      }
+  headers.forEach((h) => {
+    const normalized = h.toLowerCase().replace(/\s|_/g, "");
 
-      setData((prev) => ({
-        ...prev,
-        recipe_mixing: [...prev.recipe_mixing, newRow],
-      }));
+    // ✅ If field is numeric → default 0
+    if (numberFields.includes(normalized)) {
+      newRow[h] = 0;
+    } else {
+      newRow[h] = "";
     }
+  });
+
+  const mixSeqKey = headers.find(
+    (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
+  );
+
+  if (mixSeqKey) {
+    const lastRow = data.recipe_mixing[data.recipe_mixing.length - 1];
+    const lastVal = lastRow?.[mixSeqKey];
+    const nextVal = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
+    newRow[mixSeqKey] = nextVal;
+  }
+
+  setData((prev) => ({
+    ...prev,
+    recipe_mixing: [...prev.recipe_mixing, newRow],
+  }));
+}
 
     function removeLastMixRow() {
       setData((prev) => ({
@@ -949,7 +993,9 @@ const result = response.data;
                         copy.recipe_mixing[i] = { ...copy.recipe_mixing[i], [h]: newVal };
                         setData(copy);
                       }, h)
-                      : formatValue(h, row[h])}
+                      // : formatValue(h, row[h])
+                      : (row[h] === 0 ? "" : formatValue(h, row[h]))
+                      }
                   </td>
                 ))}
               </tr>
