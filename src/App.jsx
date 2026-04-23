@@ -92,11 +92,23 @@ function App() {
             <Route path="/mixer-selection" element={<MixerSelection />} />
 
 
+
+ <Route
+              path="/recipe-page"
+              element={
+                <RequireMixer>
+                  <RecipePage />
+                
+                </RequireMixer>
+              }
+            />
+
             <Route
               path="/"
               element={
                 <RequireMixer>
-                  <RecipePage />
+                  {/* <RecipePage /> */}
+                  <Navigate to="/login" replace />
                 </RequireMixer>
               }
             />
