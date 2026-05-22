@@ -13,6 +13,7 @@ import { MixerContext } from './context/MixerContext' // ⭐ NEW
 import { setCurrentMixer } from './api/mixerInterceptor' // ⭐ NEW (if using interceptor)
 
 // Pages
+import RecipeStatus from './Pages/Recipe_status'
 import RecipePage from './Pages/RecipePage'
 import MaterialManagement from './Pages/MaterialManagement'
 import Login from './Pages/LoginPage'
@@ -121,6 +122,8 @@ function App() {
                 </RequireMixer>
               }
             />
+
+ <Route path="/recipe-status" element={<RequireMixer><RecipeStatus /></RequireMixer>} /> 
 
             <Route path="/add-edit-recipe" element={<RequireMixer><AddRecipe /></RequireMixer>} />
             <Route path="/delete-recipe" element={<RequireMixer><DeleteRecipe /></RequireMixer>} />
