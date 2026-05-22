@@ -123,3 +123,36 @@ tr:hover {
 .action-btn:hover {
   opacity: 0.9;
 }
+
+.stats-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stats-card {
+  flex: 1;
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.stats-card span {
+  font-size: 13px;
+  color: #666;
+}
+
+.stats-card h3 {
+  margin-top: 8px;
+  font-size: 24px;
+  color: #222;
+}
+
+.active-card {
+  border-left: 4px solid #1f7a3d;
+}
+
+.inactive-card {
+  border-left: 4px solid #c0392b;
+}

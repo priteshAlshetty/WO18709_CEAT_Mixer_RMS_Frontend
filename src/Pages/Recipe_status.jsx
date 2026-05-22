@@ -137,6 +137,11 @@ const RecipeStatusPage = () => {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState({
+  total: 0,
+  active: 0,
+  inactive: 0,
+});
 
   // Fetch all recipes
   const fetchRecipes = async () => {
@@ -149,9 +154,15 @@ const RecipeStatusPage = () => {
 
       const result = response.data;
 
-      if (result.success) {
-        setRecipes(result.data);
-      }
+     if (result.success) {
+  setRecipes(result.data);
+
+  setStats({
+    total: result.total_recipes,
+    active: result.active_recipes,
+    inactive: result.inactive_recipes,
+  });
+}
     } catch (error) {
       console.error("Error fetching recipes:", error);
     } finally {
@@ -218,6 +229,22 @@ const handleStatusToggle = async (recipe) => {
 
   return (
     <div className="page">
+        <div className="stats-container">
+  <div className="stats-card">
+    <span>Total Recipes</span>
+    <h3>{stats.total}</h3>
+  </div>
+
+  <div className="stats-card active-card">
+    <span>Active Recipes</span>
+    <h3>{stats.active}</h3>
+  </div>
+
+  <div className="stats-card inactive-card">
+    <span>Inactive Recipes</span>
+    <h3>{stats.inactive}</h3>
+  </div>
+</div>
       <div className="header">
         <h2>Recipe Status</h2>
 
