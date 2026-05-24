@@ -197,6 +197,8 @@ const navigate = useNavigate();
 
       <div className="link">
         <ul>
+
+          <li><NavLink to="/recipe-status" className={({ isActive }) => isActive ? 'active-link' : ''}>Recipe Status</NavLink></li>
           <li><NavLink to="/recipe-page" className={({ isActive }) => isActive ? 'active-link' : ''}>Recipe Management</NavLink></li>
           <li><NavLink to="/material-management" className={({ isActive }) => isActive ? 'active-link' : ''}>Material Management</NavLink></li>
           <li><NavLink to="/report" className={({ isActive }) => isActive ? 'active-link' : ''}>Report</NavLink></li>

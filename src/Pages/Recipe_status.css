@@ -1,0 +1,158 @@
+.page {
+  padding: 24px;
+  background: #f7f7f7;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.header input {
+  padding: 8px 12px;
+  width: 240px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  outline: none;
+  background: white;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #fafafa;
+}
+
+th {
+  text-align: left;
+  padding: 14px;
+  font-size: 17px;
+  color: #555;
+  border-bottom: 1px solid #ececec;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 17px;
+  color: #444;
+}
+
+tr:hover {
+  background: #fafafa;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.active {
+  background: #e7f6ec;
+  color: #1f7a3d;
+}
+
+.inactive {
+  background: #fdecec;
+  color: #c0392b;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #fafafa;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 17px;
+  color: #444;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  font-weight: 600;
+  color: #555;
+}
+
+tr:hover {
+  background: #fafafa;
+}
+
+
+.action-btn {
+    width: 100px;
+  padding: 6px 12px;
+  border: none;
+  background: #3f51b5;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+}
+
+.stats-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stats-card {
+  flex: 1;
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.stats-card span {
+  font-size: 13px;
+  color: #666;
+}
+
+.stats-card h3 {
+  margin-top: 8px;
+  font-size: 24px;
+  color: #222;
+}
+
+.active-card {
+  border-left: 4px solid #1f7a3d;
+}
+
+.inactive-card {
+  border-left: 4px solid #c0392b;
+}

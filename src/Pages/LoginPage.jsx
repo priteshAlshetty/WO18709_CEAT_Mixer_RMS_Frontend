@@ -4,9 +4,11 @@ import ceatlogo from '../images/logo1.jpg'
 import './LoginPage.css'
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState('Admin')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  
+  
 
   const handleLogin = () => {
     if (username === 'Admin' && password === 'Admin@1234') {
@@ -29,7 +31,8 @@ const LoginPage = () => {
           <input
             type="text"
             placeholder="Enter username"
-            value={username}
+            
+           value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
 

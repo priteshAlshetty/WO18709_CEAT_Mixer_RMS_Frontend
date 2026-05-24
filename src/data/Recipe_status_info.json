@@ -1,0 +1,507 @@
+{
+    "success": true,
+    "data": [
+        {
+            "recipe_id": "TRIAL004",
+            "recipe_name": "001",
+            "IsActivate": "1",
+            "ModifyTime": "2025-11-18 12:59:22"
+        },
+        {
+            "recipe_id": "MS381",
+            "recipe_name": "MS381",
+            "IsActivate": "1",
+            "ModifyTime": "2026-01-16 12:31:11"
+        },
+        {
+            "recipe_id": "TEST223",
+            "recipe_name": "TEST223",
+            "IsActivate": "",
+            "ModifyTime": "2026-02-16 16:20:54"
+        },
+        {
+            "recipe_id": "MT0431",
+            "recipe_name": "MT0431",
+            "IsActivate": "1",
+            "ModifyTime": "2026-02-17 12:04:58"
+        },
+        {
+            "recipe_id": "MW321 TRIAL",
+            "recipe_name": "MW321 TRIAL",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-09 17:49:11"
+        },
+        {
+            "recipe_id": "MTU51 TRIAL",
+            "recipe_name": "MTU51",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-09 17:52:52"
+        },
+        {
+            "recipe_id": "MW4471",
+            "recipe_name": "MW4471",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-10 12:15:31"
+        },
+        {
+            "recipe_id": "MK394",
+            "recipe_name": "MK394",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-10 12:46:29"
+        },
+        {
+            "recipe_id": "MT2681",
+            "recipe_name": "MT2681",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-10 12:59:06"
+        },
+        {
+            "recipe_id": "MT2682",
+            "recipe_name": "MT2682",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-10 12:59:46"
+        },
+        {
+            "recipe_id": "MT021",
+            "recipe_name": "MT021",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-10 15:50:49"
+        },
+        {
+            "recipe_id": "L616",
+            "recipe_name": "L616",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-10 17:08:24"
+        },
+        {
+            "recipe_id": "MT024",
+            "recipe_name": "MT024",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-10 21:23:57"
+        },
+        {
+            "recipe_id": "MT8822",
+            "recipe_name": "MT8822",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-11 14:02:13"
+        },
+        {
+            "recipe_id": "MT0434",
+            "recipe_name": "MT0434",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-11 14:03:59"
+        },
+        {
+            "recipe_id": "MB0121",
+            "recipe_name": "MB0121",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-12 14:45:38"
+        },
+        {
+            "recipe_id": "MB0122",
+            "recipe_name": "MB0122",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-12 15:09:17"
+        },
+        {
+            "recipe_id": "MCO",
+            "recipe_name": "MCO",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-12 17:02:34"
+        },
+        {
+            "recipe_id": "CLEANOUTREP",
+            "recipe_name": "CLEANPUTREP",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-12 17:08:13"
+        },
+        {
+            "recipe_id": "MCR",
+            "recipe_name": "MCR",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-13 17:32:57"
+        },
+        {
+            "recipe_id": "S386",
+            "recipe_name": "S386",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-13 18:12:21"
+        },
+        {
+            "recipe_id": "MT3419",
+            "recipe_name": "MT3419",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-14 11:41:45"
+        },
+        {
+            "recipe_id": "G016",
+            "recipe_name": "G016",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-16 12:31:07"
+        },
+        {
+            "recipe_id": "G042",
+            "recipe_name": "G042",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-16 12:32:21"
+        },
+        {
+            "recipe_id": "T026",
+            "recipe_name": "T026",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-16 15:36:20"
+        },
+        {
+            "recipe_id": "W4476",
+            "recipe_name": "W4476",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-16 15:55:53"
+        },
+        {
+            "recipe_id": "T2680",
+            "recipe_name": "T2680",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-16 15:58:39"
+        },
+        {
+            "recipe_id": "K396",
+            "recipe_name": "K396",
+            "IsActivate": "",
+            "ModifyTime": "2026-03-17 17:10:56"
+        },
+        {
+            "recipe_id": "MT3418",
+            "recipe_name": "MT3418",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-18 12:31:38"
+        },
+        {
+            "recipe_id": "MT581 TRIAL",
+            "recipe_name": "MT581",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-27 13:47:44"
+        },
+        {
+            "recipe_id": "ML611",
+            "recipe_name": "ML611",
+            "IsActivate": "1",
+            "ModifyTime": "2026-03-30 10:49:52"
+        },
+        {
+            "recipe_id": "B0766",
+            "recipe_name": "B0766",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-01 11:48:22"
+        },
+        {
+            "recipe_id": "K246",
+            "recipe_name": "K246",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-01 17:23:59"
+        },
+        {
+            "recipe_id": "MT674",
+            "recipe_name": "MT674",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-15 16:37:38"
+        },
+        {
+            "recipe_id": "T586",
+            "recipe_name": "T586",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-15 16:46:09"
+        },
+        {
+            "recipe_id": "KU82",
+            "recipe_name": "KU82",
+            "IsActivate": "1",
+            "ModifyTime": "2026-04-16 11:52:05"
+        },
+        {
+            "recipe_id": "MT1114",
+            "recipe_name": "MT1114",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-16 14:50:08"
+        },
+        {
+            "recipe_id": "T676",
+            "recipe_name": "T676",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-21 15:11:23"
+        },
+        {
+            "recipe_id": "T2356",
+            "recipe_name": "T2356",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-21 15:12:03"
+        },
+        {
+            "recipe_id": "TRIAL003",
+            "recipe_name": "001",
+            "IsActivate": "1",
+            "ModifyTime": "2026-04-22 11:37:26"
+        },
+        {
+            "recipe_id": "MB0124 TRIAL",
+            "recipe_name": "MB0122",
+            "IsActivate": "1",
+            "ModifyTime": "2026-04-24 10:58:48"
+        },
+        {
+            "recipe_id": "MB0131",
+            "recipe_name": "MB0131",
+            "IsActivate": "1",
+            "ModifyTime": "2026-04-28 10:59:33"
+        },
+        {
+            "recipe_id": "MB0134",
+            "recipe_name": "MB0134",
+            "IsActivate": "",
+            "ModifyTime": "2026-04-28 10:59:50"
+        },
+        {
+            "recipe_id": "TRIAL001",
+            "recipe_name": "001",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-07 14:14:10"
+        },
+        {
+            "recipe_id": "TRIAL002",
+            "recipe_name": "001",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-07 14:29:39"
+        },
+        {
+            "recipe_id": "MT671",
+            "recipe_name": "MT671",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-07 14:39:57"
+        },
+        {
+            "recipe_id": "MTU51",
+            "recipe_name": "MTU51",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-07 16:03:13"
+        },
+        {
+            "recipe_id": "MS462",
+            "recipe_name": "MS462",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-08 12:33:35"
+        },
+        {
+            "recipe_id": "MT581",
+            "recipe_name": "MT581",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-08 12:45:43"
+        },
+        {
+            "recipe_id": "MB0761",
+            "recipe_name": "MB0761",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-08 14:23:08"
+        },
+        {
+            "recipe_id": "MT1111",
+            "recipe_name": "MT1111",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-09 04:14:12"
+        },
+        {
+            "recipe_id": "MS271",
+            "recipe_name": "MS271",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-09 04:42:26"
+        },
+        {
+            "recipe_id": "MS272",
+            "recipe_name": "MS272",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-09 04:51:47"
+        },
+        {
+            "recipe_id": "MW321",
+            "recipe_name": "MW321",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-11 10:51:46"
+        },
+        {
+            "recipe_id": "MB0124",
+            "recipe_name": "MB0124",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-11 11:06:04"
+        },
+        {
+            "recipe_id": "MK391",
+            "recipe_name": "MK391",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-11 13:52:30"
+        },
+        {
+            "recipe_id": "MT2351",
+            "recipe_name": "MT2351",
+            "IsActivate": "0",
+            "ModifyTime": "2026-05-11 16:22:20"
+        },
+        {
+            "recipe_id": "T3420",
+            "recipe_name": "T3420",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-11 17:59:23"
+        },
+        {
+            "recipe_id": "B0126",
+            "recipe_name": "B0126",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-12 11:55:29"
+        },
+        {
+            "recipe_id": "TU49",
+            "recipe_name": "TU49",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-12 11:59:49"
+        },
+        {
+            "recipe_id": "T1116",
+            "recipe_name": "T11116",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-12 12:01:37"
+        },
+        {
+            "recipe_id": "W326",
+            "recipe_name": "W326",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-12 12:03:14"
+        },
+        {
+            "recipe_id": "MG011",
+            "recipe_name": "MG011",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-12 18:24:55"
+        },
+        {
+            "recipe_id": "MK051",
+            "recipe_name": "MK051",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-12 20:19:42"
+        },
+        {
+            "recipe_id": "MT2354",
+            "recipe_name": "MT2354",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-12 23:05:31"
+        },
+        {
+            "recipe_id": "MA1020",
+            "recipe_name": "MA1020",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-13 17:07:56"
+        },
+        {
+            "recipe_id": "S466",
+            "recipe_name": "S466",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-13 17:09:54"
+        },
+        {
+            "recipe_id": "MT68",
+            "recipe_name": "MT68",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-14 10:57:03"
+        },
+        {
+            "recipe_id": "B0136",
+            "recipe_name": "B0136",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-14 14:39:17"
+        },
+        {
+            "recipe_id": "K056",
+            "recipe_name": "K056",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-14 14:40:04"
+        },
+        {
+            "recipe_id": "MK491",
+            "recipe_name": "MK491",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-14 14:41:19"
+        },
+        {
+            "recipe_id": "K496",
+            "recipe_name": "K396",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-14 14:41:48"
+        },
+        {
+            "recipe_id": "MK241",
+            "recipe_name": "MK241",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-14 17:37:24"
+        },
+        {
+            "recipe_id": "TU67",
+            "recipe_name": "TU67",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-14 17:40:16"
+        },
+        {
+            "recipe_id": "S276",
+            "recipe_name": "S276",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-14 17:40:40"
+        },
+        {
+            "recipe_id": "MG037",
+            "recipe_name": "MG037",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 10:13:36"
+        },
+        {
+            "recipe_id": "MS531",
+            "recipe_name": "MS531",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 11:12:46"
+        },
+        {
+            "recipe_id": "MS532",
+            "recipe_name": "MS532",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 11:13:38"
+        },
+        {
+            "recipe_id": "S536",
+            "recipe_name": "S536",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 11:14:09"
+        },
+        {
+            "recipe_id": "MTU50",
+            "recipe_name": "MTU50",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-15 11:15:20"
+        },
+        {
+            "recipe_id": "MK83",
+            "recipe_name": "MK83",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 11:59:30"
+        },
+        {
+            "recipe_id": "MS461",
+            "recipe_name": "MS461",
+            "IsActivate": "1",
+            "ModifyTime": "2026-05-15 12:01:07"
+        },
+        {
+            "recipe_id": "MS464",
+            "recipe_name": "MS464",
+            "IsActivate": "",
+            "ModifyTime": "2026-05-15 12:01:28"
+        }
+    ],
+    "total_recipes": 83,
+    "active_recipes": 51,
+    "inactive_recipes": 32,
+    "message": "Recipe status for 83 recipes retrieved successfully"
+}
