@@ -221,6 +221,7 @@ export default function RecipePage() {
         });
       }
 
+      alert()
       return {
         ...prev,
         recipe_weighing: clearedWeighing,
@@ -439,7 +440,7 @@ if (type === "checkbox-text") {
       const res = await api.post("/recipe/viewRecipe/byId", {
   recipe_id: recipeId.trim(),
 });
-
+// console.log("Raw response from backend:", res);
 const json = res.data;
 
 
@@ -464,7 +465,10 @@ const json = res.data;
       setData(recipeData);
       setOriginalData(JSON.parse(JSON.stringify(recipeData)));
     } catch (err) {
-      setError("Failed to fetch recipe: " + err.message);
+      // console.error("Error fetching recipe:", err);
+      alert(err.response.data.message);
+      setError("Failed to fetch recipe: " + err.response.data.message);
+      
     } finally {
       setLoading(false);
     }
