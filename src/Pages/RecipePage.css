@@ -45,6 +45,7 @@
   align-items:center;
 }
 .recipe-input {
+  text-transform: uppercase;
   padding:8px 10px;
   /* border:1px solid var(--border); */
   border:none;
@@ -394,4 +395,29 @@ font-size: 13px;
   padding: 6px 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+.mix-table-wrapper {
+    max-height: 400px;      /* Adjust as needed */
+    overflow: auto;         /* Enables vertical & horizontal scrolling */
+    border: 1px solid #ddd;
+}
+
+.mix-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: max-content; /* Allows horizontal scroll if many columns */
+}
+
+.mix-table th,
+.mix-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+.mix-table thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;       /* Prevents text from showing through */
+    z-index: 2;
 }

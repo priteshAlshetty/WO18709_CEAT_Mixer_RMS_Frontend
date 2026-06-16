@@ -25,6 +25,8 @@ import Oee_Downtime from './Pages/Oee_Downtime'
 import TestMixer from './Pages/TestMixer'
 import GraphPage from './Pages/Graphpage'
 import MixerSelection from './Pages/Mixer_Selection_Screen'
+import UserManagementPage from './Pages/UserManagement'
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Report Pages
 import WeighingReport from './Pages/Report_Pages/WeighingReport'
@@ -93,8 +95,11 @@ function App() {
             <Route path="/mixer-selection" element={<MixerSelection />} />
 
 
-
- <Route
+<Route
+    path="/user-management"
+    element={<UserManagementPage />}
+/>
+ {/* <Route
               path="/recipe-page"
               element={
                 <RequireMixer>
@@ -102,7 +107,17 @@ function App() {
                 
                 </RequireMixer>
               }
-            />
+            /> */}
+
+<Route
+  path="/recipe-page"
+  element={
+    <ProtectedRoute>
+      <RecipePage />
+    </ProtectedRoute>
+  }
+/>
+
 
             <Route
               path="/"

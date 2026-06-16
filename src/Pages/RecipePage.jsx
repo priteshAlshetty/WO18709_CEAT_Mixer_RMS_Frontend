@@ -981,31 +981,45 @@ const result = response.data;
           )}
 
         </div>
-        <table className="mix-table">
-          <thead>
-            <tr>{headers.map((h) => <th key={h}>{humanizeKey(h)}</th>)}</tr>
-          </thead>
-          <tbody>
-            {mix.map((row, i) => (
-              <tr key={i}>
+       <div className="mix-table-wrapper">
+    <table className="mix-table">
+        <thead>
+            <tr>
                 {headers.map((h) => (
-                  <td key={h + i}>
-                    {isEditing
-                      ? renderInput(row[h], (newVal) => {
-                        const copy = { ...data };
-                        copy.recipe_mixing = [...copy.recipe_mixing];
-                        copy.recipe_mixing[i] = { ...copy.recipe_mixing[i], [h]: newVal };
-                        setData(copy);
-                      }, h)
-                      // : formatValue(h, row[h])
-                      : (row[h] === 0 ? "" : formatValue(h, row[h]))
-                      }
-                  </td>
+                    <th key={h}>{humanizeKey(h)}</th>
                 ))}
-              </tr>
+            </tr>
+        </thead>
+
+        <tbody>
+            {mix.map((row, i) => (
+                <tr key={i}>
+                    {headers.map((h) => (
+                        <td key={h + i}>
+                            {isEditing
+                                ? renderInput(
+                                      row[h],
+                                      (newVal) => {
+                                          const copy = { ...data };
+                                          copy.recipe_mixing = [...copy.recipe_mixing];
+                                          copy.recipe_mixing[i] = {
+                                              ...copy.recipe_mixing[i],
+                                              [h]: newVal,
+                                          };
+                                          setData(copy);
+                                      },
+                                      h
+                                  )
+                                : row[h] === 0
+                                ? ""
+                                : formatValue(h, row[h])}
+                        </td>
+                    ))}
+                </tr>
             ))}
-          </tbody>
-        </table>
+        </tbody>
+    </table>
+</div>
       </div>
     );
   }
