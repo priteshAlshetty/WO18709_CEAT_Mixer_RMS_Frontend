@@ -615,25 +615,36 @@ if (type === "checkbox-number") {
         if (!Array.isArray(mixArr)) return null;
         const headers = Array.from(new Set(mixArr.flatMap((r) => Object.keys(r))));
 
-        function addRow() {
-            const newRow = {};
-            headers.forEach((h) => newRow[h] = "");
+       function addRow() {
+    if (mixArr.length >= 30) {
+        alert("Maximum 30 Steps are allowed.");
+        return;
+    }
 
-            const seqKey = headers.find((h) => h.toLowerCase().includes("mix_seq_no"));
+    const newRow = {};
 
-            if (seqKey) {
-                const maxSeq = mixArr.reduce((max, row) => {
-                    const val = parseInt(row[seqKey], 10);
-                    return isNaN(val) ? max : Math.max(max, val);
-                }, 0);
-                newRow[seqKey] = maxSeq + 1;
-            }
+    headers.forEach((header) => {
+        newRow[header] = "";
+    });
 
-            setData((prev) => ({
-                ...prev,
-                recipe_mixing: [...prev.recipe_mixing, newRow]
-            }));
-        }
+    const seqKey = headers.find((header) =>
+        header.toLowerCase().includes("mix_seq_no")
+    );
+
+    if (seqKey) {
+        const maxSeq = mixArr.reduce((max, row) => {
+            const value = parseInt(row[seqKey], 10);
+            return isNaN(value) ? max : Math.max(max, value);
+        }, 0);
+
+        newRow[seqKey] = maxSeq + 1;
+    }
+
+    setData((prev) => ({
+        ...prev,
+        recipe_mixing: [...prev.recipe_mixing, newRow],
+    }));
+}
 
 
         function deleteLastRow() {

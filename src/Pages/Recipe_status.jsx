@@ -188,8 +188,8 @@ const handleStatusToggle = async (recipe) => {
   if (!confirmed) return;
 
   try {
-    const updatedStatus =
-      recipe.IsActivate === "1" ? 0 : 1;
+   const updatedStatus =
+  recipe.IsActivate === "1" ? "0" : "1";
 
     const response = await api.post(
       "/recipeStatus/updateRecipeStatus",

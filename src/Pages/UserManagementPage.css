@@ -1,0 +1,73 @@
+.um-page {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f9;
+  padding: 20px;
+}
+
+.um-card {
+  width: 100%;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 35px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.um-card h2 {
+  margin-bottom: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.um-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.um-field label {
+    text-align: left;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.um-field input,
+.um-field select {
+    width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.um-field input:focus,
+.um-field select:focus {
+  border-color: #0056b3;
+}
+
+.um-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0056b3;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.um-button:hover {
+  background-color: #004494;
+}
+
+.um-button:active {
+  transform: scale(0.98);
+}

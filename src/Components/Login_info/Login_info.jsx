@@ -1,6 +1,9 @@
 import React from "react";
 import "./Login_info.css";
 
+import { getCurrentUser } from "../../utils/auth";
+
+const currentUser = getCurrentUser();
 const ProfileMenu = ({ user, onLogout, onAdmin }) => {
   const initials = user.name
     .split(" ")
@@ -25,9 +28,11 @@ const ProfileMenu = ({ user, onLogout, onAdmin }) => {
         </div>
 
         <div className="profile-menu">
-          <button onClick={onAdmin}>
-            👤 User Administration
-          </button>
+         {user.role === "admin" && (
+  <button onClick={onAdmin}>
+    👤 User Administration
+  </button>
+)}
           <button className="danger" onClick={onLogout}>
             🚪 Logout
           </button>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ceatlogo from '../images/logo1.jpg'
 import './LoginPage.css'
+import axiosInstance from '../api/axios'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('Admin')
@@ -10,13 +11,27 @@ const LoginPage = () => {
   
   
 
-  const handleLogin = () => {
-    if (username === 'Admin' && password === 'Admin@1234') {
-      navigate('/recipe-page') // make sure this route exists
+ const handleLogin = async () => {
+  try {
+   const response = await axiosInstance.post('/auth/login', {
+  username,
+  password
+})
+
+    if (response.data.success) {
+      // Save token
+      localStorage.setItem('token', response.data.token)
+
+      // Navigate to next page
+      navigate('/recipe-page')
     } else {
-      alert('Invalid credentials')
+      alert(response.data.error)
     }
+  } catch (error) {
+    console.error(error)
+    alert('Login failed')
   }
+}
 
   return (
     <div className="lp-wrapper">

@@ -145,16 +145,20 @@ import './Navbar.css'
 import ceatlogo from '../../images/logo1.jpg'
 import { MixerContext } from '../../context/MixerContext'
 import ProfileMenu from '../Login_info/Login_info'
+import { getCurrentUser } from "../../utils/auth";
+
 
 const Navbar = () => {
   const { selectedMixer, setSelectedMixer } = useContext(MixerContext)
 
-  const user = {
-    name: "Multiquadrant",
-    role: "Admin"
-  }
-
+  // const user = {
+  //   name: "Multiquadrant",
+  //   role: "Admin"
+  // }
+const currentUser = getCurrentUser();
   const handleLogout = () => {
+    localStorage.removeItem('token')
+  navigate('/', { replace: true })
     console.log("Logout clicked")
   }
 
@@ -208,11 +212,14 @@ const navigate = useNavigate();
       </div>
 
       {/* RIGHT END PROFILE */}
-      <ProfileMenu
-        user={user}
-        onLogout={handleLogout}
-        onAdmin={handleAdmin}
-      />
+     <ProfileMenu
+  user={{
+    name: currentUser?.username || "Unknown",
+    role: currentUser?.auth_level || "Unknown",
+  }}
+  onLogout={handleLogout}
+  onAdmin={() => navigate("/user-management")}
+/>
     </div>
   )
 }
