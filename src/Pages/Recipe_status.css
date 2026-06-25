@@ -73,11 +73,13 @@ tr:hover {
 .active {
   background: #e7f6ec;
   color: #1f7a3d;
+  font-size: 17px;
 }
 
 .inactive {
   background: #fdecec;
   color: #c0392b;
+  font-size: 17px;
 }
 
 table {
@@ -139,7 +141,7 @@ tr:hover {
 }
 
 .stats-card span {
-  font-size: 13px;
+  font-size: 17px;
   color: #666;
 }
 
@@ -150,9 +152,11 @@ tr:hover {
 }
 
 .active-card {
+  background: #dcf3e4;
   border-left: 4px solid #1f7a3d;
 }
 
 .inactive-card {
+  background: #ffe7e7;
   border-left: 4px solid #c0392b;
 }
