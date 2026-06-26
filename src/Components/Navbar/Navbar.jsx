@@ -159,7 +159,7 @@ const currentUser = getCurrentUser();
   const handleLogout = () => {
     localStorage.removeItem('token')
   navigate('/', { replace: true })
-    console.log("Logout clicked")
+    // console.log("Logout clicked")
   }
 
   const handleAdmin = () => {

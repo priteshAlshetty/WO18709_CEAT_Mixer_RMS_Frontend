@@ -539,8 +539,8 @@ async function saveChanges() {
 
     const payload = { recipe: cleanedData };
 
-    console.log("🟢 Payload that would be sent to backend (cleaned):");
-    console.log(JSON.stringify(payload, null, 2));
+    // console.log("🟢 Payload that would be sent to backend (cleaned):");
+    // console.log(JSON.stringify(payload, null, 2));
 
    
     const response = await api.post(
@@ -1102,6 +1102,8 @@ const json = res.data;
       }
     } catch (err) {
       console.error("Error fetching recipe IDs:", err);
+      alert("Please Select Mixer First.");
+      navigate("/mixer-selection", { replace: true });
     }
   }
   fetchRecipeList();
