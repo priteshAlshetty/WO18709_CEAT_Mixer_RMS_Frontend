@@ -55,35 +55,86 @@ const fetchMaterials = async () => {
   };
 
   // ✅ Handle Save
-  const handleSave = async () => {
-    if (!formData.materialCode || !formData.materialName || !formData.category) {
-      toast.error("Please fill all fields before saving.");
-      return;
+//   const handleSave = async () => {
+//     if (!formData.materialCode || !formData.materialName || !formData.category) {
+//       toast.error("Please fill all fields before saving.");
+//       return;
+//     }
+
+//     try {
+//       const res = await api.post("/material/addMaterial", {
+//   material_data: {
+//     material_code: formData.materialCode,
+//     material_name: formData.materialName,
+//     material_type: formData.category,
+//   },
+// });
+
+// const data = res.data;
+
+//       if (data.success) {
+//   toast.success(data.message || "Material added successfully!");
+//   fetchMaterials();
+//   setFormData({ materialName: "", materialCode: "", category: "" });
+// }
+
+// else {
+//   toast.error(data.error || data.message || "Something went wrong");
+// }
+
+//     } catch (err) {
+//       toast.error(err.message || "Network error. Please check the server.");
+//     }
+//   };
+
+const handleSave = async () => {
+  if (!formData.materialCode || !formData.materialName || !formData.category) {
+    toast.error("Please fill all fields before saving.");
+    return;
+  }
+
+  try {
+    const res = await api.post("/material/addMaterial", {
+      material_data: {
+        material_code: formData.materialCode,
+        material_name: formData.materialName,
+        material_type: formData.category,
+      },
+    });
+
+    const data = res.data;
+
+    if (data.success) {
+      toast.success(data.message || "Material added successfully!");
+      fetchMaterials();
+      setFormData({
+        materialName: "",
+        materialCode: "",
+        category: "",
+      });
+    } else {
+      toast.error(data.error || data.message || "Something went wrong");
     }
+  } catch (err) {
+    console.error(err);
 
-    try {
-      const res = await api.post("/material/addMaterial", {
-  material_data: {
-    material_code: formData.materialCode,
-    material_name: formData.materialName,
-    material_type: formData.category,
-  },
-});
+    if (err.response?.status === 401) {
+      toast.error("You are Unauthorized");
+      // or
+      // toast.error("You are Unauthorized");
 
-const data = res.data;
-
-      if (data.success) {
-  toast.success(data.message || "Material added successfully!");
-  fetchMaterials();
-  setFormData({ materialName: "", materialCode: "", category: "" });
-} else {
-  toast.error(data.error || data.message || "Something went wrong");
-}
-
-    } catch (err) {
-      toast.error(err.message || "Network error. Please check the server.");
+      // Optional: Redirect to login
+      // navigate("/login");
+      // window.location.href = "/login";
+    } else {
+      toast.error(
+        err.response?.data?.message ||
+        err.message ||
+        "Network error. Please check the server."
+      );
     }
-  };
+  }
+};
 
   //  Handle Delete Material
 const handleDelete = async () => {

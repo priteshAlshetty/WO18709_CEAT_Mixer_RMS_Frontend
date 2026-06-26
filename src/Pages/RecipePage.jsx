@@ -542,16 +542,7 @@ async function saveChanges() {
     console.log("🟢 Payload that would be sent to backend (cleaned):");
     console.log(JSON.stringify(payload, null, 2));
 
-    // const response = await fetch(`${apiUrl}/recipe/editRecipe/byId`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(payload),
-    // });
-
-    // if (!response.ok) throw new Error(`Failed to save changes: ${response.statusText}`);
-
-    // const result = await response.json();
-
+   
     const response = await api.post(
   "/recipe/editRecipe/byId",
   payload
@@ -564,10 +555,16 @@ const result = response.data;
     setOriginalData(JSON.parse(JSON.stringify(cleanedData)));
     setIsEditing(false);
   } catch (err) {
-    setError(err.message || "Failed to process changes");
-  } finally {
-    setLoading(false);
+    console.log("Error saving changes:", err);
+   if (err.response?.status === 401) {
+    alert("You are Unauthorized");
+    setError("You are Unauthorized");
+  } else {
+    setError(err.response?.data?.message || err.message || "Failed to process changes");
   }
+} finally {
+  setLoading(false);
+}
 }
 
 
@@ -656,136 +653,6 @@ const result = response.data;
     );
   }
 
-  // function renderMixTable(mix) {
-  //   if (!Array.isArray(mix)) return null;
-  //   const headers = Array.from(new Set(mix.flatMap((row) => Object.keys(row))));
-
-  //   function addNewMixRow() {
-  //     const newRow = {};
-  //     headers.forEach((h) => (newRow[h] = ""));
-
-  //     // Detect the column that corresponds to "Mix Seq No"
-  //     const mixSeqKey = headers.find(
-  //       (h) => h.toLowerCase().replace(/\s|_/g, "") === "mixseqno"
-  //     );
-
-  //     if (mixSeqKey) {
-  //       const lastRow = data.recipe_mixing[data.recipe_mixing.length - 1];
-  //       const lastVal = lastRow?.[mixSeqKey];
-  //       const nextVal = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
-  //       newRow[mixSeqKey] = nextVal;
-  //     }
-
-  //     setData((prev) => ({
-  //       ...prev,
-  //       recipe_mixing: [...prev.recipe_mixing, newRow],
-  //     }));
-  //   }
-
-
-  //   return (
-  //     <div className="mix-block">
-  //       <div className="section-title">
-  //         Mix Sequence
-  //         {isEditing && (
-  //           <button className="btn small" onClick={addNewMixRow} style={{ marginLeft: "1rem" }}>
-  //             + Add New
-  //           </button>
-  //         )}
-  //       </div>
-  //       <table className="mix-table">
-  //         <thead>
-  //           <tr>{headers.map((h) => <th key={h}>{humanizeKey(h)}</th>)}</tr>
-  //         </thead>
-  //         <tbody>
-  //           {mix.map((row, i) => (
-  //             <tr key={i}>
-  //               {headers.map((h) => (
-  //                 <td key={h + i}>
-  //                   {isEditing
-  //                     ? renderInput(row[h], (newVal) => {
-  //                       const copy = { ...data };
-  //                       copy.recipe_mixing = [...copy.recipe_mixing];
-  //                       copy.recipe_mixing[i] = { ...copy.recipe_mixing[i], [h]: newVal };
-
-  //                       setData(copy);
-  //                     }, h)
-  //                     : formatValue(h, row[h])}
-  //                 </td>
-  //               ))}
-  //             </tr>
-  //           ))}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   );
-  // }
-
-
-  // function renderMaterialTable(key, arr) {
-  //   if (!Array.isArray(arr)) return null;
-  //   const headers = arr.length > 0 ? Object.keys(arr[0]) : ["material_name", "weight"];
-
-  //   function addNewMaterialRow() {
-  //     const newRow = {};
-  //     const lastRow = data[key][data[key].length - 1];
-
-  //     headers.forEach((h) => {
-  //       // Check if it's an index field (e.g., ends in "Index")
-  //       if (h.toLowerCase().includes("index")) {
-  //         const lastVal = lastRow?.[h];
-  //         const nextIndex = !isNaN(parseInt(lastVal)) ? parseInt(lastVal) + 1 : 1;
-  //         newRow[h] = nextIndex;
-  //       } else {
-  //         newRow[h] = "";
-  //       }
-  //     });
-
-  //     setData((prev) => ({
-  //       ...prev,
-  //       [key]: [...prev[key], newRow],
-  //     }));
-  //   }
-
-
-  //   const title = key.replace("recipe_weight_", "").replace(/_/g, " ").toUpperCase();
-
-  //   return (
-  //     <div className="material-card" key={key}>
-  //       <div className="material-title">
-  //         {title}
-  //         {isEditing && (
-  //           <button className="btn small" onClick={addNewMaterialRow} style={{ marginLeft: "1rem" }}>
-  //             + Add
-  //           </button>
-  //         )}
-  //       </div>
-  //       <table className="material-table">
-  //         <thead>
-  //           <tr>{headers.map((h) => <th key={h}>{humanizeKey(h)}</th>)}</tr>
-  //         </thead>
-  //         <tbody>
-  //           {arr.map((r, idx) => (
-  //             <tr key={idx}>
-  //               {headers.map((h) => (
-  //                 <td key={h + idx}>
-  //                   {isEditing
-  //                     ? renderInput(r[h], (newVal) => {
-  //                       const copy = { ...data };
-  //                       copy[key] = [...copy[key]];
-  //                       copy[key][idx] = { ...copy[key][idx], [h]: newVal };
-  //                       setData(copy);
-  //                     }, h)
-  //                     : formatValue(h, r[h])}
-  //                 </td>
-  //               ))}
-  //             </tr>
-  //           ))}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   );
-  // }
 
 
   // ------------------ Render JSX ------------------
