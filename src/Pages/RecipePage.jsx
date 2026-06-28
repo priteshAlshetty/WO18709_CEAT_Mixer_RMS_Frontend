@@ -3,10 +3,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import './RecipePage.css';
 import api from "../api/axios"; // adjust path if needed
+import Select from "react-select";
 
 // import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useNavigate, NavLink } from 'react-router-dom';
 import { MixerContext } from "../context/MixerContext";
+
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -1089,6 +1091,11 @@ const result = response.data;
 
 const [recipeList, setRecipeList] = useState([]);
 
+const options = recipeList.map((id) => ({
+  value: id,
+  label: id,
+}));
+
 useEffect(() => {
   async function fetchRecipeList() {
     try {
@@ -1115,41 +1122,11 @@ const json = res.data;
         <h1>Recipe</h1>
 
         <div className="controls">
-          {/* <form onSubmit={fetchRecipe} className="search-form">
-            <input
-              value={recipeId}
-              onChange={(e) => setRecipeId(e.target.value)}
-              placeholder="Enter Recipe ID (e.g. MTR0076)"
-              className="recipe-input"
-            />
-            <button type="submit" className="btn" disabled={loading}>
-              {loading ? "Loading..." : "Fetch"}
-            </button>
-
-            {data && !isEditing && (
-              <button type="button" className="btn outline" onClick={() => setIsEditing(true)}>
-                Edit
-              </button>
-            )}
-
-            {data && isEditing && (
-              <>
-                <button type="button" className="btn" onClick={saveChanges}>Save Changes</button>
-                <button type="button" className="btn outline" onClick={cancelEdit}>Cancel</button>
-              </>
-            )}
-
-            <button type="button" className="btn outline" style={{ backgroundColor: "#ea4949", color: "#ffff", border: "none" }} onClick={() => { navigate("/delete-recipe") }}>
-              Delete Recipe
-            </button>
-            <button type="button" className="btn outline" style={{ backgroundColor: "#3919acff", color: "#ffff", border: "none" }} onClick={() => { navigate("/copy-recipe") }}>
-              Copy Recipe
-            </button>
-          </form> */}
+          {}
 
           <form onSubmit={fetchRecipe} className="search-form">
   {/* Dropdown before input */}
-  <select
+  {/* <select
     value={recipeId}
     onChange={(e) => setRecipeId(e.target.value)}
     className="recipe-dropdown"
@@ -1158,15 +1135,46 @@ const json = res.data;
     {recipeList.map((id) => (
       <option key={id} value={id}>{id}</option>
     ))}
-  </select>
+  </select> */}
+
+  <Select
+  options={options}
+  value={options.find(option => option.value === recipeId)}
+  onChange={(selected) => setRecipeId(selected ? selected.value : "")}
+  placeholder="Search Recipe ID..."
+  isSearchable
+  isClearable
+  styles={{
+    container: (provided) => ({
+      ...provided,
+      width: 250,
+      minWidth: 250,
+    }),
+    control: (provided) => ({
+      ...provided,
+      width: 250,
+      minWidth: 250,
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      width: 250,
+    }),
+  }}
+/>
 
   {/* Existing input field */}
-  <input
+  {/* <input
     value={recipeId}
     onChange={(e) => setRecipeId(e.target.value)}
     placeholder="Enter Recipe ID (e.g. MTR0076)"
     className="recipe-input"
-  />
+  /> */}
+  <input
+  value={recipeId}
+  onChange={(e) => setRecipeId(e.target.value)}
+  placeholder="Enter Recipe ID"
+  className="recipe-input"
+/>
 
   <button type="submit" className="btn" disabled={loading}>
     {loading ? "Loading..." : "Fetch"}
