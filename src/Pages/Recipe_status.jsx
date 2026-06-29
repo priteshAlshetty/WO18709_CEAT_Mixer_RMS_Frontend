@@ -210,11 +210,15 @@ const handleStatusToggle = async (recipe) => {
     } else {
       alert("Failed to update recipe status");
     }
-  } catch (error) {
+ } catch (error) {
+  if (error.response?.status === 401) {
+    alert("You are Unauthorized");
+    setError("You are Unauthorized");
+  } else {
     console.error("Error updating recipe:", error);
-    alert("Something went wrong");
+    alert("Something went wrong Error",error);
   }
-};
+};}
 
   // Search filter
   const filteredRecipes = recipes.filter(
