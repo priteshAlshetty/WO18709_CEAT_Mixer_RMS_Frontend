@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import ceatlogo from '../images/logo1.jpg'
 import './LoginPage.css'
 import axiosInstance from '../api/axios'
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState('Admin')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
   
   
 
@@ -51,13 +54,23 @@ const LoginPage = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
 
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+         <label>Password</label>
+
+<div className="password-container">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  <span
+    className="password-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
         </div>
 
         <button className="lp-button" onClick={handleLogin}>

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MixerContext } from "../context/MixerContext";
 import "./MixerSelection.css";
-import { setCurrentMixer } from '../api/mixerInterceptor'; // adjust path!
+import { setCurrentMixer } from '../api/mixerInterceptor'; 
 
 
 const mixers = ["Mixer1", "Mixer2", "Mixer3"];
@@ -15,7 +15,7 @@ const MixerSelection = () => {
     setSelectedMixer(mixer);
      setCurrentMixer(mixer);
       console.log("Selected mixer:", mixer);
-    navigate("/", { replace: true });
+    navigate("/recipe-page", { replace: true });
   };
 
   return (

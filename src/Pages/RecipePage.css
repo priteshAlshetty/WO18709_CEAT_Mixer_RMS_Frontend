@@ -43,6 +43,7 @@
   display:flex;
   gap:8px;
   align-items:center;
+  
 }
 .recipe-input {
   text-transform: uppercase;
@@ -156,7 +157,7 @@
   text-align:left;
 }
 .material-table thead th, .mix-table thead th {
-  background:#efefef;
+  background:#cfcccc; ;
   font-weight:700;
   font-size:12px;
 }
@@ -418,6 +419,6 @@ font-size: 13px;
 .mix-table thead th {
     position: sticky;
     top: 0;
-    background: #fff;       /* Prevents text from showing through */
+    background: #cfcccc;       /* Prevents text from showing through */
     z-index: 2;
 }
