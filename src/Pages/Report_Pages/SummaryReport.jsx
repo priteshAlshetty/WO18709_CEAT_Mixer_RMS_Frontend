@@ -79,6 +79,7 @@ export default function SummaryReport() {
   };
 
 const downloadReport = async () => {
+  
   if (!selectedBatch) {
     toast.warning("Please select a batch");
     return;
@@ -205,7 +206,7 @@ const downloadReport = async () => {
             {serialList.length > 0 && (
               <>
                 <label style={labelStyle}>Serial Number</label>
-                <select
+                {/* <select
                   value={selectedSerial}
                   onChange={(e) => setSelectedSerial(e.target.value)}
                   style={inputStyle}
@@ -216,7 +217,22 @@ const downloadReport = async () => {
                       {s}
                     </option>
                   ))}
-                </select>
+                </select> */}
+
+                <select
+  value={selectedSerial}
+  onChange={(e) => setSelectedSerial(e.target.value)}
+  style={inputStyle}
+  disabled={selectedBatch === "All"}
+>
+  <option value="">Select Serial</option>
+
+  {serialList.map((s, i) => (
+    <option key={i} value={s}>
+      {s}
+    </option>
+  ))}
+</select>
               </>
             )}
           </div>
