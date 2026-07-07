@@ -1099,20 +1099,27 @@ const options = recipeList.map((id) => ({
 useEffect(() => {
   async function fetchRecipeList() {
     try {
-      // const res = await fetch(`${apiUrl}/recipe/allRecipeIds`);
-      // const json = await res.json();
       const res = await api.get("/recipe/allRecipeIds");
-const json = res.data;
+
+      const json = res.data;
 
       if (json?.data?.recipe_ids) {
         setRecipeList(json.data.recipe_ids);
       }
     } catch (err) {
       console.error("Error fetching recipe IDs:", err);
+
+      if (err.response?.status === 401) {
+        alert("You are Unauthorized");
+        navigate("/login", { replace: true });
+        return;
+      }
+
       alert("Please Select Mixer First.");
       navigate("/mixer-selection", { replace: true });
     }
   }
+
   fetchRecipeList();
 }, []);
 
