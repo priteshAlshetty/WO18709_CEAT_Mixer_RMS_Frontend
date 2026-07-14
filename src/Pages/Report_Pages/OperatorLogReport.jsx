@@ -20,7 +20,7 @@ const downloadReport = async () => {
     setLoading(true);
 
     const response = await api.post(
-      `/report/alarm/generateReport`,
+      `/report/operatorLog/generateReport`,
       { from: fromDate, to: toDate },
       { responseType: "blob" }
     );
@@ -33,7 +33,7 @@ const downloadReport = async () => {
     const timestamp = new Date().toISOString().replace(/[:.-]/g, "_");
 
     // Use the timestamp in the file name
-    link.setAttribute("download", `Operator Log Generated on ${timestamp}.xlsx`);
+    link.setAttribute("download", `Operator Log Generated on ${timestamp}.csv`);
 
     document.body.appendChild(link);
     link.click();
@@ -95,7 +95,7 @@ const downloadReport = async () => {
       </div>
 
       <button onClick={downloadReport} disabled={loading} style={styles.button}>
-        {loading ? "Downloading..." : "Download Excel"}
+        {loading ? "Downloading..." : "Download CSV Report"}
       </button>
     </div>
   );

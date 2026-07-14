@@ -51,15 +51,15 @@ const handleDelete = async () => {
       {response && (
         <div className="response-message">
           <strong>{response.message}</strong>
-          <pre>{JSON.stringify(response.data, null, 2)}</pre>
+          {console.log(response.data)} 
         </div>
       )}
 
-      {error && (
+      {/* {error && (
         <div className="error-message">
           <strong>Error:</strong> {error}
         </div>
-      )}
+      )} */}
 
       {showModal && (
         <div className="modal-overlay">

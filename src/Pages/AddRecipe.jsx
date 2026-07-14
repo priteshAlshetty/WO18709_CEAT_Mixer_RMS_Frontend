@@ -780,7 +780,7 @@ if (type === "checkbox-number") {
                 <h1>Create Recipe from Template</h1>
                 <div className="controls">
                     <button className="btn" onClick={saveNewRecipe}>Save New Recipe</button>
-                    <button className="btn outline" onClick={() => navigate("/")}>Cancel</button>
+                    <button className="btn outline" onClick={() => navigate("/recipe-page")}>Cancel</button>
                     <button className="btn outline" onClick={clearDataValues}>Clear Form Data</button>
                     {error && <div className="error">{error}</div>}
                 </div>
